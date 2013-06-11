@@ -102,6 +102,16 @@
 	   	"type":"png",
 	   	"defName":"IMAGE_MAGPIE",
 	   	"file":"images/magpie.png"
+	   },
+	   {
+	   	"type":"png",
+	   	"defName":"IMAGE_HALF_ZOMBIE",
+	   	"file":"images/halfzombie.png"
+	   },
+	   {
+	   	"type":"png",
+	   	"defName":"IMAGE_CHIMERA",
+	   	"file":"images/chimera.png"
 	   }
    ]
 }

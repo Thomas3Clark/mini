@@ -21,6 +21,21 @@ MonsterDef Rat =
 	.goldScale = 0
 };
 
+MonsterDef MagPie = 
+{
+	.name = "Mag Pie",
+	.imageId = RESOURCE_ID_IMAGE_MAGPIE,
+	.extraFireDefenseMultiplier = 100,
+	.extraIceDefenseMultiplier = 100,
+	.extraLightningDefenseMultiplier = 100,
+	.powerLevel = 0,
+	.healthLevel = 0,
+	.defenseLevel = 0,
+	.magicDefenseLevel = 0,
+	.allowPhysicalAttack = true,
+	.goldScale = 1
+};
+
 MonsterDef Goblin = 
 {
 	.name = "Goblin",
@@ -33,6 +48,21 @@ MonsterDef Goblin =
 	.defenseLevel = 1,
 	.magicDefenseLevel = 0,
 	.allowPhysicalAttack = true,
+	.goldScale = 2
+};
+
+MonsterDef ApprenticeWizard = 
+{
+	.name = "Apprentice Wizard",
+	.imageId = RESOURCE_ID_IMAGE_WIZARD,
+	.extraFireDefenseMultiplier = 100,
+	.extraIceDefenseMultiplier = 100,
+	.extraLightningDefenseMultiplier = 100,
+	.powerLevel = 1,
+	.healthLevel = 1,
+	.defenseLevel = 1,
+	.magicDefenseLevel = 1,
+	.allowMagicAttack = true,
 	.goldScale = 2
 };
 
@@ -51,6 +81,21 @@ MonsterDef Wizard =
 	.goldScale = 3
 };
 
+MonsterDef HalfZombie = 
+{
+	.name = "Half Zombie",
+	.imageId = RESOURCE_ID_IMAGE_HALF_ZOMBIE,
+	.extraFireDefenseMultiplier = 400,
+	.extraIceDefenseMultiplier = 100,
+	.extraLightningDefenseMultiplier = 100,
+	.powerLevel = 1,
+	.healthLevel = 1,
+	.defenseLevel = 2,
+	.magicDefenseLevel = 1,
+	.allowPhysicalAttack = true,
+	.goldScale = 1
+};
+
 MonsterDef Zombie = 
 {
 	.name = "Zombie",
@@ -66,6 +111,21 @@ MonsterDef Zombie =
 	.goldScale = 1
 };
 
+MonsterDef BabyTurtle = 
+{
+	.name = "Baby Turtle",
+	.imageId = RESOURCE_ID_IMAGE_TURTLE,
+	.extraFireDefenseMultiplier = 100,
+	.extraIceDefenseMultiplier = 200,
+	.extraLightningDefenseMultiplier = 700,
+	.powerLevel = 1,
+	.healthLevel = 1,
+	.defenseLevel = 2,
+	.magicDefenseLevel = 1,
+	.allowPhysicalAttack = true,
+	.goldScale = 0	
+};
+
 MonsterDef Turtle = 
 {
 	.name = "Turtle",
@@ -79,6 +139,37 @@ MonsterDef Turtle =
 	.magicDefenseLevel = 1,
 	.allowPhysicalAttack = true,
 	.goldScale = 0	
+};
+
+MonsterDef SmallLich = 
+{
+	.name = "Small Lich",
+	.imageId = RESOURCE_ID_IMAGE_LICH,
+	.extraFireDefenseMultiplier = 100,
+	.extraIceDefenseMultiplier = 700,
+	.extraLightningDefenseMultiplier = 100,
+	.powerLevel = 2,
+	.healthLevel = 1,
+	.defenseLevel = 2,
+	.magicDefenseLevel = 1,
+	.allowMagicAttack = true,
+	.goldScale = 2
+};
+
+MonsterDef Chimera = 
+{
+	.name = "Chimera",
+	.imageId = RESOURCE_ID_IMAGE_CHIMERA,
+	.extraFireDefenseMultiplier = 600,
+	.extraIceDefenseMultiplier = 100,
+	.extraLightningDefenseMultiplier = 100,
+	.powerLevel = 2,
+	.healthLevel = 3,
+	.defenseLevel = 2,
+	.magicDefenseLevel = 1,
+	.allowMagicAttack = true,
+	.allowPhysicalAttack = true,
+	.goldScale = 2
 };
 
 MonsterDef Lich = 
@@ -112,26 +203,52 @@ MonsterDef Dragon =
 	.goldScale = 10	
 };
 
-MonsterDef MagPie = 
-{
-	.name = "MagPie",
-	.imageId = RESOURCE_ID_IMAGE_MAGPIE,
-	.extraFireDefenseMultiplier = 100,
-	.extraIceDefenseMultiplier = 100,
-	.extraLightningDefenseMultiplier = 100,
-	.powerLevel = 0,
-	.healthLevel = 0,
-	.defenseLevel = 0,
-	.magicDefenseLevel = 0,
-	.allowPhysicalAttack = true,
-	.goldScale = 1
-};
-
-GroupMonsters LowLevel = 
+GroupMonsters FirstLevels = 
 {
 	.nbMonster = 2,
 	.monsters = {&Rat,&MagPie}
 };
+
+GroupMonsters SecondLevels = 
+{
+	.nbMonster = 2,
+	.monsters = {&Goblin,&ApprenticeWizard}
+};
+
+GroupMonsters ThirdLevels = 
+{
+	.nbMonster = 2,
+	.monsters = {&Wizard,&HalfZombie}
+	
+};
+
+GroupMonsters ForthLevels = 
+{
+	.nbMonster = 2,
+	.monsters = {&Zombie,&BabyTurtle}
+	
+};
+
+GroupMonsters FifthLevels = 
+{
+	.nbMonster = 2,
+	.monsters = {&Turtle,&SmallLich}
+	
+};
+GroupMonsters SixthLevels = 
+{
+	.nbMonster = 2,
+	.monsters = {&Lich,&Chimera}
+	
+};
+
+GroupMonsters AllMonsters = 
+{
+	.nbMonster = 12,
+	.monsters = {&Rat,&Turtle,&MagPie,&Wizard,&Zombie,&Lich,&Goblin,&ApprenticeWizard,&HalfZombie,&BabyTurtle,&SmallLich,&Chimera}
+	
+};
+
 int defenseLevelMap[] = 
 {
 	0,
@@ -156,6 +273,8 @@ int ScaleMonsterHealth(MonsterDef *monster, int baseHealth)
 			return baseHealth/2;
 		case 2:
 			return baseHealth*2;
+		case 3:
+			return baseHealth*2 + (int)(baseHealth/2);
 		case 1:
 		default:
 			return baseHealth;
@@ -177,15 +296,14 @@ int GetMonsterPowerDivisor(int powerLevel)
 	return 10;
 }
 
-MonsterDef *randomMonsterMap[] = 
+GroupMonsters *groups[] = 
 {
-	&Dragon,
-	&Rat,
-	&Goblin,
-	&Wizard,
-	&Zombie,
-	&Turtle,
-	&Lich,
+	&FirstLevels,
+	&SecondLevels,
+	&ThirdLevels,
+	&ForthLevels,
+	&FifthLevels,
+	&SixthLevels
 };
 
 MonsterDef *GetRandomMonster(int floor)
@@ -195,12 +313,16 @@ MonsterDef *GetRandomMonster(int floor)
 	if(floor >= 20)
 		return &Dragon;
 	
-	limit = floor >= 12 ? 6 : (floor + 1) / 2;
-	if(limit == 1) {
-		result = 1;
-	} else {	
-		result = Random(limit);
+	GroupMonsters *chosen;
+	if(floor >= 12) {
+		chosen = &AllMonsters;
 	}
-	return randomMonsterMap[result];
+	else {
+		limit = ((floor + 1) / 2) - 1;
+		chosen = groups[limit];
+	}
+	
+	result = Random(chosen->nbMonster);
+	return chosen->monsters[result];
 }
 
