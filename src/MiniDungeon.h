@@ -9,7 +9,7 @@
 
 // Publish 0 turns on the test menu and ignores the official setting 
 // The back button override is always on in test mode
-#define PUBLISH 1
+#define PUBLISH 0
 // Official 0 allows the back button override, while official 1 does not
 #define OFFICIAL 1
 

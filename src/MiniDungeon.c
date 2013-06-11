@@ -14,7 +14,7 @@
 #define MY_UUID { 0xA4, 0x20, 0x10, 0x83, 0x81, 0xDF, 0x4C, 0x5F, 0xA1, 0xFE, 0xF8, 0x43, 0x4B, 0xF7, 0x01, 0x49 }
 PBL_APP_INFO(MY_UUID,
              "MiniDungeon", "Jonathan Panttaja",
-             1, 0, /* App version */
+             1, 1, /* App version */
              RESOURCE_ID_IMAGE_MENU_ICON,
              APP_INFO_STANDARD_APP);
 			 
