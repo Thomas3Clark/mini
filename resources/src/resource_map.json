@@ -96,6 +96,12 @@
 	   	"type":"png",
 	   	"defName":"IMAGE_DRAGON",
 	   	"file":"images/dragon.png"
+	   },
+
+	   {
+	   	"type":"png",
+	   	"defName":"IMAGE_MAGPIE",
+	   	"file":"images/magpie.png"
 	   }
    ]
 }
