@@ -5,6 +5,7 @@
 #include "Monsters.h"
 #include "Utils.h"
 
+
 MonsterDef Rat = 
 {
 	.name = "Rat",
@@ -20,20 +21,6 @@ MonsterDef Rat =
 	.goldScale = 0
 };
 
-MonsterDef MagPie = 
-{
-	.name = "Mag Pie",
-	.imageId = RESOURCE_ID_IMAGE_MAGPIE,
-	.extraFireDefenseMultiplier = 100,
-	.extraIceDefenseMultiplier = 100,
-	.extraLightningDefenseMultiplier = 100,
-	.powerLevel = 0,
-	.healthLevel = 0,
-	.defenseLevel = 0,
-	.magicDefenseLevel = 0,
-	.allowPhysicalAttack = true,
-	.goldScale = 1
-};
 MonsterDef Goblin = 
 {
 	.name = "Goblin",
@@ -125,6 +112,26 @@ MonsterDef Dragon =
 	.goldScale = 10	
 };
 
+MonsterDef MagPie = 
+{
+	.name = "MagPie",
+	.imageId = RESOURCE_ID_IMAGE_MAGPIE,
+	.extraFireDefenseMultiplier = 100,
+	.extraIceDefenseMultiplier = 100,
+	.extraLightningDefenseMultiplier = 100,
+	.powerLevel = 0,
+	.healthLevel = 0,
+	.defenseLevel = 0,
+	.magicDefenseLevel = 0,
+	.allowPhysicalAttack = true,
+	.goldScale = 1
+};
+
+GroupMonsters LowLevel = 
+{
+	.nbMonster = 2,
+	.monsters = {&Rat,&MagPie}
+};
 int defenseLevelMap[] = 
 {
 	0,
@@ -170,32 +177,30 @@ int GetMonsterPowerDivisor(int powerLevel)
 	return 10;
 }
 
-MonsterDef *randomMonsterMap[][2] = 
+MonsterDef *randomMonsterMap[] = 
 {
-	{&Dragon},
-	{&Rat,&MagPie},
-	{&Goblin},
-	{&Wizard},
-	{&Zombie},
-	{&Turtle},
-	{&Lich},
+	&Dragon,
+	&Rat,
+	&Goblin,
+	&Wizard,
+	&Zombie,
+	&Turtle,
+	&Lich,
 };
 
 MonsterDef *GetRandomMonster(int floor)
 {
 	int result;
 	int limit;
-	int second = 0;
 	if(floor >= 20)
 		return &Dragon;
 	
-	limit = floor >= 12 ? 7 : (floor + 1) / 2;
+	limit = floor >= 12 ? 6 : (floor + 1) / 2;
 	if(limit == 1) {
 		result = 1;
-		second = Random(1) - 1;
 	} else {	
 		result = Random(limit);
 	}
-	return randomMonsterMap[result][second];
+	return randomMonsterMap[result];
 }
 
