@@ -132,9 +132,9 @@ bool ComputeRandomEvent(bool fastMode)
 	int acc = 0;
 	int chanceOfEvent = baseChanceOfEvent;
 #if EVENT_CHANCE_SCALING
-	if(ticksSinceLastEvent > 20)
+	if(ticksSinceLastEvent > 5)
 	{
-		chanceOfEvent += (ticksSinceLastEvent - 20) * 2;
+		chanceOfEvent += ticksSinceLastEvent * 3;
 	}
 #endif
 	
