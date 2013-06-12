@@ -134,7 +134,7 @@ bool ComputeRandomEvent(bool fastMode)
 #if EVENT_CHANCE_SCALING
 	if(ticksSinceLastEvent > 5)
 	{
-		chanceOfEvent += ticksSinceLastEvent * 3;
+		chanceOfEvent += (ticksSinceLastEvent - 2) * 3;
 	}
 #endif
 	
