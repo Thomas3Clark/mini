@@ -24,7 +24,7 @@ typedef struct
 	MonsterDef *monsters[];
 } GroupMonsters;
 
-uint8_t GetMonsterDefense(int defenseLevel);
+uint8_t GetMonsterDefense(uint8_t defenseLevel);
 uint16_t ScaleMonsterHealth(MonsterDef *monster, uint16_t baseHealth);
 uint8_t GetMonsterPowerDivisor(uint8_t powerLevel);
 
