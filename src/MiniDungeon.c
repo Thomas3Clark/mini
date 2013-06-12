@@ -55,7 +55,6 @@ void handle_init(AppContextRef ctx) {
 
 	ResetGame();
 	ShowAdventureWindow();
-	GenerateDeck();
 }
 
 void handle_deinit(AppContextRef ctx) {

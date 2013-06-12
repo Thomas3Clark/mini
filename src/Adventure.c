@@ -22,10 +22,6 @@ const char *UpdateFloorText(void)
 int8_t updateDelay = 0;
 bool adventureWindowVisible = false;
 
-uint8_t currentCardIndex = 0;
-
-static ShowWindowFunction baseDeck[32];
-
 void AdventureWindowAppear(Window *window);
 void AdventureWindowDisappear(Window *window);
 
@@ -99,46 +95,64 @@ void ShowAdventureWindow(void)
 
 #if ALLOW_SHOP
 // These should add up to 100
-CardDeck entries[] = 
+static CardDeck entries[] = 
 {
-	{ShowItemGainWindow, 14},
-	{ShowBattleWindow, 14},
-	{ShowNewFloorWindow, 3},
-	{ShowShopWindow, 1}
+	{ShowItemGainWindow, 14,0},
+	{ShowBattleWindow, 14,0},
+	{ShowNewFloorWindow, 3,0},
+	{ShowShopWindow, 1,0}
 };
 #else
 // These should add up to 100
-CardDeck entries[] = 
+static CardDeck entries[] = 
 {
-	{ShowItemGainWindow, 12},
-	{ShowBattleWindow, 16},
-	{ShowNewFloorWindow, 4}
+	{ShowItemGainWindow, 12,0},
+	{ShowBattleWindow, 16,0},
+	{ShowNewFloorWindow, 4,0}
 };
-#endif
 
+#endif
+static uint8_t entriesSize = sizeof(entries);
+static uint8_t limitGetCard = sizeof(entries);
 #if EVENT_CHANCE_SCALING
 static uint16_t ticksSinceLastEvent = 0;
 #endif
-
-void GenerateDeck() {
-	uint8_t nbCards = 0;
-	currentCardIndex = 0;
-	for(uint8_t i = 0; i < sizeof(entries); ++i) {
-		CardDeck cd = entries[i];
-		for(uint8_t j = 0; j < cd.number; ++j) {
-			baseDeck[nbCards++] = cd.windowFunction;
-		}
-	}
-	
-	for(uint8_t i = 0; i < nbCards-1; ++i) {
-		uint16_t r = i + (Random(nbCards-i)-1);
-		ShowWindowFunction temp = baseDeck[i]; 
-		baseDeck[i] = baseDeck[r]; 
-		baseDeck[r] = temp;
-	}
-
+void SwapCard(uint8_t i,uint8_t j) {
+	CardDeck temp = entries[i];
+	entries[i] = entries[j];
+	entries[j] = temp;
 }
 
+void ResetCurrentTaken() {
+	limitGetCard = entriesSize;
+	for(uint8_t i = 0; i < entriesSize; ++i) {
+		entries[i].current = 0;
+	}
+}
+CardDeck *GetCard() {
+	CardDeck *cd;
+	uint16_t toTake;
+	if(limitGetCard == 1) {
+		toTake = 0;
+		cd = &entries[0];
+	}
+	else {
+		toTake = Random(limitGetCard)-1;
+		cd = &entries[toTake];
+	}
+	cd->current++;
+	if(cd->current == cd->number) {
+		if(limitGetCard == 1)
+			ResetCurrentTaken();
+		else {
+			if(limitGetCard-1 != toTake)
+				SwapCard(toTake,limitGetCard-1);
+			limitGetCard--;
+		}
+	}
+	return cd;
+	
+}
 bool ComputeRandomEvent(bool fastMode)
 {
 	uint16_t result = Random(100);
@@ -153,15 +167,13 @@ bool ComputeRandomEvent(bool fastMode)
 	if(!fastMode && result > chanceOfEvent)
 		return false;
 		
-	if(currentCardIndex == sizeof(baseDeck))
-		GenerateDeck();
-		
+
 	if(GetVibration())
 		vibes_short_pulse();
 		
-	if(baseDeck[currentCardIndex])
-		baseDeck[currentCardIndex++]();
-		
+	CardDeck *cd = GetCard();
+	cd->windowFunction();
+	
 #if EVENT_CHANCE_SCALING
 		ticksSinceLastEvent = 0;
 #endif

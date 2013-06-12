@@ -6,6 +6,7 @@ typedef struct
 {
 	ShowWindowFunction windowFunction;
 	uint8_t number;
+	uint8_t current;
 } CardDeck;
 
 const char *UpdateFloorText(void);
@@ -18,5 +19,3 @@ void ShowNewFloorWindow(void);
 
 bool ComputeRandomEvent(bool fastMode);
 void UpdateAdventure(void);
-
-void GenerateDeck();
