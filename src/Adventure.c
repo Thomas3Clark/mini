@@ -19,8 +19,12 @@ const char *UpdateFloorText(void)
 	return floorText;
 }
 
-int updateDelay = 0;
+int8_t updateDelay = 0;
 bool adventureWindowVisible = false;
+
+uint8_t currentCardIndex = 0;
+
+static ShowWindowFunction baseDeck[32];
 
 void AdventureWindowAppear(Window *window);
 void AdventureWindowDisappear(Window *window);
@@ -93,44 +97,50 @@ void ShowAdventureWindow(void)
 	PushNewMenu(&adventureMenuDef);
 }
 
-typedef void (*ShowWindowFunction)(void);
-
-typedef struct
-{
-	ShowWindowFunction windowFunction;
-	int weight;
-} RandomTableEntry;
-
 #if ALLOW_SHOP
 // These should add up to 100
-RandomTableEntry entries[] = 
+CardDeck entries[] = 
 {
-	{ShowItemGainWindow, 44},
-	{ShowBattleWindow, 44},
-	{ShowNewFloorWindow, 9},
-	{ShowShopWindow, 3}
+	{ShowItemGainWindow, 14},
+	{ShowBattleWindow, 14},
+	{ShowNewFloorWindow, 3},
+	{ShowShopWindow, 1}
 };
 #else
 // These should add up to 100
-RandomTableEntry entries[] = 
+CardDeck entries[] = 
 {
-	{ShowItemGainWindow, 40},
-	{ShowBattleWindow, 50},
-	{ShowNewFloorWindow, 10}
+	{ShowItemGainWindow, 12},
+	{ShowBattleWindow, 16},
+	{ShowNewFloorWindow, 4}
 };
 #endif
 
-static int baseChanceOfEvent = 35;
 #if EVENT_CHANCE_SCALING
-static int ticksSinceLastEvent = 0;
+static uint16_t ticksSinceLastEvent = 0;
 #endif
+
+void GenerateDeck() {
+	uint8_t nbCards = 0;
+	currentCardIndex = 0;
+	for(size_t i = 0; i < sizeof(entries); ++i) {
+		CardDeck *cd = &entries[i];
+		for(uint8_t j = 0; j < cd->number; ++j) {
+			baseDeck[nbCards++] = cd->windowFunction;
+		}
+	}
+	for(uint8_t i = 0; i < nbCards-1; ++i) {
+		uint8_t r = i + (Random(nbCards-i)-1);
+		ShowWindowFunction temp = baseDeck[i]; 
+		baseDeck[i] = baseDeck[r]; 
+		baseDeck[r] = temp;
+	}
+}
 
 bool ComputeRandomEvent(bool fastMode)
 {
-	int result = Random(100);
-	int i = 0;
-	int acc = 0;
-	int chanceOfEvent = baseChanceOfEvent;
+	uint16_t result = Random(100);
+	uint16_t chanceOfEvent = EVENT_CHANCE_BASE;
 #if EVENT_CHANCE_SCALING
 	if(ticksSinceLastEvent > 5)
 	{
@@ -141,24 +151,18 @@ bool ComputeRandomEvent(bool fastMode)
 	if(!fastMode && result > chanceOfEvent)
 		return false;
 		
-	result = Random(100);
-	
-	do
-	{
-		acc += entries[i].weight;
-		if(acc >= result)
-		{
-			if(GetVibration())
-				vibes_short_pulse();
-			if(entries[i].windowFunction)
-				entries[i].windowFunction();
+	if(currentCardIndex == sizeof(baseDeck))
+		GenerateDeck();
+		
+	if(GetVibration())
+		vibes_short_pulse();
+		
+	if(baseDeck[currentCardIndex])
+		baseDeck[currentCardIndex++]();
+		
 #if EVENT_CHANCE_SCALING
-			ticksSinceLastEvent = 0;
+		ticksSinceLastEvent = 0;
 #endif
-			break;
-		}
-		++i;      
-    } while (i < 4);
 	return true;
 }
 

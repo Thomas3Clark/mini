@@ -48,6 +48,7 @@ void handle_init(AppContextRef ctx) {
 	get_time(&currentTime);
 	unixTime = GetUnixTime(&currentTime);
 	SetRandomSeed(unixTime);
+	GenerateDeck();
 
 	InitializeExitConfirmationWindow();
 	

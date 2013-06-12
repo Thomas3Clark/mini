@@ -1,5 +1,13 @@
 #pragma once
 
+typedef void (*ShowWindowFunction)(void);
+
+typedef struct
+{
+	ShowWindowFunction windowFunction;
+	uint8_t number;
+} CardDeck;
+
 const char *UpdateFloorText(void);
 
 void ToggleVibration(void);
