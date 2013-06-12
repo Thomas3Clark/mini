@@ -31,7 +31,7 @@ void IntToString(char *buffer, size_t bufferSize, int value)
 	}
 }
 
-static unsigned long random_seed = 100;
+static long random_seed = 100;
 
 void SetRandomSeed(long newSeed)
 {

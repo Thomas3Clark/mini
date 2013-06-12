@@ -102,6 +102,8 @@ static CardDeck entries[] =
 	{ShowNewFloorWindow, 3,0},
 	{ShowShopWindow, 1,0}
 };
+static uint8_t entriesSize = 4;
+static uint8_t limitGetCard = 4;
 #else
 // These should add up to 100
 static CardDeck entries[] = 
@@ -110,13 +112,15 @@ static CardDeck entries[] =
 	{ShowBattleWindow, 16,0},
 	{ShowNewFloorWindow, 4,0}
 };
-
+static uint8_t entriesSize = 3;
+static uint8_t limitGetCard = 3;
 #endif
-static uint8_t entriesSize = sizeof(entries);
-static uint8_t limitGetCard = sizeof(entries);
+
+
 #if EVENT_CHANCE_SCALING
 static uint16_t ticksSinceLastEvent = 0;
 #endif
+
 void SwapCard(uint8_t i,uint8_t j) {
 	CardDeck temp = entries[i];
 	entries[i] = entries[j];
@@ -134,12 +138,12 @@ CardDeck *GetCard() {
 	uint16_t toTake;
 	if(limitGetCard == 1) {
 		toTake = 0;
-		cd = &entries[0];
 	}
 	else {
 		toTake = Random(limitGetCard)-1;
-		cd = &entries[toTake];
 	}
+
+	cd = &entries[toTake];
 	cd->current++;
 	if(cd->current == cd->number) {
 		if(limitGetCard == 1)
