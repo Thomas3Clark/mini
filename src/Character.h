@@ -36,8 +36,8 @@ CharacterData *GetCharacter(void);
 void HealPlayerByPercent(uint8_t percent);
 bool PlayerIsInjured(void);
 
-bool GrantExperience(int exp);
-void GrantGold(int gold);
+bool GrantExperience(uint16_t exp);
+void GrantGold(uint16_t gold);
 
 void ShowStatMenu(void);
 void ShowProgressMenu(void);

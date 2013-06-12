@@ -98,7 +98,7 @@ void InitializeCharacter(void)
 }
 
 // Returns true on levelup
-bool GrantExperience(uint8_t xp)
+bool GrantExperience(uint16_t xp)
 {
 	characterData.xp += xp;
 	if(characterData.xp >= characterData.xpForNextLevel)
@@ -108,7 +108,7 @@ bool GrantExperience(uint8_t xp)
 	return false;
 }
 
-void GrantGold(int gold)
+void GrantGold(uint16_t gold)
 {
 	characterData.gold += gold;
 	if(characterData.gold > 9999)
