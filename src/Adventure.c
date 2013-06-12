@@ -97,10 +97,10 @@ void ShowAdventureWindow(void)
 // These should add up to 100
 static CardDeck entries[] = 
 {
-	{ShowItemGainWindow, 14,0},
-	{ShowBattleWindow, 14,0},
-	{ShowNewFloorWindow, 3,0},
-	{ShowShopWindow, 1,0}
+	{ShowItemGainWindow, 15,0},
+	{ShowBattleWindow, 12,0},
+	{ShowNewFloorWindow, 4,0},
+	{ShowShopWindow, 2,0}
 };
 static uint8_t entriesSize = 4;
 static uint8_t limitGetCard = 4;
