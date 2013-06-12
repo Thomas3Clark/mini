@@ -25,7 +25,7 @@ void CloseBattleWindow(void)
 	PopMenu();
 }
 
-static int currentFloor = 1;
+static uint8_t currentFloor = 1;
 
 void ResetFloor(void)
 {

@@ -181,12 +181,14 @@ void UpdateAdventure(void)
 
 void NewFloorMenuInit(Window *window);
 void NewFloorMenuAppear(Window *window);
+void ContinueNextFloor(void);
 
 MenuDefinition newFloorMenuDef = 
 {
 	.menuEntries = 
 	{
-		{"Ok", "Return to adventuring", PopMenu}
+		{"Go", "Continue adventuring", ContinueNextFloor},
+		{"Stay", "Stay in the same floor", PopMenu}
 	},
 	.init = NewFloorMenuInit,
 	.appear = NewFloorMenuAppear,
@@ -196,7 +198,11 @@ MenuDefinition newFloorMenuDef =
 void NewFloorMenuInit(Window *window)
 {
 	MenuInit(window);
+}
+
+void ContinueNextFloor() {
 	IncrementFloor();
+	PopMenu();
 }
 
 void NewFloorMenuAppear(Window *window)
