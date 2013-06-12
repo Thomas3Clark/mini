@@ -30,10 +30,10 @@ void IncrementEscapes(void);
 
 void InitializeCharacter(void);
 
-bool DealPlayerDamage(int damage);
+bool DealPlayerDamage(uint16_t damage);
 CharacterData *GetCharacter(void);
 
-void HealPlayerByPercent(int percent);
+void HealPlayerByPercent(uint8_t percent);
 bool PlayerIsInjured(void);
 
 bool GrantExperience(int exp);
