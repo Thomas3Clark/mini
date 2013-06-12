@@ -123,18 +123,20 @@ static uint16_t ticksSinceLastEvent = 0;
 void GenerateDeck() {
 	uint8_t nbCards = 0;
 	currentCardIndex = 0;
-	for(size_t i = 0; i < sizeof(entries); ++i) {
-		CardDeck *cd = &entries[i];
-		for(uint8_t j = 0; j < cd->number; ++j) {
-			baseDeck[nbCards++] = cd->windowFunction;
+	for(uint8_t i = 0; i < sizeof(entries); ++i) {
+		CardDeck cd = entries[i];
+		for(uint8_t j = 0; j < cd.number; ++j) {
+			baseDeck[nbCards++] = cd.windowFunction;
 		}
 	}
+	
 	for(uint8_t i = 0; i < nbCards-1; ++i) {
-		uint8_t r = i + (Random(nbCards-i)-1);
+		uint16_t r = i + (Random(nbCards-i)-1);
 		ShowWindowFunction temp = baseDeck[i]; 
 		baseDeck[i] = baseDeck[r]; 
 		baseDeck[r] = temp;
 	}
+
 }
 
 bool ComputeRandomEvent(bool fastMode)

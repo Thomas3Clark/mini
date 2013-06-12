@@ -48,7 +48,6 @@ void handle_init(AppContextRef ctx) {
 	get_time(&currentTime);
 	unixTime = GetUnixTime(&currentTime);
 	SetRandomSeed(unixTime);
-	GenerateDeck();
 
 	InitializeExitConfirmationWindow();
 	
@@ -56,6 +55,7 @@ void handle_init(AppContextRef ctx) {
 
 	ResetGame();
 	ShowAdventureWindow();
+	GenerateDeck();
 }
 
 void handle_deinit(AppContextRef ctx) {
