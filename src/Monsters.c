@@ -51,10 +51,10 @@ MonsterDef Goblin =
 	.goldScale = 2
 };
 
-MonsterDef ApprenticeWizard = 
+MonsterDef Witch = 
 {
-	.name = "Apprentice",
-	.imageId = RESOURCE_ID_IMAGE_WIZARD,
+	.name = "Witch",
+	.imageId = RESOURCE_ID_IMAGE_WITCH,
 	.extraFireDefenseMultiplier = 100,
 	.extraIceDefenseMultiplier = 100,
 	.extraLightningDefenseMultiplier = 100,
@@ -212,7 +212,7 @@ GroupMonsters FirstLevels =
 GroupMonsters SecondLevels = 
 {
 	.nbMonster = 2,
-	.monsters = {&Goblin,&ApprenticeWizard}
+	.monsters = {&Goblin,&Witch}
 };
 
 GroupMonsters ThirdLevels = 
@@ -245,7 +245,7 @@ GroupMonsters SixthLevels =
 GroupMonsters AllMonsters = 
 {
 	.nbMonster = 12,
-	.monsters = {&Rat,&Turtle,&MagPie,&Wizard,&Zombie,&Lich,&Goblin,&ApprenticeWizard,&HalfZombie,&BabyTurtle,&Cyclope,&Chimera}
+	.monsters = {&Rat,&Turtle,&MagPie,&Wizard,&Zombie,&Lich,&Goblin,&Witch,&HalfZombie,&BabyTurtle,&Cyclope,&Chimera}
 	
 };
 
