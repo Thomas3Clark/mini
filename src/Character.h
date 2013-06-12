@@ -4,7 +4,7 @@
 typedef struct
 {
 	uint16_t maxHealth;
-	uint16_t currentHealth;
+	int16_t currentHealth;
 	uint8_t strength;
 	uint8_t magic;
 	uint8_t defense;
