@@ -122,6 +122,11 @@
 	   	"type":"png",
 	   	"defName":"IMAGE_WITCH",
 	   	"file":"images/witch.png"
+	   },
+	   {
+	   	"type":"png",
+	   	"defName":"IMAGE_BUNNY",
+	   	"file":"images/bunny.png"
 	   }
    ]
 }

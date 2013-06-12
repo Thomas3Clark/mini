@@ -111,13 +111,13 @@ MonsterDef Zombie =
 	.goldScale = 1
 };
 
-MonsterDef BabyTurtle = 
+MonsterDef Bunny = 
 {
-	.name = "Baby Turtle",
-	.imageId = RESOURCE_ID_IMAGE_TURTLE,
-	.extraFireDefenseMultiplier = 100,
+	.name = "Bunny",
+	.imageId = RESOURCE_ID_IMAGE_BUNNY,
+	.extraFireDefenseMultiplier = 700,
 	.extraIceDefenseMultiplier = 200,
-	.extraLightningDefenseMultiplier = 700,
+	.extraLightningDefenseMultiplier = 100,
 	.powerLevel = 1,
 	.healthLevel = 1,
 	.defenseLevel = 2,
@@ -225,7 +225,7 @@ GroupMonsters ThirdLevels =
 GroupMonsters ForthLevels = 
 {
 	.nbMonster = 2,
-	.monsters = {&Zombie,&BabyTurtle}
+	.monsters = {&Zombie,&Bunny}
 	
 };
 
@@ -245,7 +245,7 @@ GroupMonsters SixthLevels =
 GroupMonsters AllMonsters = 
 {
 	.nbMonster = 12,
-	.monsters = {&Rat,&Turtle,&MagPie,&Wizard,&Zombie,&Lich,&Goblin,&Witch,&HalfZombie,&BabyTurtle,&Cyclope,&Chimera}
+	.monsters = {&Rat,&Turtle,&MagPie,&Wizard,&Zombie,&Lich,&Goblin,&Witch,&HalfZombie,&Bunny,&Cyclope,&Chimera}
 	
 };
 
