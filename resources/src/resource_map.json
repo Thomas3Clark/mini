@@ -112,6 +112,11 @@
 	   	"type":"png",
 	   	"defName":"IMAGE_CHIMERA",
 	   	"file":"images/chimera.png"
+	   },
+	   {
+	   	"type":"png",
+	   	"defName":"IMAGE_CYCLOPE",
+	   	"file":"images/cyclope.png"
 	   }
    ]
 }

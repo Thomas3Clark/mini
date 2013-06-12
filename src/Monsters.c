@@ -141,13 +141,13 @@ MonsterDef Turtle =
 	.goldScale = 0	
 };
 
-MonsterDef SmallLich = 
+MonsterDef Cyclope = 
 {
-	.name = "Small Lich",
-	.imageId = RESOURCE_ID_IMAGE_LICH,
-	.extraFireDefenseMultiplier = 100,
-	.extraIceDefenseMultiplier = 700,
-	.extraLightningDefenseMultiplier = 100,
+	.name = "Cyclope",
+	.imageId = RESOURCE_ID_IMAGE_CYCLOPE,
+	.extraFireDefenseMultiplier = 700,
+	.extraIceDefenseMultiplier = 100,
+	.extraLightningDefenseMultiplier = 200,
 	.powerLevel = 2,
 	.healthLevel = 1,
 	.defenseLevel = 2,
@@ -232,7 +232,7 @@ GroupMonsters ForthLevels =
 GroupMonsters FifthLevels = 
 {
 	.nbMonster = 2,
-	.monsters = {&Turtle,&SmallLich}
+	.monsters = {&Turtle,&Cyclope}
 	
 };
 GroupMonsters SixthLevels = 
@@ -245,7 +245,7 @@ GroupMonsters SixthLevels =
 GroupMonsters AllMonsters = 
 {
 	.nbMonster = 12,
-	.monsters = {&Rat,&Turtle,&MagPie,&Wizard,&Zombie,&Lich,&Goblin,&ApprenticeWizard,&HalfZombie,&BabyTurtle,&SmallLich,&Chimera}
+	.monsters = {&Rat,&Turtle,&MagPie,&Wizard,&Zombie,&Lich,&Goblin,&ApprenticeWizard,&HalfZombie,&BabyTurtle,&Cyclope,&Chimera}
 	
 };
 
