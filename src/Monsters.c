@@ -274,7 +274,7 @@ uint16_t ScaleMonsterHealth(MonsterDef *monster, uint16_t baseHealth)
 		case 2:
 			return baseHealth*2;
 		case 3:
-			return baseHealth*2 + (uint16_t)(baseHealth/2);
+			return baseHealth*2 + (uint16_t)(baseHealth/4);
 		case 1:
 		default:
 			return baseHealth;
