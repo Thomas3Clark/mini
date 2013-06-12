@@ -17,7 +17,7 @@ void ShowMainWindowRow(int index, const char *text, const char *number);
 void UpdateClock(void);
 void UpdateLevelLayerText(int level);
 
-void UpdateHealthText(int currentHealth, int maxHealth);
+void UpdateHealthText(int16_t currentHealth, uint16_t maxHealth);
 
 void InitializeTextLayer(TextLayer *textLayer, GRect frame, GFont font);
 

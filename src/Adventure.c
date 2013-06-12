@@ -245,8 +245,8 @@ void ShowNewFloorWindow(void)
 
 const char *UpdateDebugText(uint8_t number)
 {
-	static char debugText[] = "00"; // Needs to be static because it's used by the system later.
-	IntToString(debugText, 2, number);
+	static char debugText[] = "0000"; // Needs to be static because it's used by the system later.
+	IntToString(debugText, 4, number);
 	return debugText;
 }
 

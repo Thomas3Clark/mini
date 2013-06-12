@@ -318,7 +318,7 @@ GRect currentHealthFrame = {.origin = {.x = 42, .y = 126}, .size = {.w = 50, .h 
 TextLayer maxHealthLayer;
 GRect maxHealthFrame = {.origin = {.x = 42, .y = 143}, .size = {.w = 50, .h = 168-140}};
 bool healthLayersInitialized = false;
-void UpdateHealthText(int current, int max)
+void UpdateHealthText(int16_t current, uint16_t max)
 {
 	static char currentHealthText[] = "0000"; // Needs to be static because it's used by the system later.
 	static char maxHealthText[] = "0000"; // Needs to be static because it's used by the system later.
