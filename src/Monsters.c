@@ -36,6 +36,20 @@ MonsterDef MagPie =
 	.goldScale = 1
 };
 
+MonsterDef Bunny = 
+{
+	.name = "Bunny",
+	.imageId = RESOURCE_ID_IMAGE_BUNNY,
+	.extraFireDefenseMultiplier = 200,
+	.extraIceDefenseMultiplier = 100,
+	.extraLightningDefenseMultiplier = 100,
+	.powerLevel = 0,
+	.healthLevel = 0,
+	.defenseLevel = 0,
+	.magicDefenseLevel = 1,
+	.allowPhysicalAttack = true,
+	.goldScale = 0	
+};
 MonsterDef Goblin = 
 {
 	.name = "Goblin",
@@ -111,10 +125,10 @@ MonsterDef Zombie =
 	.goldScale = 1
 };
 
-MonsterDef Bunny = 
+MonsterDef Fox = 
 {
-	.name = "Bunny",
-	.imageId = RESOURCE_ID_IMAGE_BUNNY,
+	.name = "Fox",
+	.imageId = RESOURCE_ID_IMAGE_FOX,
 	.extraFireDefenseMultiplier = 700,
 	.extraIceDefenseMultiplier = 200,
 	.extraLightningDefenseMultiplier = 100,
@@ -162,10 +176,10 @@ MonsterDef Chimera =
 	.imageId = RESOURCE_ID_IMAGE_CHIMERA,
 	.extraFireDefenseMultiplier = 600,
 	.extraIceDefenseMultiplier = 100,
-	.extraLightningDefenseMultiplier = 100,
+	.extraLightningDefenseMultiplier = 300,
 	.powerLevel = 2,
 	.healthLevel = 3,
-	.defenseLevel = 2,
+	.defenseLevel = 1,
 	.magicDefenseLevel = 1,
 	.allowMagicAttack = true,
 	.allowPhysicalAttack = true,
@@ -205,8 +219,8 @@ MonsterDef Dragon =
 
 GroupMonsters FirstLevels = 
 {
-	.nbMonster = 2,
-	.monsters = {&Rat,&MagPie}
+	.nbMonster = 3,
+	.monsters = {&Rat,&MagPie,&Bunny}
 };
 
 GroupMonsters SecondLevels = 
@@ -225,7 +239,7 @@ GroupMonsters ThirdLevels =
 GroupMonsters ForthLevels = 
 {
 	.nbMonster = 2,
-	.monsters = {&Zombie,&Bunny}
+	.monsters = {&Zombie,&Fox}
 	
 };
 
@@ -244,8 +258,8 @@ GroupMonsters SixthLevels =
 
 GroupMonsters AllMonsters = 
 {
-	.nbMonster = 12,
-	.monsters = {&Rat,&Turtle,&MagPie,&Wizard,&Zombie,&Lich,&Goblin,&Witch,&HalfZombie,&Bunny,&Cyclope,&Chimera}
+	.nbMonster = 13,
+	.monsters = {&Rat,&Turtle,&MagPie,&Wizard,&Zombie,&Lich,&Goblin,&Witch,&HalfZombie,&Fox,&Cyclope,&Chimera,&Bunny}
 	
 };
 

@@ -127,6 +127,11 @@
 	   	"type":"png",
 	   	"defName":"IMAGE_BUNNY",
 	   	"file":"images/bunny.png"
+	   },
+	   {
+	   	"type":"png",
+	   	"defName":"IMAGE_FOX",
+	   	"file":"images/fox.png"
 	   }
    ]
 }
