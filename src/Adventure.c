@@ -255,11 +255,11 @@ void DebugMenuAppear(Window *window)
 	MenuAppear(window);
 	uint8_t i=0;
 	ShowMainWindowRow(i++, "Debug", "");	
-	ShowMainWindowRow(i++, entries[0].name, UpdateDebugText(entries[0].number));
-	ShowMainWindowRow(i++, entries[1].name, UpdateDebugText(entries[1].number));
-	ShowMainWindowRow(i++, entries[2].name, UpdateDebugText(entries[2].number));
+	ShowMainWindowRow(i++, entries[0].name, UpdateDebugText(entries[0].current));
+	ShowMainWindowRow(i++, entries[1].name, UpdateDebugText(entries[1].current));
+	ShowMainWindowRow(i++, entries[2].name, UpdateDebugText(entries[2].current));
 #if ALLOW_SHOP
-	ShowMainWindowRow(i++, entries[3].name, UpdateDebugText(entries[3].number));
+	ShowMainWindowRow(i++, entries[3].name, UpdateDebugText(entries[3].current));
 #endif
 	ShowMainWindowRow(i++, "Active cards", UpdateDebugText(limitGetCard));
 }
