@@ -99,7 +99,7 @@ void ShowAdventureWindow(void)
 
 #if ALLOW_SHOP
 // These should add up to 100
-static CardDeck entries[] = 
+CardDeck entries[] = 
 {
 	{ShowItemGainWindow, 15,0,"Item"},
 	{ShowBattleWindow, 12,0,"Battle"},
@@ -107,10 +107,10 @@ static CardDeck entries[] =
 	{ShowShopWindow, 2,0,"Shop"}
 };
 static uint8_t entriesSize = 4;
-static uint8_t limitGetCard = 4;
+uint8_t limitGetCard = 4;
 #else
 // These should add up to 100
-static CardDeck entries[] = 
+CardDeck entries[] = 
 {
 	{ShowItemGainWindow, 12,0,"Item"},
 	{ShowBattleWindow, 16,0,"Battle"},
@@ -245,8 +245,8 @@ void ShowNewFloorWindow(void)
 
 const char *UpdateDebugText(uint8_t number)
 {
-	static char debugText[] = "0000"; // Needs to be static because it's used by the system later.
-	IntToString(debugText, 4, number);
+	static char debugText[] = "00"; // Needs to be static because it's used by the system later.
+	IntToString(debugText, 2, number);
 	return debugText;
 }
 
