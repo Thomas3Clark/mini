@@ -10,6 +10,7 @@
 
 // Publish 0 turns on the test menu and ignores the official setting 
 // The back button override is always on in test mode
+// God mode activated in test mode
 #define PUBLISH 0
 // Official 0 allows the back button override, while official 1 does not
 #define OFFICIAL 1
@@ -36,10 +37,12 @@
 		#define OVERRIDE_BACK_BUTTON 1
 	#endif
 	#define ALLOW_TEST_MENU 0
+	#define	ALLOW_GOD_MODE	0
 #else
 	// Overriding the back button is not officially supported, but works
 	#define OVERRIDE_BACK_BUTTON 1
 	#define ALLOW_TEST_MENU 1
+	#define	ALLOW_GOD_MODE	1
 #endif
 
 // This needs to be large enough to handle the maximum size of the window stack

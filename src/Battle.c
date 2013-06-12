@@ -121,6 +121,14 @@ void DamageCurrentMonster(uint8_t strength, uint16_t level, uint8_t defense, uin
 	BattleUpdate();
 }
 
+#if ALLOW_GOD_MODE
+void KillMonster(void) {
+	currentMonsterHealth = 0;
+	ShowMainWindowRow(0, currentMonster->name, UpdateMonsterHealthText());
+	BattleUpdate();
+}
+#endif
+
 void AttackCurrentMonster(void)
 {
 	DamageCurrentMonster(GetCharacter()->stats.strength, GetCharacter()->level, GetMonsterDefense(currentMonster->defenseLevel), 1, 100);
@@ -193,7 +201,11 @@ MenuDefinition battleMainMenuDef =
 	{
 		{"Attack", "Attack with your sword.", AttackCurrentMonster},
 		{"Item", "Use an item", ShowItemBattleMenu},
+#if ALLOW_GOD_MODE
+		{"Kill", "Kill the monster", KillMonster},
+#else
 		{NULL, NULL, NULL},
+#endif
 		{"Progress", "Character advancement", ShowProgressMenu},
 		{NULL, NULL, NULL},
 		{"Run", "Try to run away", AttemptToRun},
