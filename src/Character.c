@@ -68,7 +68,7 @@ void IncrementEscapes(void)
 	++characterData.escapes;
 }
 
-int ComputePlayerHealth(int level)
+uint16_t ComputePlayerHealth(uint16_t level)
 {
 	return 10 + ((level-1)*(level)/2) + ((level-1)*(level)*(level+1)/(6*32));
 }
@@ -232,7 +232,7 @@ void DrawStatWindow(void)
 	ShowMainWindowRow(4, "MagicDef", UpdateMagicDefenseText());
 }
 
-void IncrementStat(int *stat)
+void IncrementStat(uint8_t *stat)
 {
 	if(statPointsToSpend && (*stat) < characterData.level)
 	{

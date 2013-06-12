@@ -3,25 +3,25 @@
 // TODO: turn the list of stats into an array for more code reuse
 typedef struct
 {
-	int maxHealth;
-	int currentHealth;
-	int strength;
-	int magic;
-	int defense;
-	int magicDefense;
+	uint16_t maxHealth;
+	uint16_t currentHealth;
+	uint8_t strength;
+	uint8_t magic;
+	uint8_t defense;
+	uint8_t magicDefense;
 } Stats;
 
 typedef struct 
 {
-	int xp;
-	int xpForNextLevel;
-	int level;
-	int gold;
-	int escapes;
+	uint16_t xp;
+	uint16_t xpForNextLevel;
+	uint16_t level;
+	uint16_t gold;
+	uint16_t escapes;
 	Stats stats;
 } CharacterData;
 
-int ComputePlayerHealth(int level);
+uint16_t ComputePlayerHealth(uint16_t level);
 void UpdateCharacterHealth(void);
 void UpdateCharacterLevel(void);
 const char *UpdateGoldText(void);
