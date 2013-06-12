@@ -249,7 +249,7 @@ GroupMonsters AllMonsters =
 	
 };
 
-int defenseLevelMap[] = 
+uint8_t defenseLevelMap[] = 
 {
 	0,
 	5,
@@ -257,7 +257,7 @@ int defenseLevelMap[] =
 	20
 };
 
-int GetMonsterDefense(int defenseLevel)
+uint8_t GetMonsterDefense(uint8_t defenseLevel)
 {
 	if(defenseLevel < 4)
 		return defenseLevelMap[defenseLevel];
@@ -265,7 +265,7 @@ int GetMonsterDefense(int defenseLevel)
 	return 0;
 }
 
-int ScaleMonsterHealth(MonsterDef *monster, int baseHealth)
+uint16_t ScaleMonsterHealth(MonsterDef *monster, uint16_t baseHealth)
 {
 	switch(monster->healthLevel)
 	{
@@ -274,21 +274,21 @@ int ScaleMonsterHealth(MonsterDef *monster, int baseHealth)
 		case 2:
 			return baseHealth*2;
 		case 3:
-			return baseHealth*2 + (int)(baseHealth/2);
+			return baseHealth*2 + (uint16_t)(baseHealth/2);
 		case 1:
 		default:
 			return baseHealth;
 	}
 }
 
-int powerLevelMap[] = 
+uint8_t powerLevelMap[] = 
 {
 	10,
 	7,
 	4
 };
 
-int GetMonsterPowerDivisor(int powerLevel)
+uint8_t GetMonsterPowerDivisor(uint8_t powerLevel)
 {
 	if(powerLevel < 3)
 		return powerLevelMap[powerLevel];
@@ -306,10 +306,10 @@ GroupMonsters *groups[] =
 	&SixthLevels
 };
 
-MonsterDef *GetRandomMonster(int floor)
+MonsterDef *GetRandomMonster(uint8_t floor)
 {
-	int result;
-	int limit;
+	uint16_t result;
+	uint8_t limit;
 	if(floor >= 20)
 		return &Dragon;
 	

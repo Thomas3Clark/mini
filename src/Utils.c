@@ -3,6 +3,7 @@
 #include "pebble_fonts.h"
 
 #include "MiniDungeon.h"
+#include "Utils.h"
 
 // Right justified
 void IntToString(char *buffer, size_t bufferSize, int value)
@@ -30,7 +31,7 @@ void IntToString(char *buffer, size_t bufferSize, int value)
 	}
 }
 
-static long random_seed = 100;
+static unsigned long random_seed = 100;
 
 void SetRandomSeed(long newSeed)
 {
@@ -39,7 +40,7 @@ void SetRandomSeed(long newSeed)
 
 // Pulled from the pebble developer forums
 // forums.getpebble.com/discussion/comment/28908/#comment_28908
-int Random(int max)
+uint16_t Random(uint16_t max)
 {
 	random_seed = (((random_seed * 214013L + 2531011L) >> 16) & 32767);
 

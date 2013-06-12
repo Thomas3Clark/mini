@@ -11,11 +11,11 @@ typedef struct
 	uint16_t extraLightningDefenseMultiplier : 11;
 	bool allowMagicAttack : 1;
 	bool allowPhysicalAttack : 1;
-	uint16_t powerLevel : 3;
-	uint16_t healthLevel : 3;
-	uint16_t defenseLevel : 3;
-	uint16_t magicDefenseLevel : 3;
-	uint16_t goldScale : 4;
+	uint8_t powerLevel : 3;
+	uint8_t healthLevel : 3;
+	uint8_t defenseLevel : 3;
+	uint8_t magicDefenseLevel : 3;
+	uint8_t goldScale : 4;
 } MonsterDef;
 
 typedef struct 
@@ -24,8 +24,8 @@ typedef struct
 	MonsterDef *monsters[];
 } GroupMonsters;
 
-int GetMonsterDefense(int defenseLevel);
-int ScaleMonsterHealth(MonsterDef *monster, int baseHealth);
-int GetMonsterPowerDivisor(int powerLevel);
+uint8_t GetMonsterDefense(int defenseLevel);
+uint16_t ScaleMonsterHealth(MonsterDef *monster, uint16_t baseHealth);
+uint8_t GetMonsterPowerDivisor(uint8_t powerLevel);
 
-MonsterDef *GetRandomMonster(int floor);
+MonsterDef *GetRandomMonster(uint8_t floor);
