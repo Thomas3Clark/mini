@@ -43,7 +43,7 @@ uint8_t GetCurrentFloor(void)
 }
 
 MonsterDef *currentMonster;
-uint16_t currentMonsterHealth;
+int16_t currentMonsterHealth;
 
 uint16_t ApplyDefense(uint16_t baseDamage, uint8_t defense)
 {

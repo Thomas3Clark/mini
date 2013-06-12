@@ -98,7 +98,7 @@ void InitializeCharacter(void)
 }
 
 // Returns true on levelup
-bool GrantExperience(int xp)
+bool GrantExperience(uint8_t xp)
 {
 	characterData.xp += xp;
 	if(characterData.xp >= characterData.xpForNextLevel)
