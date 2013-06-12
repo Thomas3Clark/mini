@@ -3,5 +3,5 @@
 void ShowBattleWindow(void);
 
 void IncrementFloor(void);
-int GetCurrentFloor(void);
+uint8_t GetCurrentFloor(void);
 void ResetFloor(void);

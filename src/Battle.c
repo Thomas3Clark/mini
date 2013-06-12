@@ -37,18 +37,18 @@ void IncrementFloor(void)
 	++currentFloor;
 }
 
-int GetCurrentFloor(void)
+uint8_t GetCurrentFloor(void)
 {
 	return currentFloor;
 }
 
 MonsterDef *currentMonster;
-int currentMonsterHealth;
+uint16_t currentMonsterHealth;
 
-int ApplyDefense(int baseDamage, int defense)
+uint16_t ApplyDefense(uint16_t baseDamage, uint8_t defense)
 {
-	int multiplier;
-	int totalDamage;
+	int16_t multiplier;
+	uint16_t totalDamage;
 	if(defense < 5)
 		multiplier = (-30*defense)/5 + 100;
 	else if(defense < 10)
@@ -68,8 +68,8 @@ int ApplyDefense(int baseDamage, int defense)
 
 void MonsterAttack(void)
 {
-	int baseDamage;
-	int damageToDeal;
+	uint16_t baseDamage;
+	uint16_t damageToDeal;
 	bool useMagicAttack = (currentMonster->allowMagicAttack && currentMonster->allowPhysicalAttack) ? Random(2) - 1 : currentMonster->allowMagicAttack;
 	baseDamage = ComputePlayerHealth(currentFloor)/GetMonsterPowerDivisor(currentMonster->powerLevel);
 	damageToDeal = ApplyDefense(baseDamage, useMagicAttack ? GetCharacter()->stats.magicDefense : GetCharacter()->stats.defense);
@@ -109,10 +109,10 @@ void BattleUpdate(void)
 	MonsterAttack();
 }
 
-void DamageCurrentMonster(int strength, int level, int defense, int baseMultiplier, int bonusMultiplier)
+void DamageCurrentMonster(uint8_t strength, uint16_t level, uint8_t defense, uint8_t baseMultiplier, uint16_t bonusMultiplier)
 {
-	int base = baseMultiplier * (2 + strength + 4*((strength * level)/8 + (strength * strength)/64 + (level * level)/64));
-	int damageToDeal = ApplyDefense(base, defense);
+	uint16_t base = baseMultiplier * (2 + strength + 4*((strength * level)/8 + (strength * strength)/64 + (level * level)/64));
+	uint16_t damageToDeal = ApplyDefense(base, defense);
 
 	damageToDeal = damageToDeal * bonusMultiplier / 100;
 	
@@ -263,9 +263,9 @@ void ShowItemBattleMenu(void)
 	PushNewMenu(&itemBattleMenuDef);
 }
 
-int ComputeMonsterHealth(int level)
+uint16_t ComputeMonsterHealth(uint8_t level)
 {
-	int baseHealth = 20 + ((level-1)*(level)/2) + ((level-1)*(level)*(level+1)/(6*2));
+	uint16_t baseHealth = 20 + ((level-1)*(level)/2) + ((level-1)*(level)*(level+1)/(6*2));
 	return ScaleMonsterHealth(currentMonster, baseHealth);
 }
 
