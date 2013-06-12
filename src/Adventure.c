@@ -25,6 +25,10 @@ bool adventureWindowVisible = false;
 void AdventureWindowAppear(Window *window);
 void AdventureWindowDisappear(Window *window);
 
+#if ALLOW_TEST_MENU
+void ShowDebugMenu(void);
+#endif
+
 MenuDefinition adventureMenuDef = 
 {
 	.menuEntries = 
@@ -32,7 +36,7 @@ MenuDefinition adventureMenuDef =
 		{"Main", "Open the main menu", ShowMainMenu},
 #if ALLOW_TEST_MENU
 		{NULL, NULL, NULL},
-		{NULL, NULL, NULL},
+		{"Debug", "Variables values", ShowDebugMenu},
 		{NULL, NULL, NULL},
 		{NULL, NULL, NULL},
 		{"", "", ShowTestMenu}
@@ -97,10 +101,10 @@ void ShowAdventureWindow(void)
 // These should add up to 100
 static CardDeck entries[] = 
 {
-	{ShowItemGainWindow, 15,0},
-	{ShowBattleWindow, 12,0},
-	{ShowNewFloorWindow, 4,0},
-	{ShowShopWindow, 2,0}
+	{ShowItemGainWindow, 15,0,"Item"},
+	{ShowBattleWindow, 12,0,"Battle"},
+	{ShowNewFloorWindow, 4,0,"Floor"},
+	{ShowShopWindow, 2,0,"Shop"}
 };
 static uint8_t entriesSize = 4;
 static uint8_t limitGetCard = 4;
@@ -108,9 +112,9 @@ static uint8_t limitGetCard = 4;
 // These should add up to 100
 static CardDeck entries[] = 
 {
-	{ShowItemGainWindow, 12,0},
-	{ShowBattleWindow, 16,0},
-	{ShowNewFloorWindow, 4,0}
+	{ShowItemGainWindow, 12,0,"Item"},
+	{ShowBattleWindow, 16,0,"Battle"},
+	{ShowNewFloorWindow, 4,0,"Floor"}
 };
 static uint8_t entriesSize = 3;
 static uint8_t limitGetCard = 3;
@@ -237,3 +241,42 @@ void ShowNewFloorWindow(void)
 {
 	PushNewMenu(&newFloorMenuDef);
 }
+#if ALLOW_TEST_MENU
+
+const char *UpdateDebugText(uint8_t number)
+{
+	static char debugText[] = "00"; // Needs to be static because it's used by the system later.
+	IntToString(debugText, 2, number);
+	return debugText;
+}
+
+void DebugMenuAppear(Window *window)
+{
+	MenuAppear(window);
+	uint8_t i=0;
+	ShowMainWindowRow(i++, "Debug", "");	
+	ShowMainWindowRow(i++, entries[0].name, UpdateDebugText(entries[0].number));
+	ShowMainWindowRow(i++, entries[1].name, UpdateDebugText(entries[1].number));
+	ShowMainWindowRow(i++, entries[2].name, UpdateDebugText(entries[2].number));
+#if ALLOW_SHOP
+	ShowMainWindowRow(i++, entries[3].name, UpdateDebugText(entries[3].number));
+#endif
+	ShowMainWindowRow(i++, "Active cards", UpdateDebugText(limitGetCard));
+}
+
+MenuDefinition debugMenuDef = 
+{
+	.menuEntries = 
+	{
+		{"Quit", "Return to main menu", PopMenu},
+	},
+	.appear = DebugMenuAppear,
+	.mainImageId = -1
+};
+
+
+void ShowDebugMenu(void)
+{
+	PushNewMenu(&debugMenuDef);
+}
+#endif

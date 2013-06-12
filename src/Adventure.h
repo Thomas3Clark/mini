@@ -7,6 +7,7 @@ typedef struct
 	ShowWindowFunction windowFunction;
 	uint8_t number;
 	uint8_t current;
+	const char *name;
 } CardDeck;
 
 const char *UpdateFloorText(void);
