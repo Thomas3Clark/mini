@@ -53,7 +53,7 @@ MonsterDef Goblin =
 
 MonsterDef ApprenticeWizard = 
 {
-	.name = "Apprentice Wizard",
+	.name = "Apprentice",
 	.imageId = RESOURCE_ID_IMAGE_WIZARD,
 	.extraFireDefenseMultiplier = 100,
 	.extraIceDefenseMultiplier = 100,
