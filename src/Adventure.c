@@ -243,25 +243,56 @@ void ShowNewFloorWindow(void)
 }
 #if ALLOW_TEST_MENU
 
-const char *UpdateDebugText(uint8_t number)
+const char *UpdateEntry0Text()
 {
-	static char debugText[] = "0000"; // Needs to be static because it's used by the system later.
-	IntToString(debugText, 4, number);
-	return debugText;
+	static char entry0[] = "00"; // Needs to be static because it's used by the system later.
+	IntToString(entry0, 2, entries[0].current);
+	return entry0;
 }
+
+const char *UpdateEntry1Text()
+{
+	static char entry1[] = "00"; // Needs to be static because it's used by the system later.
+	IntToString(entry1, 2, entries[1].current);
+	return entry1;
+}
+
+const char *UpdateEntry2Text()
+{
+	static char entry2[] = "00"; // Needs to be static because it's used by the system later.
+	IntToString(entry2, 2, entries[2].current);
+	return entry2;
+}
+
+#if ALLOW_SHOP
+const char *UpdateEntry3Text()
+{
+	static char entry3[] = "00"; // Needs to be static because it's used by the system later.
+	IntToString(entry3, 2, entries[3].current);
+	return entry3;
+}
+#endif
+
+const char *UpdateLimitText()
+{
+	static char limitCard[] = "00"; // Needs to be static because it's used by the system later.
+	IntToString(limitCard, 2, limitGetCard);
+	return limitCard;
+}
+
 
 void DebugMenuAppear(Window *window)
 {
 	MenuAppear(window);
 	uint8_t i=0;
 	ShowMainWindowRow(i++, "Debug", "");	
-	ShowMainWindowRow(i++, entries[0].name, UpdateDebugText(entries[0].current));
-	ShowMainWindowRow(i++, entries[1].name, UpdateDebugText(entries[1].current));
-	ShowMainWindowRow(i++, entries[2].name, UpdateDebugText(entries[2].current));
+	ShowMainWindowRow(i++, entries[0].name, UpdateEntry0Text());
+	ShowMainWindowRow(i++, entries[1].name, UpdateEntry1Text());
+	ShowMainWindowRow(i++, entries[2].name, UpdateEntry2Text());
 #if ALLOW_SHOP
-	ShowMainWindowRow(i++, entries[3].name, UpdateDebugText(entries[3].current));
+	ShowMainWindowRow(i++, entries[3].name, UpdateEntry3Text());
 #endif
-	ShowMainWindowRow(i++, "Active cards", UpdateDebugText(limitGetCard));
+	ShowMainWindowRow(i++, "Active cards", UpdateLimitText());
 }
 
 MenuDefinition debugMenuDef = 
