@@ -8,7 +8,6 @@ typedef struct
 	uint8_t number;
 	uint8_t current;
 	const char *name;
-	uint8_t weight;
 } CardDeck;
 
 const char *UpdateFloorText(void);
