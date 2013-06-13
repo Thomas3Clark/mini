@@ -14,6 +14,14 @@
 
 #if ALLOW_ITEM_SHOP
 
+int costs[5] = 
+{
+	10,
+	100,
+	20,
+	20,
+	20
+};
 
 void ShopItemMenuAppear(Window *window);
 
@@ -25,7 +33,7 @@ void DrawMainItemShopWindow(void)
 
 void BuyItem(ItemType type)
 {
-	uint8_t cost = GetItemData(type)->price;
+	int cost = costs[type];
 	CharacterData *data = GetCharacter();
 	if (data->gold >= cost)
 	{
