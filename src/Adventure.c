@@ -98,25 +98,25 @@ void ShowAdventureWindow(void)
 }
 
 #if ALLOW_SHOP
-// These should add up to 100
+// All the weight should add up to 100
 static CardDeck entries[] = 
 {
-	{ShowItemGainWindow, 15,0,"Item"},
-	{ShowBattleWindow, 12,0,"Battle"},
-	{ShowNewFloorWindow, 4,0,"Floor"},
-	{ShowShopWindow, 2,0,"Shop"}
+	{ShowItemGainWindow, 5,0,"Item",44},
+	{ShowBattleWindow, 4,0,"Battle",44},
+	{ShowNewFloorWindow, 3,0,"Floor",9},
+	{ShowShopWindow, 2,0,"Shop",3}
 };
-static uint8_t entriesSize = 4;
+static const uint8_t entriesSize = 4;
 static uint8_t limitGetCard = 4;
 #else
 // These should add up to 100
 static CardDeck entries[] = 
 {
-	{ShowItemGainWindow, 12,0,"Item"},
-	{ShowBattleWindow, 16,0,"Battle"},
-	{ShowNewFloorWindow, 4,0,"Floor"}
+	{ShowItemGainWindow, 5,0,"Item",40},
+	{ShowBattleWindow, 4,0,"Battle",50},
+	{ShowNewFloorWindow, 3,0,"Floor",10}
 };
-static uint8_t entriesSize = 3;
+static const uint8_t entriesSize = 3;
 static uint8_t limitGetCard = 3;
 #endif
 
@@ -139,12 +139,19 @@ void ResetCurrentTaken() {
 }
 CardDeck *GetCard() {
 	CardDeck *cd;
-	uint16_t toTake;
+	uint8_t toTake;
 	if(limitGetCard == 1) {
 		toTake = 0;
 	}
 	else {
-		toTake = Random(limitGetCard)-1;
+		uint8_t sum = 0;
+		uint8_t i = 0;
+		uint16_t random = Random(100);
+		while(sum < random) {
+			sum += entries[i].weight;
+			i = ((i+1)%limitGetCard);
+		}
+		toTake = i;
 	}
 
 	cd = &entries[toTake];
