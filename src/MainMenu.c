@@ -72,13 +72,19 @@ void ShowTestMenu(void)
 //************* Main Menu *****************//
 
 static bool vibration = true;
-static int fastMode = false;
+static bool fastMode = false;
+#if ALLOW_GOD_MODE
+static bool godMode = false;
+#endif
 
 void DrawOptionsMenu(void)
 {
 	ShowMainWindowRow(0, "Options", "");
 	ShowMainWindowRow(1, "Vibration", vibration ? "On" : "Off");
 	ShowMainWindowRow(2, "Fast Mode", fastMode ? "On" : "Off");
+#if ALLOW_GOD_MODE
+	ShowMainWindowRow(3, "God Mode", godMode ? "On" : "Off");
+#endif
 }
 
 void ToggleVibration(void)
@@ -102,7 +108,18 @@ void ToggleFastMode(void)
 	fastMode = !fastMode;
 	DrawOptionsMenu();
 }
+#if ALLOW_GOD_MODE
+void ToggleGodMode(void)
+{
+	godMode = !godMode;
+	DrawOptionsMenu();
+}
 
+bool GetGodMode(void)
+{
+	return godMode;
+}
+#endif
 void OptionsMenuAppear(Window *window);
 
 MenuDefinition optionsMenuDef = 
@@ -112,6 +129,9 @@ MenuDefinition optionsMenuDef =
 		{"Quit", "Return to main menu", PopMenu},
 		{"Toggle", "Toggle Vibration", ToggleVibration},
 		{"Toggle", "Speed up events", ToggleFastMode}
+#if ALLOW_GOD_MODE
+		,{"Toggle", "Invinsible and autokill", ToggleGodMode}
+#endif
 	},
 	.appear = OptionsMenuAppear,
 	.mainImageId = -1

@@ -10,8 +10,12 @@
 #include "UILayers.h"
 #include "Utils.h"
 
+#if ALLOW_GOD_MODE
+#include "MainMenu.h"
+#endif
+
 CharacterData characterData;
-static int statPointsToSpend = 0;
+static uint8_t statPointsToSpend = 0;
 
 void AddStatPointToSpend(void)
 {
@@ -73,7 +77,7 @@ uint16_t ComputePlayerHealth(uint16_t level)
 	return 10 + ((level-1)*(level)/2) + ((level-1)*(level)*(level+1)/(6*32));
 }
 
-int ComputeXPForNextLevel(int level)
+uint16_t ComputeXPForNextLevel(uint16_t level)
 {
 	return XP_FOR_NEXT_LEVEL;
 }
@@ -118,7 +122,8 @@ void GrantGold(uint16_t gold)
 bool DealPlayerDamage(uint16_t damage)
 {
 #if ALLOW_GOD_MODE
-		return false;
+		if(GetGodMode())
+			return false;
 #endif
 	bool returnValue = false;
 	characterData.stats.currentHealth = characterData.stats.currentHealth - damage;
