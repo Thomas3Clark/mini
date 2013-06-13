@@ -36,6 +36,7 @@ void ResetGame(void)
 	InitializeCharacter();
 	ResetFloor();
 	ClearInventory();
+	ResetCurrentTaken();
 }
 
 void handle_init(AppContextRef ctx) {
