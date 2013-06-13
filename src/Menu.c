@@ -60,7 +60,10 @@ void MenuAppear(Window *window)
 		SetMenuDescription(NULL);
 		return;
 	}
-
+	
+	if(currentMenuDef->modify)
+		currentMenuDef->modify(currentMenuDef->menuEntries);
+		
 	for(i = 0; i < MAX_MENU_ENTRIES; ++i)
 	{
 		MenuEntry *entry = &currentMenuDef->menuEntries[i];

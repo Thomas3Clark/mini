@@ -1,19 +1,21 @@
 #pragma once
 
 #include "MiniDungeon.h"
-
 typedef void (*MenuFunction)(void);
 
-typedef struct
+typedef struct MenuEntry
 {
 	const char *text;
 	const char *description;
 	MenuFunction menuFunction;
 } MenuEntry;
 
+typedef void (*DynamicMenuEntries)(struct MenuEntry *menuEntries);
+
 typedef struct
 {
 	MenuEntry menuEntries[MAX_MENU_ENTRIES];
+	DynamicMenuEntries modify;
 	WindowHandler init;
 	WindowHandler deinit;
 	WindowHandler appear;
