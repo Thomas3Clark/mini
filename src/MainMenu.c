@@ -83,7 +83,7 @@ void DrawOptionsMenu(void)
 	ShowMainWindowRow(0, "Options", "");
 	ShowMainWindowRow(1, "Vibration", vibration ? "On" : "Off");
 	ShowMainWindowRow(2, "Fast Mode", fastMode ? "On" : "Off");
-	ShowMainWindowRow(2, "Easy Mode", easyMode ? "On" : "Off");
+	ShowMainWindowRow(3, "Easy Mode", easyMode ? "On" : "Off");
 #if ALLOW_GOD_MODE
 	ShowMainWindowRow(4, "God Mode", godMode ? "On" : "Off");
 #endif
