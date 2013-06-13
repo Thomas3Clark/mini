@@ -107,6 +107,7 @@ static CardDeck entries[] =
 };
 static uint8_t entriesSize = 4;
 static uint8_t limitGetCard = 4;
+static uint8_t middleEntry = 2;
 #else
 static CardDeck entries[] = 
 {
@@ -116,6 +117,7 @@ static CardDeck entries[] =
 };
 static uint8_t entriesSize = 3;
 static uint8_t limitGetCard = 3;
+static uint8_t middleEntry = 1;
 #endif
 
 
@@ -140,13 +142,15 @@ CardDeck *GetCard() {
 	uint16_t toTake;
 	if(limitGetCard == 1) {
 		toTake = 0;
-	} else if (limitGetCard > 2){
-		bool choice = Random(2)-1;
+	} else if (limitGetCard > middleEntry){
+		bool choice = Random(middleEntry)-1;
 		uint16_t rand = Random(100);
 		if(rand <= 65)
 			toTake = choice;
+		else if((choice+middleEntry) >= limitGetCard)
+			toTake = middleEntry;
 		else
-			toTake = choice+2;
+			toTake = choice+middleEntry;
 	} else {
 		toTake = Random(limitGetCard)-1;
 	}
