@@ -100,9 +100,9 @@ void ShowAdventureWindow(void)
 #if ALLOW_SHOP
 static CardDeck entries[] = 
 {
-	{ShowItemGainWindow, 8,0,"Item"},
-	{ShowBattleWindow, 7,0,"Battle"},
-	{ShowNewFloorWindow, 1,0,"Floor"},
+	{ShowItemGainWindow, 10,0,"Item"},
+	{ShowBattleWindow, 8,0,"Battle"},
+	{ShowNewFloorWindow, 2,0,"Floor"},
 	{ShowShopWindow, 2,0,"Shop"}
 };
 static uint8_t entriesSize = 4;
