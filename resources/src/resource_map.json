@@ -1,137 +1,121 @@
-
-{"friendlyVersion": "VERSION",
- "versionDefName": "APP_RESOURCES",
- "media": [
-	   {
-	   	"type":"png",
-	   	"defName": "IMAGE_MENU_ICON",
-	   	"file":"images/icon.png"
-	   },
-
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_BACKGROUND",
-	   	"file":"images/background.png"
-	   },
-
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_DUNGEONLEFT",
-	   	"file":"images/dungeonleft.png"
-	   },
-
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_DUNGEONRIGHT",
-	   	"file":"images/dungeonright.png"
-	   },
-
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_DUNGEONSTRAIGHT",
-	   	"file":"images/dungeonstraight.png"
-	   },
-
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_DUNGEONDEADEND",
-	   	"file":"images/dungeondeadend.png"
-	   },
-
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_NEWFLOOR",
-	   	"file":"images/newfloor.png"
-	   },
-
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_REST",
-	   	"file":"images/rest.png"
-	   },
-
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_SHOP",
-	   	"file":"images/shop.png"
-	   },
-
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_GOBLIN",
-	   	"file":"images/goblin.png"
-	   },
-	   
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_RAT",
-	   	"file":"images/rat.png"
-	   },
-	   
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_ZOMBIE",
-	   	"file":"images/zombie.png"
-	   },
-	   
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_TURTLE",
-	   	"file":"images/turtle.png"
-	   },
-
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_WIZARD",
-	   	"file":"images/wizard.png"
-	   },
-
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_LICH",
-	   	"file":"images/lich.png"
-	   },
-
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_DRAGON",
-	   	"file":"images/dragon.png"
-	   },
-
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_MAGPIE",
-	   	"file":"images/magpie.png"
-	   },
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_HALF_ZOMBIE",
-	   	"file":"images/halfzombie.png"
-	   },
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_CHIMERA",
-	   	"file":"images/chimera.png"
-	   },
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_CYCLOPE",
-	   	"file":"images/cyclope.png"
-	   },
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_WITCH",
-	   	"file":"images/witch.png"
-	   },
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_BUNNY",
-	   	"file":"images/bunny.png"
-	   },
-	   {
-	   	"type":"png",
-	   	"defName":"IMAGE_FOX",
-	   	"file":"images/fox.png"
-	   }
-   ]
+{
+    "media": [
+        {
+            "defName": "IMAGE_FOX",
+            "type": "png",
+            "file": "images/fox.png"
+        },
+        {
+            "defName": "IMAGE_BUNNY",
+            "type": "png",
+            "file": "images/bunny.png"
+        },
+        {
+            "defName": "IMAGE_WITCH",
+            "type": "png",
+            "file": "images/witch.png"
+        },
+        {
+            "defName": "IMAGE_CYCLOPE",
+            "type": "png",
+            "file": "images/cyclope.png"
+        },
+        {
+            "defName": "IMAGE_CHIMERA",
+            "type": "png",
+            "file": "images/chimera.png"
+        },
+        {
+            "defName": "IMAGE_HALF_ZOMBIE",
+            "type": "png",
+            "file": "images/halfzombie.png"
+        },
+        {
+            "defName": "IMAGE_MAGPIE",
+            "type": "png",
+            "file": "images/magpie.png"
+        },
+        {
+            "defName": "IMAGE_DRAGON",
+            "type": "png",
+            "file": "images/dragon.png"
+        },
+        {
+            "defName": "IMAGE_LICH",
+            "type": "png",
+            "file": "images/lich.png"
+        },
+        {
+            "defName": "IMAGE_WIZARD",
+            "type": "png",
+            "file": "images/wizard.png"
+        },
+        {
+            "defName": "IMAGE_TURTLE",
+            "type": "png",
+            "file": "images/turtle.png"
+        },
+        {
+            "defName": "IMAGE_ZOMBIE",
+            "type": "png",
+            "file": "images/zombie.png"
+        },
+        {
+            "defName": "IMAGE_RAT",
+            "type": "png",
+            "file": "images/rat.png"
+        },
+        {
+            "defName": "IMAGE_GOBLIN",
+            "type": "png",
+            "file": "images/goblin.png"
+        },
+        {
+            "defName": "IMAGE_SHOP",
+            "type": "png",
+            "file": "images/shop.png"
+        },
+        {
+            "defName": "IMAGE_REST",
+            "type": "png",
+            "file": "images/rest.png"
+        },
+        {
+            "defName": "IMAGE_NEWFLOOR",
+            "type": "png",
+            "file": "images/newfloor.png"
+        },
+        {
+            "defName": "IMAGE_DUNGEONDEADEND",
+            "type": "png",
+            "file": "images/dungeondeadend.png"
+        },
+        {
+            "defName": "IMAGE_DUNGEONSTRAIGHT",
+            "type": "png",
+            "file": "images/dungeonstraight.png"
+        },
+        {
+            "defName": "IMAGE_DUNGEONRIGHT",
+            "type": "png",
+            "file": "images/dungeonright.png"
+        },
+        {
+            "defName": "IMAGE_DUNGEONLEFT",
+            "type": "png",
+            "file": "images/dungeonleft.png"
+        },
+        {
+            "defName": "IMAGE_BACKGROUND",
+            "type": "png",
+            "file": "images/background.png"
+        },
+        {
+            "defName": "IMAGE_MENU_ICON",
+            "type": "png",
+            "file": "images/icon.png"
+        }
+    ],
+    "friendlyVersion": "VERSION",
+    "versionDefName": "APP_RESOURCES"
 }

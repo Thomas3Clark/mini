@@ -100,7 +100,7 @@ void ShowAdventureWindow(void)
 #if ALLOW_SHOP
 static CardDeck entries[] = 
 {
-	{ShowItemGainWindow, 11,0,"Item"},
+	{ShowItemGainWindow, 10,0,"Item"},
 	{ShowBattleWindow, 8,0,"Battle"},
 	{ShowNewFloorWindow, 2,0,"Floor"},
 	{ShowShopWindow, 2,0,"Shop"}
@@ -140,8 +140,14 @@ CardDeck *GetCard() {
 	uint16_t toTake;
 	if(limitGetCard == 1) {
 		toTake = 0;
-	}
-	else {
+	} else if (limitGetCard > 2){
+		bool choice = Random(2)-1;
+		uint16_t rand = Random(100);
+		if(rand <= 65)
+			toTake = choice;
+		else
+			toTake = choice+2;
+	} else {
 		toTake = Random(limitGetCard)-1;
 	}
 
@@ -161,19 +167,20 @@ CardDeck *GetCard() {
 }
 bool ComputeRandomEvent(bool fastMode)
 {
-	uint16_t result = Random(100);
 	uint16_t chanceOfEvent = EVENT_CHANCE_BASE;
 #if EVENT_CHANCE_SCALING
-	if(ticksSinceLastEvent > 5)
-	{
+	if(limitGetCard == 1 && !(ticksSinceLastEvent %2)) {
+		fastMode = true;
+	} else if(ticksSinceLastEvent > 5) {
 		chanceOfEvent += (ticksSinceLastEvent - 2) * 3;
 	}
 #endif
+	if(!fastMode) {
+		uint16_t result = Random(100);
+		if(result > chanceOfEvent)
+			return false;
+	}
 	
-	if(!fastMode && result > chanceOfEvent)
-		return false;
-		
-
 	if(GetVibration())
 		vibes_short_pulse();
 		

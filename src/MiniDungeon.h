@@ -13,7 +13,7 @@
 // God mode activated in test mode
 #define PUBLISH 0
 // Official 0 allows the back button override, while official 1 does not
-#define OFFICIAL 1
+#define OFFICIAL 0
 
 // Features to turn off to make space
 #define ALLOW_RANDOM_DUNGEON_GRAPHICS 1
