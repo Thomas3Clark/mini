@@ -143,10 +143,13 @@ CharacterData *GetCharacter(void)
 
 void HealPlayerByPercent(uint8_t percent)
 {
-	characterData.stats.currentHealth += (characterData.stats.maxHealth * percent) / 100;
-	if(characterData.stats.currentHealth > characterData.stats.maxHealth)
+	if(percent == 100)
 		characterData.stats.currentHealth = characterData.stats.maxHealth;
-
+	else {
+		characterData.stats.currentHealth += (characterData.stats.maxHealth * percent) / 100;
+		if(characterData.stats.currentHealth > characterData.stats.maxHealth)
+			characterData.stats.currentHealth = characterData.stats.maxHealth;
+	}
 	UpdateCharacterHealth();
 }
 
