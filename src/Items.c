@@ -9,22 +9,22 @@
 #include "UILayers.h"
 #include "Utils.h"
 
-typedef struct
+static ItemData itemData[ITEM_TYPE_COUNT] = 
 {
-	const char *name;
-	char countText[2];
-	uint8_t randomChance;
-	uint8_t owned;
-} ItemData;
-
-ItemData itemData[ITEM_TYPE_COUNT] = 
-{
-	{"Potion", "00",50,0},
-	{"Elixir", "00",5,0},
-	{"Bomb", "00",15,0},
-	{"Icicle", "00",15,0},
-	{"Spark", "00",15,0}
+	{"Potion", "00",50,0,10},
+	{"Elixir", "00",5,0,100},
+	{"Bomb", "00",15,0,20},
+	{"Icicle", "00",15,0,20},
+	{"Spark", "00",15,0,20}
 };
+
+ItemData* GetItemData(ItemType type) {
+#if BOUNDS_CHECKING
+	if(type >= ITEM_TYPE_COUNT)
+		return &itemData[0];
+#endif
+	return &itemData[type];
+}
 
 const char *UpdateItemCountText(ItemType itemType)
 {
