@@ -12,6 +12,10 @@
 #include "UILayers.h"
 #include "Utils.h"
 
+#if ALLOW_GOD_MODE
+#include "MainMenu.h"
+#endif
+
 static bool battleCleanExit = false;
 
 typedef void (*BattleAfterExitCallback)(void);
@@ -127,6 +131,16 @@ void KillMonster(void) {
 	ShowMainWindowRow(0, currentMonster->name, UpdateMonsterHealthText());
 	BattleUpdate();
 }
+
+void AddKillMenu(MenuEntry *menuEntries) {
+	if(!GetGodMode())
+		return;
+		
+	MenuEntry *modEntry = &menuEntries[2];
+	modEntry->text = "Kill";
+	modEntry->description = "Kill the monster";
+	modEntry->menuFunction = KillMonster;
+}
 #endif
 
 void AttackCurrentMonster(void)
@@ -201,17 +215,16 @@ MenuDefinition battleMainMenuDef =
 	{
 		{"Attack", "Attack with your sword.", AttackCurrentMonster},
 		{"Item", "Use an item", ShowItemBattleMenu},
-#if ALLOW_GOD_MODE
-		{"Kill", "Kill the monster", KillMonster},
-#else
 		{NULL, NULL, NULL},
-#endif
 		{"Progress", "Character advancement", ShowProgressMenu},
 		{NULL, NULL, NULL},
 		{"Run", "Try to run away", AttemptToRun},
 	},
 #if OVERRIDE_BACK_BUTTON
 	.init = BattleWindowInit,
+#endif
+#if ALLOW_GOD_MODE
+	.modify = AddKillMenu,
 #endif
 	.appear = BattleWindowAppear,
 	.disableBackButton = true,

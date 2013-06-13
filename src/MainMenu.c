@@ -119,6 +119,11 @@ bool GetGodMode(void)
 {
 	return godMode;
 }
+
+void GodModAdd(MenuEntry *menuEntries) {	
+	MenuEntry newEntry =  {"Toggle", "Invinsible and autokill", ToggleGodMode};
+	menuEntries[3] = newEntry;
+}
 #endif
 void OptionsMenuAppear(Window *window);
 
@@ -129,12 +134,13 @@ MenuDefinition optionsMenuDef =
 		{"Quit", "Return to main menu", PopMenu},
 		{"Toggle", "Toggle Vibration", ToggleVibration},
 		{"Toggle", "Speed up events", ToggleFastMode}
-#if ALLOW_GOD_MODE
-		,{"Toggle", "Invinsible and autokill", ToggleGodMode}
-#endif
 	},
 	.appear = OptionsMenuAppear,
+#if ALLOW_GOD_MODE
+	.modify = GodModAdd,
+#endif
 	.mainImageId = -1
+	
 };
 
 void OptionsMenuAppear(Window *window)
