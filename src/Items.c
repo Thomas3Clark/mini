@@ -13,18 +13,27 @@ typedef struct
 {
 	const char *name;
 	char countText[2];
-	uint8_t randomChance;
-	uint8_t owned;
 } ItemData;
 
-ItemData itemData[ITEM_TYPE_COUNT] = 
+ItemData itemData[] = 
 {
-	{"Potion", "00",50,0},
-	{"Elixir", "00",5,0},
-	{"Bomb", "00",15,0},
-	{"Icicle", "00",15,0},
-	{"Spark", "00",15,0}
+	{"Potion", "00"},
+	{"Elixir", "00"},
+	{"Bomb", "00"},
+	{"Icicle", "00"},
+	{"Spark", "00"}
 };
+
+int randomItemTable[] = 
+{
+	50,
+	5,
+	15,
+	15,
+	15
+};
+
+int itemsOwned[ITEM_TYPE_COUNT];
 
 const char *UpdateItemCountText(ItemType itemType)
 {
@@ -33,7 +42,7 @@ const char *UpdateItemCountText(ItemType itemType)
 		return "";
 #endif
 		
-	IntToString(itemData[itemType].countText, 2, itemData[itemType].owned);
+	IntToString(itemData[itemType].countText, 2, itemsOwned[itemType]);
 	return itemData[itemType].countText;
 }
 
@@ -42,7 +51,7 @@ void ClearInventory(void)
 	int i;
 	for(i = 0; i < ITEM_TYPE_COUNT; ++i)
 	{
-		itemData[i].owned = 0;
+		itemsOwned[i] = 0;
 	}
 }
 
@@ -72,7 +81,7 @@ MenuDefinition itemGainMenuDef =
 
 void ShowAllItemCounts(void)
 {
-	uint8_t i;
+	int i;
 	ShowMainWindowRow(0, "Items", "");
 	for(i = 0; i < ITEM_TYPE_COUNT; ++i)
 	{
@@ -91,10 +100,10 @@ void ItemGainMenuAppear(Window *window)
 
 bool AddItem(ItemType type)
 {
-	itemData[type].owned++;
-	if(itemData[type].owned > 99)
+	itemsOwned[type]++;
+	if(itemsOwned[type] > 99)
 	{
-		itemData[type].owned = 99;
+		itemsOwned[type] = 99;
 		return false;
 	}
 	return true;
@@ -108,7 +117,7 @@ void ItemGainMenuInit(Window *window)
 	MenuInit(window);
 	do
 	{
-		acc += itemData[i].randomChance;
+		acc += randomItemTable[i];
 		if(acc >= result)
 		{
 			typeGained = i;
@@ -124,12 +133,12 @@ void ShowItemGainWindow(void)
 	PushNewMenu(&itemGainMenuDef);
 }
 
-bool AttemptToUseHealingItem(ItemType type, uint8_t power)
+bool AttemptToUseHealingItem(ItemType type, int power)
 {
-	if(itemData[type].owned > 0 && PlayerIsInjured())
+	if(itemsOwned[type] > 0 && PlayerIsInjured())
 	{
 		HealPlayerByPercent(power);
-		--itemData[type].owned;
+		--itemsOwned[type];
 		ShowAllItemCounts();
 		return true;
 	}  
@@ -183,9 +192,9 @@ void ShowMainItemMenu(void)
 
 bool AttemptToUseItem(ItemType type)
 {
-	if(itemData[type].owned > 0)
+	if(itemsOwned[type] > 0)
 	{
-		--itemData[type].owned;
+		--itemsOwned[type];
 		return true;
 	}
 	
