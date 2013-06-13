@@ -98,18 +98,16 @@ void ShowAdventureWindow(void)
 }
 
 #if ALLOW_SHOP
-// These should add up to 100
 static CardDeck entries[] = 
 {
-	{ShowItemGainWindow, 15,0,"Item"},
-	{ShowBattleWindow, 12,0,"Battle"},
-	{ShowNewFloorWindow, 4,0,"Floor"},
+	{ShowItemGainWindow, 11,0,"Item"},
+	{ShowBattleWindow, 8,0,"Battle"},
+	{ShowNewFloorWindow, 2,0,"Floor"},
 	{ShowShopWindow, 2,0,"Shop"}
 };
 static uint8_t entriesSize = 4;
 static uint8_t limitGetCard = 4;
 #else
-// These should add up to 100
 static CardDeck entries[] = 
 {
 	{ShowItemGainWindow, 12,0,"Item"},
