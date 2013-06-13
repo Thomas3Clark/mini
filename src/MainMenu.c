@@ -73,6 +73,7 @@ void ShowTestMenu(void)
 
 static bool vibration = true;
 static bool fastMode = false;
+static bool easyMode = false;
 #if ALLOW_GOD_MODE
 static bool godMode = false;
 #endif
@@ -82,8 +83,9 @@ void DrawOptionsMenu(void)
 	ShowMainWindowRow(0, "Options", "");
 	ShowMainWindowRow(1, "Vibration", vibration ? "On" : "Off");
 	ShowMainWindowRow(2, "Fast Mode", fastMode ? "On" : "Off");
+	ShowMainWindowRow(2, "Easy Mode", easyMode ? "On" : "Off");
 #if ALLOW_GOD_MODE
-	ShowMainWindowRow(3, "God Mode", godMode ? "On" : "Off");
+	ShowMainWindowRow(4, "God Mode", godMode ? "On" : "Off");
 #endif
 }
 
@@ -108,6 +110,18 @@ void ToggleFastMode(void)
 	fastMode = !fastMode;
 	DrawOptionsMenu();
 }
+
+bool GetEasyMode(void)
+{
+	return easyMode;
+}
+
+void ToggleEasyMode(void)
+{
+	easyMode = !easyMode;
+	DrawOptionsMenu();
+}
+
 #if ALLOW_GOD_MODE
 void ToggleGodMode(void)
 {
@@ -122,7 +136,7 @@ bool GetGodMode(void)
 
 void GodModAdd(MenuEntry *menuEntries) {	
 	MenuEntry newEntry =  {"Toggle", "Invinsible and autokill", ToggleGodMode};
-	menuEntries[3] = newEntry;
+	menuEntries[4] = newEntry;
 }
 #endif
 void OptionsMenuAppear(Window *window);
@@ -133,7 +147,8 @@ MenuDefinition optionsMenuDef =
 	{
 		{"Quit", "Return to main menu", PopMenu},
 		{"Toggle", "Toggle Vibration", ToggleVibration},
-		{"Toggle", "Speed up events", ToggleFastMode}
+		{"Toggle", "Speed up events", ToggleFastMode},
+		{"Toggle", "Asked to grab the ladder", ToggleEasyMode}
 	},
 	.appear = OptionsMenuAppear,
 #if ALLOW_GOD_MODE

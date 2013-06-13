@@ -208,14 +208,15 @@ void UpdateAdventure(void)
 void NewFloorMenuInit(Window *window);
 void NewFloorMenuAppear(Window *window);
 void ContinueNextFloor(void);
+void CheckEasyMode(MenuEntry *menuEntries);
 
 MenuDefinition newFloorMenuDef = 
 {
 	.menuEntries = 
 	{
-		{"Go", "Continue adventuring", ContinueNextFloor},
-		{"Stay", "Stay in the same floor", PopMenu}
+		{"Go", "Continue adventuring", ContinueNextFloor}
 	},
+	.modify = CheckEasyMode,
 	.init = NewFloorMenuInit,
 	.appear = NewFloorMenuAppear,
 	.mainImageId = RESOURCE_ID_IMAGE_NEWFLOOR
@@ -241,6 +242,14 @@ void ShowNewFloorWindow(void)
 {
 	PushNewMenu(&newFloorMenuDef);
 }
+
+void CheckEasyMode(MenuEntry * menuEntries) {
+	if(!GetEasyMode())
+		return;
+	MenuEntry stay = {"Stay", "Stay in the same floor", PopMenu};
+	menuEntries[1] = stay;
+}
+
 #if ALLOW_TEST_MENU
 
 const char *UpdateEntry0Text()
