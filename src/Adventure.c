@@ -100,29 +100,27 @@ void ShowAdventureWindow(void)
 #if ALLOW_SHOP
 static CardDeck entries[] = 
 {
-	{ShowItemGainWindow, 10,0,"Item"},
-	{ShowBattleWindow, 8,0,"Battle"},
-	{ShowNewFloorWindow, 2,0,"Floor"},
-	{ShowShopWindow, 2,0,"Shop"}
+	{ShowItemGainWindow, 10,0,"Item",44},
+	{ShowBattleWindow, 8,0,"Battle",44},
+	{ShowNewFloorWindow, 2,0,"Floor",9},
+	{ShowShopWindow, 2,0,"Shop",3}
 };
 static uint8_t entriesSize = 4;
 static uint8_t limitGetCard = 4;
-static uint8_t middleEntry = 2;
 #else
 static CardDeck entries[] = 
 {
-	{ShowItemGainWindow, 12,0,"Item"},
-	{ShowBattleWindow, 16,0,"Battle"},
-	{ShowNewFloorWindow, 4,0,"Floor"}
+	{ShowItemGainWindow, 12,0,"Item",50},
+	{ShowBattleWindow, 16,0,"Battle",40},
+	{ShowNewFloorWindow, 4,0,"Floor",10}
 };
 static uint8_t entriesSize = 3;
 static uint8_t limitGetCard = 3;
-static uint8_t middleEntry = 1;
 #endif
-
+static uint8_t removeCardWeight = 0;
 
 #if EVENT_CHANCE_SCALING
-static uint16_t ticksSinceLastEvent = 0;
+static uint8_t ticksSinceLastEvent = 0;
 #endif
 
 void SwapCard(uint8_t i,uint8_t j) {
@@ -133,26 +131,26 @@ void SwapCard(uint8_t i,uint8_t j) {
 
 void ResetCurrentTaken() {
 	limitGetCard = entriesSize;
+	removeCardWeight = 0;
 	for(uint8_t i = 0; i < entriesSize; ++i) {
 		entries[i].current = 0;
 	}
 }
 CardDeck *GetCard() {
 	CardDeck *cd;
-	uint16_t toTake;
+	uint8_t toTake;
 	if(limitGetCard == 1) {
 		toTake = 0;
-	} else if (limitGetCard > middleEntry){
-		bool choice = Random(middleEntry)-1;
-		uint16_t rand = Random(100);
-		if(rand <= 65)
-			toTake = choice;
-		else if((choice+middleEntry) >= limitGetCard)
-			toTake = middleEntry;
-		else
-			toTake = choice+middleEntry;
 	} else {
-		toTake = Random(limitGetCard)-1;
+		uint16_t sum = 0;
+		uint16_t rand = Random(100-removeCardWeight);
+		for(uint8_t i = 0; i < limitGetCard; ++i) {
+			sum += entries[i].weight;
+			if(sum >= rand) {
+				toTake = i;
+				break;
+			}
+		}
 	}
 
 	cd = &entries[toTake];
@@ -163,6 +161,7 @@ CardDeck *GetCard() {
 		else {
 			if(limitGetCard-1 != toTake)
 				SwapCard(toTake,limitGetCard-1);
+			removeCardWeight += cd->weight;
 			limitGetCard--;
 		}
 	}
