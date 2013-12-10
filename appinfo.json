@@ -1,10 +1,10 @@
 {
   "uuid": "5bdfef7c-81df-4c5f-a1fe-f8434bf70149",
-  "shortName": "MiniDungeon",
-  "longName": "MiniDungeon",
-  "companyName": "Jonathan Panttaja",
-  "versionCode": 1,
-  "versionLabel": "1.0.0",
+  "shortName": "MiniDungeon Ex",
+  "longName": "MiniDungeon Extendend",
+  "companyName": "Jonathan Panttaja, Antoine Aflao",
+  "versionCode": 2,
+  "versionLabel": "2.0.1",
   "watchapp": {
     "watchface": false
   },
