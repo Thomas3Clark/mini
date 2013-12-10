@@ -1,6 +1,4 @@
-#include "pebble_os.h"
-#include "pebble_app.h"
-#include "pebble_fonts.h"
+#include "pebble.h"
 
 #include "Adventure.h"
 #include "Battle.h"
@@ -11,13 +9,7 @@
 #include "UILayers.h"
 #include "Utils.h"
 
-#define MY_UUID { 0xA9, 0x70, 0xE3, 0x8C, 0x19, 0xEF, 0x41, 0x5C, 0xAB, 0x27, 0xAA, 0xD5, 0x9B, 0xC9, 0x35, 0x52 }
-PBL_APP_INFO(MY_UUID,
-             "MiniDungeon EX", "Jonathan Panttaja,Antoine Aflalo",
-             2, 0, /* App version */
-             RESOURCE_ID_IMAGE_MENU_ICON,
-             APP_INFO_STANDARD_APP);
-			 
+	 
 // Called once per minute
 void handle_minute_tick(AppContextRef ctx, PebbleTickEvent *t) 
 {
