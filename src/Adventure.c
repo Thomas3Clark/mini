@@ -136,7 +136,7 @@ void ResetCurrentTaken() {
 }
 CardDeck *GetCard() {
 	CardDeck *cd;
-	uint8_t toTake;
+	uint8_t toTake = 0;
 	if(limitGetCard == 1) {
 		toTake = 0;
 	} else {
