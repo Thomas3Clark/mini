@@ -41,7 +41,7 @@ void MenuDeinit(Window *window)
 		menuWindow->inUse = false;
 		menuWindow->menu = NULL;
 	}
-	WindowDisappear(windows);
+	window_destroy(window);
 }
 
 void MenuAppear(Window *window)

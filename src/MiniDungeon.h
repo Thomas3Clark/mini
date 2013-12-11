@@ -4,6 +4,7 @@
 #define STAT_POINTS_PER_LEVEL 2
 #define XP_FOR_NEXT_LEVEL 5 * level
 #define EVENT_CHANCE_BASE 35
+#define SHUFFLE_DECK_TIMES 10
 
 // Feature tuning
 #define PAD_WITH_SPACES 1
