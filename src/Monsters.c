@@ -334,7 +334,7 @@ MonsterDef *GetRandomMonster(uint8_t floor)
 		chosen = groups[limit];
 	}
 	
-	result = Random(chosen->nbMonster) - 1;
+	result = Random(chosen->nbMonster);
 	return chosen->monsters[result];
 }
 

@@ -109,7 +109,7 @@ bool AddItem(ItemType type)
 
 void ItemGainMenuInit(Window *window)
 {
-	int result = Random(100);
+	int result = Random(100) + 1;
 	int i = 0;
 	int acc = 0;
 	MenuInit(window);

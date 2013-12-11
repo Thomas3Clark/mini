@@ -165,7 +165,7 @@ void AttemptToRun(void)
 {
 	int runCheck = Random(3);
 			
-	if(runCheck == 3 && currentFloor < 20) // if floor is >= 20 you are fighting the dragon
+	if(runCheck == 0 && currentFloor < 20) // if floor is >= 20 you are fighting the dragon
 	{
 		CloseBattleWindow();
 		IncrementEscapes();
