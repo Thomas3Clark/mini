@@ -223,6 +223,7 @@ void UnloadMainBmpImage(void)
 
 void LoadMainBmpImage(Window *window, int id)
 {
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Load Main BMP id=%d",id);
 	int resourceId = id;
 	
 	Layer *window_layer = window_get_root_layer(window);
@@ -239,7 +240,7 @@ void LoadMainBmpImage(Window *window, int id)
 		}
 		UnloadMainBmpImage();
 	}
-	
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Load resource BMP");
 	GBitmap *image = gbitmap_create_with_resource(resourceId);
 	mainImage = bitmap_layer_create(mainFrame);
 	bitmap_layer_set_bitmap(mainImage, image);
@@ -400,7 +401,7 @@ void WindowDisappear(Window *window)
 	RemoveMenuLayers();
 }
 
-Window * InitializeWindow(const char *name, bool animated)
+Window * InitializeWindow(const char *name)
 {
 	APP_LOG(APP_LOG_LEVEL_DEBUG_VERBOSE, "Creating window %s",name);
 	Window *window = window_create();
@@ -410,14 +411,13 @@ Window * InitializeWindow(const char *name, bool animated)
 	return window;		
 }
 
-Window * InitializeMenuWindow(const char *name, bool animated, WindowHandler init, WindowHandler deinit, WindowHandler appear, WindowHandler disappear)
+Window * InitializeMenuWindow(const char *name, WindowHandler init, WindowHandler deinit, WindowHandler appear, WindowHandler disappear)
 {
-	Window *window = InitializeWindow(name, animated);
+	Window *window = InitializeWindow(name);
 	WindowHandlers handlers = {.load = init, .unload = deinit, .appear = appear, .disappear = disappear};
 	window_set_window_handlers(window,handlers);
 	
 	SetMenuClickConfigProvider(window);
-	window_stack_push(window, animated);
 	return window;
 }
 
@@ -439,7 +439,7 @@ GRect noFrame = {.origin = {.x = 115, .y = 78}, .size = {.w = 24, .h = 20}};
 
 Window * InitializeConfirmationWindow(TextLayer *exitText, TextLayer *yesText, TextLayer *noText)
 {
-	Window *window = InitializeWindow("Exit", true);
+	Window *window = InitializeWindow("Exit");
 	window_stack_push(window, true);
 	Layer *window_layer = window_get_root_layer(window);
 	

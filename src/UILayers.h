@@ -24,8 +24,8 @@ TextLayer * InitializeTextLayer(GRect frame, GFont font);
 
 Window * InitializeConfirmationWindow(TextLayer *exitText, TextLayer *yesText, TextLayer *noText);
 void InitializeExitConfirmationWindow(void);
-Window * InitializeWindow(const char *name, bool animated);
-Window * InitializeMenuWindow(const char *name, bool animated, WindowHandler init, WindowHandler deinit, WindowHandler appear, WindowHandler disappear);
+Window * InitializeWindow(const char *name);
+Window * InitializeMenuWindow(const char *name, WindowHandler init, WindowHandler deinit, WindowHandler appear, WindowHandler disappear);
 
 void WindowAppear(Window *window);
 void WindowDisappear(Window *window);

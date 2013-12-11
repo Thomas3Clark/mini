@@ -35,25 +35,28 @@ void MenuInit(Window *window)
 
 void MenuDeinit(Window *window)
 {
+	APP_LOG(APP_LOG_LEVEL_DEBUG_VERBOSE, "Menu DESTROY");
 	MenuWindow *menuWindow = window_get_user_data(window);
 	if(menuWindow)
 	{
 		menuWindow->inUse = false;
 		menuWindow->menu = NULL;
 	}
-	window_destroy(window);
 }
 
 void MenuAppear(Window *window)
 {
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Menu Appear");
 	int i;
 	bool setSelected = false;
 	MenuWindow *menuWindow = window_get_user_data(window);
 	if(menuWindow)
 	{
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "Menu Exists in window");
 		SetCurrentMenu(menuWindow->menu);
 	}	
 	WindowAppear(window);
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Window appear");
 	if(!currentMenuDef)
 	{
 		HideAllMenuLayers();
@@ -63,7 +66,8 @@ void MenuAppear(Window *window)
 	
 	if(currentMenuDef->modify)
 		currentMenuDef->modify(currentMenuDef->menuEntries);
-		
+	
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Display menu entries");
 	for(i = 0; i < MAX_MENU_ENTRIES; ++i)
 	{
 		MenuEntry *entry = &currentMenuDef->menuEntries[i];
@@ -108,7 +112,19 @@ void PopMenu(void)
 {
 	window_stack_pop(currentMenuDef ? currentMenuDef->animated : true);
 }
+void CreateWindow(MenuWindow *newMenuWindow) {
+	newMenuWindow->inUse = true;
+	newMenuWindow->menu = currentMenuDef;
 
+	newMenuWindow->window = InitializeMenuWindow("Menu", 
+		currentMenuDef->init ? currentMenuDef->init : MenuInit,
+		currentMenuDef->deinit ? currentMenuDef->deinit : MenuDeinit,
+		currentMenuDef->appear ? currentMenuDef->appear : MenuAppear,
+		currentMenuDef->disappear ? currentMenuDef->disappear : MenuDisappear);
+		
+	window_set_user_data(newMenuWindow->window,newMenuWindow);
+	window_stack_push(newMenuWindow->window,currentMenuDef->animated);
+}
 void PushNewMenu(MenuDefinition *menuDef)
 {
 	SetCurrentMenu(menuDef);
@@ -129,20 +145,18 @@ void PushNewMenu(MenuDefinition *menuDef)
 		
 		if(!newMenuWindow)
 		{
+			for(i = 0; i < MAX_MENU_WINDOWS; ++i) {
+				if(!menuWindows[i].window)
+					continue;
+				
+				window_destroy(menuWindows[i].window);
+			}
 			window_stack_pop_all(true);
 			return;
 		}
-
-		newMenuWindow->inUse = true;
-		newMenuWindow->menu = currentMenuDef;
+		
+		CreateWindow(newMenuWindow);
 	
-		newMenuWindow->window = InitializeMenuWindow("Menu", currentMenuDef->animated, 
-			currentMenuDef->init ? currentMenuDef->init : MenuInit,
-			currentMenuDef->deinit ? currentMenuDef->deinit : MenuDeinit,
-			currentMenuDef->appear ? currentMenuDef->appear : MenuAppear,
-			currentMenuDef->disappear ? currentMenuDef->disappear : MenuDisappear);
-			
-		window_set_user_data(newMenuWindow->window,newMenuWindow);
 	}
 }
 
