@@ -6,10 +6,8 @@ typedef struct
 {
 	ShowWindowFunction windowFunction;
 	uint8_t number;
-	uint8_t current;
 	const char *name;
-	uint8_t	weight;
-} CardDeck;
+} Card;
 
 const char *UpdateFloorText(void);
 
