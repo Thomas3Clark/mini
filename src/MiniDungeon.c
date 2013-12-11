@@ -32,7 +32,6 @@ void handle_init() {
 	
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "Start MiniDungeon");
 	time_t now = time(NULL);
-	struct tm *current_time = localtime(&now);
 	
 	srand(now);
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "Srand");

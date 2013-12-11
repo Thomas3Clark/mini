@@ -46,7 +46,7 @@
 #endif
 
 // This needs to be large enough to handle the maximum size of the window stack
-#define MAX_MENU_WINDOWS 3
+#define MAX_MENU_WINDOWS 4
 // This determines how many text rows there are in the interface
 #define MAX_MENU_ENTRIES 6
 

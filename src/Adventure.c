@@ -104,7 +104,7 @@ static CardDeck entries[] =
 	{ShowNewFloorWindow, 2,0,"Floor",9},
 	{ShowShopWindow, 2,0,"Shop",3}
 };
-static uint8_t entriesSize = 4;
+static const uint8_t entriesSize = 4;
 static uint8_t limitGetCard = 4;
 #else
 static CardDeck entries[] = 
@@ -113,7 +113,7 @@ static CardDeck entries[] =
 	{ShowBattleWindow, 16,0,"Battle",40},
 	{ShowNewFloorWindow, 4,0,"Floor",10}
 };
-static uint8_t entriesSize = 3;
+static const uint8_t entriesSize = 3;
 static uint8_t limitGetCard = 3;
 #endif
 static uint8_t removeCardWeight = 0;

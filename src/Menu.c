@@ -30,7 +30,6 @@ MenuWindow menuWindows[MAX_MENU_WINDOWS];
 
 void MenuInit(Window *window)
 {
-	APP_LOG(APP_LOG_LEVEL_DEBUG_VERBOSE, "Menu init");
 }
 
 void MenuDeinit(Window *window)
@@ -42,6 +41,7 @@ void MenuDeinit(Window *window)
 		menuWindow->inUse = false;
 		menuWindow->menu = NULL;
 	}
+	WindowDisappear(windows);
 }
 
 void MenuAppear(Window *window)
@@ -54,7 +54,8 @@ void MenuAppear(Window *window)
 	{
 		APP_LOG(APP_LOG_LEVEL_DEBUG, "Menu Exists in window");
 		SetCurrentMenu(menuWindow->menu);
-	}	
+	}
+		
 	WindowAppear(window);
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "Window appear");
 	if(!currentMenuDef)
@@ -125,6 +126,7 @@ void CreateWindow(MenuWindow *newMenuWindow) {
 	window_set_user_data(newMenuWindow->window,newMenuWindow);
 	window_stack_push(newMenuWindow->window,currentMenuDef->animated);
 }
+
 void PushNewMenu(MenuDefinition *menuDef)
 {
 	SetCurrentMenu(menuDef);
@@ -145,12 +147,6 @@ void PushNewMenu(MenuDefinition *menuDef)
 		
 		if(!newMenuWindow)
 		{
-			for(i = 0; i < MAX_MENU_WINDOWS; ++i) {
-				if(!menuWindows[i].window)
-					continue;
-				
-				window_destroy(menuWindows[i].window);
-			}
 			window_stack_pop_all(true);
 			return;
 		}
@@ -164,7 +160,6 @@ void PushNewMenu(MenuDefinition *menuDef)
 
 void SelectSingleClickHandler(ClickRecognizerRef recognizer, Window *window)
 {
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Single Click Select");
 	MenuEntry *currentEntry;
 	if(!currentMenuDef)
 		return;
@@ -174,7 +169,6 @@ void SelectSingleClickHandler(ClickRecognizerRef recognizer, Window *window)
 		return;
 
 	currentEntry->menuFunction();
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "End Single Click Select");
 }
 
 void IterateMenuEntries(int direction, int limit)

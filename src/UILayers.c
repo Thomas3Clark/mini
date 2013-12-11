@@ -104,21 +104,22 @@ void HideAllMenuLayers(void)
 }
 
 //******** Background *********//
-// backgroundImage holds the frame for all other UI elements
-BitmapLayer *backgroundImage;
+// backgroundImageLayer holds the frame for all other UI elements
+BitmapLayer *backgroundImageLayer;
+GBitmap *backgroundImage;
 static bool backgroundLoaded = false;
 
 void UnloadBackgroundImage(void)
 {
 	if(!backgroundLoaded)
 		return;
-	bitmap_layer_destroy(backgroundImage);
+	bitmap_layer_destroy(backgroundImageLayer);
 	backgroundLoaded = false;
 }
 
 void RemoveBackgroundImage()
 {
-	layer_remove_from_parent(bitmap_layer_get_layer(backgroundImage));
+	layer_remove_from_parent(bitmap_layer_get_layer(backgroundImageLayer));
 }
 
 void LoadBackgroundImage(Window *window, int id)
@@ -127,27 +128,28 @@ void LoadBackgroundImage(Window *window, int id)
     GRect bounds = layer_get_frame(window_layer);
 	if(!backgroundLoaded)
 	{
-		GBitmap *image = gbitmap_create_with_resource(id);
-		backgroundImage = bitmap_layer_create(bounds);
-		bitmap_layer_set_bitmap(backgroundImage, image);
-		bitmap_layer_set_alignment(backgroundImage, GAlignLeft);
+		backgroundImage = gbitmap_create_with_resource(id);
+		backgroundImageLayer = bitmap_layer_create(bounds);
+		bitmap_layer_set_bitmap(backgroundImageLayer, backgroundImage);
+		bitmap_layer_set_alignment(backgroundImageLayer, GAlignLeft);
 		backgroundLoaded = true;
 	}
 	
-	layer_add_child(window_layer, bitmap_layer_get_layer(backgroundImage));		
+	layer_add_child(window_layer, bitmap_layer_get_layer(backgroundImageLayer));		
 }
 
 //******** Main part of the screen *********//
-// mainImage will hold the main piece of artwork for each state, including monster art during battle.
+// mainImageLayer will hold the main piece of artwork for each state, including monster art during battle.
 // mainTextLayers and mainNumberLayers will be used for various things requiring names and numbers.
 //		Monster name/health
 //		Floor/Number
 //		item name / count
 
-BitmapLayer *mainImage;
+BitmapLayer *mainImageLayer;
+GBitmap *mainImage;
 GRect mainFrame = {.origin = {.x = 5, .y = 25}, .size = {.w = 80, .h = 80}};
-static bool mainImageLoaded = false;
-static int mainImageResourceLoaded = -1;
+static bool mainImageLayerLoaded = false;
+static int mainImageLayerResourceLoaded = -1;
 
 TextLayer *mainTextLayers[MAX_MAIN_TEXT_LAYERS];
 GRect mainTextBaseFrame = {.origin = {.x = 6, .y = 7}, .size = {.w = 80, .h = WINDOW_ROW_HEIGHT}};
@@ -206,17 +208,19 @@ void ShowMainWindowRow(int index, const char *text, const char *number)
 
 void RemoveMainBmpImage(void)
 {
-	layer_remove_from_parent(bitmap_layer_get_layer(mainImage));
+	layer_remove_from_parent(bitmap_layer_get_layer(mainImageLayer));
 }
 
 void UnloadMainBmpImage(void)
 {
-	if(!mainImageLoaded)
+	if(!mainImageLayerLoaded)
 		return;
-	layer_remove_from_parent(bitmap_layer_get_layer(mainImage));
-	bitmap_layer_destroy(mainImage);
-	mainImageLoaded = false;
-	mainImageResourceLoaded = -1;
+	layer_remove_from_parent(bitmap_layer_get_layer(mainImageLayer));
+	gbitmap_destroy(mainImage);
+	bitmap_layer_destroy(mainImageLayer);
+	mainImageLayerLoaded = false;
+	mainImageLayerResourceLoaded = -1;
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Unload Main Bmp");
 }
 
 
@@ -231,23 +235,23 @@ void LoadMainBmpImage(Window *window, int id)
 	if(!window)
 		return;
 		
-	if(mainImageLoaded)
+	if(mainImageLayerLoaded)
 	{
-		if(mainImageResourceLoaded == resourceId)
+		if(mainImageLayerResourceLoaded == resourceId)
 		{
-			layer_add_child(window_layer, bitmap_layer_get_layer(mainImage));
+			layer_add_child(window_layer, bitmap_layer_get_layer(mainImageLayer));
 			return; // already loaded the correct one.
 		}
 		UnloadMainBmpImage();
 	}
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "Load resource BMP");
-	GBitmap *image = gbitmap_create_with_resource(resourceId);
-	mainImage = bitmap_layer_create(mainFrame);
-	bitmap_layer_set_bitmap(mainImage, image);
-	bitmap_layer_set_alignment(mainImage, GAlignCenter);
-	layer_add_child(window_layer, bitmap_layer_get_layer(mainImage));
-	mainImageLoaded = true;
-	mainImageResourceLoaded = resourceId;
+	mainImage = gbitmap_create_with_resource(resourceId);
+	mainImageLayer = bitmap_layer_create(mainFrame);
+	bitmap_layer_set_bitmap(mainImageLayer, mainImage);
+	bitmap_layer_set_alignment(mainImageLayer, GAlignCenter);
+	layer_add_child(window_layer, bitmap_layer_get_layer(mainImageLayer));
+	mainImageLayerLoaded = true;
+	mainImageLayerResourceLoaded = resourceId;
 }
 
 //******* CLOCK *********//
@@ -468,25 +472,36 @@ void InitializeExitConfirmationWindow(void)
 	confirmationWindow = InitializeConfirmationWindow(exitText, yesText, noText);
 	window_set_click_config_provider(confirmationWindow, (ClickConfigProvider) ExitWindowClickConfigProvider);
 }
+
 void UnloadTextLayers(void) {
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Destroy Menu Layers");
 	for(int i = 0; i < MAX_MENU_ENTRIES ; i++) {
 		if(!menuLayers[i])
 			continue;
 		text_layer_destroy(menuLayers[i]);
 	}
 	text_layer_destroy(menuDescLayer);
-	
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Destroy Main Layers");
 	for(int i = 0; i < MAX_MAIN_TEXT_LAYERS; i++) {
 		if(mainTextLayers[i])
 			text_layer_destroy(mainTextLayers[i]);
 		if(mainNumberLayers[i])
 			text_layer_destroy(mainNumberLayers[i]);
 	}
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Destroy Health Layers");
 	text_layer_destroy(maxHealthLayer);
 	text_layer_destroy(currentHealthLayer);
-	text_layer_destroy(exitText);
-	text_layer_destroy(yesText);
-	text_layer_destroy(noText);
+	
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Destroy Clock & Level Layers");
 	text_layer_destroy(clockLayer);
 	text_layer_destroy(levelLayer);
+	
+/*	Make can't destroy last layers make the application crash on exit.
+ * layer_remove_from_parent(text_layer_get_layer(exitText));
+	text_layer_destroy(exitText);
+	layer_remove_from_parent(text_layer_get_layer(yesText));
+	text_layer_destroy(yesText);
+	layer_remove_from_parent(text_layer_get_layer(noText));
+	text_layer_destroy(noText);
+*/
 }
