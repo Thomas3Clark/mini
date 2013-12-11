@@ -3,8 +3,8 @@
   "shortName": "MiniDungeon Ex",
   "longName": "MiniDungeon Extendend",
   "companyName": "Jonathan Panttaja, Antoine Aflao",
-  "versionCode": 2,
-  "versionLabel": "2.0.1",
+  "versionCode": 25,
+  "versionLabel": "2.5.0",
   "watchapp": {
     "watchface": false
   },
