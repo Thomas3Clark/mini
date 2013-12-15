@@ -99,23 +99,22 @@ void ShowAdventureWindow(void)
 #if ALLOW_SHOP
 static Card entries[] = 
 {
-	{ShowItemGainWindow, 10,"Item"},
-	{ShowBattleWindow, 8,"Battle"},
-	{ShowNewFloorWindow, 2,"Floor"},
-	{ShowShopWindow, 2,"Shop"}
+	{ShowItemGainWindow, ITEM_CARDS,"Item"},
+	{ShowBattleWindow, BATTLE_CARDS,"Battle"},
+	{ShowNewFloorWindow, FLOOR_CARDS,"Floor"},
+	{ShowShopWindow, SHOP_CARDS,"Shop"}
 };
 static uint8_t entriesSize = 4;
 #else
 static Card entries[] = 
 {
-	{ShowItemGainWindow, 12,"Item"},
-	{ShowBattleWindow, 16,"Battle"},
-	{ShowNewFloorWindow, 4,"Floor"}
+	{ShowItemGainWindow, ITEM_CARDS,"Item"},
+	{ShowBattleWindow, BATTLE_CARDS,"Battle"},
+	{ShowNewFloorWindow, FLOOR_CARDS,"Floor"},
 };
 static uint8_t entriesSize = 3;
 #endif
 static uint8_t cardTaken = 0;
-#define NB_CARDS 22
 
 #if EVENT_CHANCE_SCALING
 static uint8_t ticksSinceLastEvent = 0;

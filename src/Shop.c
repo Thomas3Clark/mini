@@ -12,7 +12,7 @@
 
 #if ALLOW_ITEM_SHOP
 
-int costs[5] = 
+uint16_t costs[5] = 
 {
 	10,
 	100,
@@ -31,7 +31,7 @@ void DrawMainItemShopWindow(void)
 
 void BuyItem(ItemType type)
 {
-	int cost = costs[type];
+	uint16_t cost = costs[type];
 	CharacterData *data = GetCharacter();
 	if (data->gold >= cost)
 	{
@@ -41,6 +41,18 @@ void BuyItem(ItemType type)
 			DrawMainItemShopWindow();
 		}
 	}	
+}
+
+void SellItem(ItemType type)
+{
+	if(!RemoveItem(type)) {
+		return;
+	}
+	CharacterData *data = GetCharacter();
+	uint16_t cost = costs[type];
+	data->gold += (uint16_t)(cost * SALE_PERCENT);
+	DrawMainItemShopWindow();
+	
 }
 
 void BuyPotion(void)
@@ -68,6 +80,31 @@ void BuySpark(void)
 	BuyItem(ITEM_TYPE_LIGHTNING_SCROLL);
 }
 
+void SellPotion(void)
+{
+	SellItem(ITEM_TYPE_POTION);
+}
+
+void SellElixir(void)
+{
+	SellItem(ITEM_TYPE_FULL_POTION);
+}
+
+void SellBomb(void)
+{
+	SellItem(ITEM_TYPE_FIRE_SCROLL);
+}
+
+void SellIcicle(void)
+{
+	SellItem(ITEM_TYPE_ICE_SCROLL);
+}
+
+void SellSpark(void)
+{
+	SellItem(ITEM_TYPE_LIGHTNING_SCROLL);
+}
+
 // These costs need to match the numbers in the costs array above
 MenuDefinition shopItemMenuDef = 
 {
@@ -84,6 +121,21 @@ MenuDefinition shopItemMenuDef =
 	.mainImageId = -1
 };
 
+MenuDefinition shopSellItemMenuDef = 
+{
+	.menuEntries = 
+	{
+		{"Quit", "Return to shop menu", PopMenu},
+		{"6", "Sell Potion", SellPotion},
+		{"65", "Sell Elixir", SellElixir},
+		{"12", "Sell Bomb", SellBomb},
+		{"12", "Sell Icicle", SellIcicle},
+		{"12", "Sell Spark", SellSpark},
+	},
+	.appear = ShopItemMenuAppear,
+	.mainImageId = -1
+};
+
 void ShopItemMenuAppear(Window *window)
 {
 	MenuAppear(window);
@@ -93,6 +145,11 @@ void ShopItemMenuAppear(Window *window)
 void ShowShopItemMenu(void)
 {
 	PushNewMenu(&shopItemMenuDef);
+}
+
+void ShowShopSellItemMenu(void)
+{
+	PushNewMenu(&shopSellItemMenuDef);
 }
 
 #endif //ALLOW_ITEM_SHOP
@@ -167,7 +224,8 @@ MenuDefinition shopMenuDef =
 	{
 		{"Quit", "Return to adventure", PopMenu},
 #if ALLOW_ITEM_SHOP
-		{"Items", "Buy items", ShowShopItemMenu},
+		{"Buy", "Buy items", ShowShopItemMenu},
+		{"Sell", "Sell items", ShowShopSellItemMenu},
 #endif
 #if ALLOW_STAT_SHOP
 		{"Stats", "Buy stat points", ShowShopStatMenu},

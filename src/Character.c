@@ -120,8 +120,8 @@ void GrantGold(uint16_t gold)
 bool DealPlayerDamage(uint16_t damage)
 {
 #if ALLOW_GOD_MODE
-		if(GetGodMode())
-			return false;
+	if(GetGodMode())
+		return false;
 #endif
 	bool returnValue = false;
 	characterData.stats.currentHealth = characterData.stats.currentHealth - damage;

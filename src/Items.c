@@ -106,7 +106,13 @@ bool AddItem(ItemType type)
 	}
 	return true;
 }
-
+bool RemoveItem(ItemType type) {
+	if(itemsOwned[type] <= 0) {
+		return false;
+	}
+	itemsOwned[type]--;
+	return true;
+}
 void ItemGainMenuInit(Window *window)
 {
 	int result = Random(100) + 1;

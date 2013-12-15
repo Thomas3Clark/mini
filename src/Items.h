@@ -19,6 +19,7 @@ bool AttemptToConsumeFireScroll(void);
 bool AttemptToConsumeIceScroll(void);
 bool AttemptToConsumeLightningScroll(void);
 bool AddItem(ItemType type);
+bool RemoveItem(ItemType type);
 
 void ShowAllItemCounts(void);
 void ClearInventory(void);
