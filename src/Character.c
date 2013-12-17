@@ -12,7 +12,7 @@
 #include "MainMenu.h"
 #endif
 
-CharacterData characterData;
+static CharacterData characterData;
 static uint8_t statPointsToSpend = 0;
 
 void AddStatPointToSpend(void)
@@ -163,7 +163,7 @@ void EndMenuDisappear(Window *window)
 
 void EndMenuAppear(Window *window);
 
-MenuDefinition endMenuDef = 
+static MenuDefinition endMenuDef = 
 {
 	.menuEntries = 
 	{
@@ -287,7 +287,7 @@ void LevelUp(void)
 
 void StatMenuAppear(Window *window);
 
-MenuDefinition statMenuDef = 
+static MenuDefinition statMenuDef = 
 {
 	.menuEntries = 
 	{
@@ -314,7 +314,7 @@ void ShowStatMenu(void)
 
 void ProgressMenuAppear(Window *window);
 
-MenuDefinition progressMenuDef = 
+static MenuDefinition progressMenuDef = 
 {
 	.menuEntries = 
 	{

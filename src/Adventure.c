@@ -17,8 +17,8 @@ const char *UpdateFloorText(void)
 	return floorText;
 }
 
-int8_t updateDelay = 0;
-bool adventureWindowVisible = false;
+static int8_t updateDelay = 0;
+static bool adventureWindowVisible = false;
 
 void AdventureWindowAppear(Window *window);
 void AdventureWindowDisappear(Window *window);
@@ -27,7 +27,7 @@ void AdventureWindowDisappear(Window *window);
 void ShowDebugMenu(void);
 #endif
 
-MenuDefinition adventureMenuDef = 
+static MenuDefinition adventureMenuDef = 
 {
 	.menuEntries = 
 	{
@@ -46,7 +46,7 @@ MenuDefinition adventureMenuDef =
 	.mainImageId = RESOURCE_ID_IMAGE_DUNGEONRIGHT
 };
 
-Window *adventureWindow = NULL;
+static Window *adventureWindow = NULL;
 
 void LoadRandomDungeonImage(void)
 {
@@ -205,7 +205,7 @@ void NewFloorMenuAppear(Window *window);
 void ContinueNextFloor(void);
 void CheckEasyMode(MenuEntry *menuEntries);
 
-MenuDefinition newFloorMenuDef = 
+static MenuDefinition newFloorMenuDef = 
 {
 	.menuEntries = 
 	{
@@ -299,7 +299,7 @@ void DebugMenuAppear(Window *window)
 	ShowMainWindowRow(i++, "Taken", UpdateLimitText());
 }
 
-MenuDefinition debugMenuDef = 
+static MenuDefinition debugMenuDef = 
 {
 	.menuEntries = 
 	{

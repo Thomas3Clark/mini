@@ -53,7 +53,7 @@ const char *GetItemName(ItemType itemType)
 void ItemGainMenuInit(Window *window);
 void ItemGainMenuAppear(Window *window);
 
-MenuDefinition itemGainMenuDef = 
+static MenuDefinition itemGainMenuDef = 
 {
 	.menuEntries = 
 	{
@@ -162,7 +162,7 @@ void ActivateFullPotion(void)
 
 void ItemMainMenuAppear(Window *window);
 
-MenuDefinition itemMainMenuDef = 
+static MenuDefinition itemMainMenuDef = 
 {
 	.menuEntries = 
 	{

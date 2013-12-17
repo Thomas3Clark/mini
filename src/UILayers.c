@@ -18,9 +18,9 @@ TextLayer * InitializeTextLayer(GRect frame, GFont font)
 
 //******* MENU LAYERS *******//
 
-TextLayer *menuLayers[MAX_MENU_ENTRIES];
-TextLayer *menuDescLayer;
-bool menuLayersInitialized = false;
+static TextLayer *menuLayers[MAX_MENU_ENTRIES];
+static TextLayer *menuDescLayer;
+static bool menuLayersInitialized = false;
 
 GRect baseMenuFrame = {.origin = {.x = 92, .y = 7}, .size = {.w = 45, .h = WINDOW_ROW_HEIGHT}};
 GRect menuDescFrame = {.origin = {.x = 10, .y = 107}, .size = {.w = 144-20, .h = 20}};
@@ -105,8 +105,8 @@ void HideAllMenuLayers(void)
 
 //******** Background *********//
 // backgroundImageLayer holds the frame for all other UI elements
-BitmapLayer *backgroundImageLayer;
-GBitmap *backgroundImage;
+static BitmapLayer *backgroundImageLayer;
+static GBitmap *backgroundImage;
 static bool backgroundLoaded = false;
 
 void UnloadBackgroundImage(void)
@@ -145,19 +145,19 @@ void LoadBackgroundImage(Window *window, int id)
 //		Floor/Number
 //		item name / count
 
-BitmapLayer *mainImageLayer;
-GBitmap *mainImage;
-GRect mainFrame = {.origin = {.x = 5, .y = 25}, .size = {.w = 80, .h = 80}};
+static BitmapLayer *mainImageLayer;
+static GBitmap *mainImage;
+static GRect mainFrame = {.origin = {.x = 5, .y = 25}, .size = {.w = 80, .h = 80}};
 static bool mainImageLayerLoaded = false;
 static int mainImageLayerResourceLoaded = -1;
 
-TextLayer *mainTextLayers[MAX_MAIN_TEXT_LAYERS];
-GRect mainTextBaseFrame = {.origin = {.x = 6, .y = 7}, .size = {.w = 80, .h = WINDOW_ROW_HEIGHT}};
+static TextLayer *mainTextLayers[MAX_MAIN_TEXT_LAYERS];
+static GRect mainTextBaseFrame = {.origin = {.x = 6, .y = 7}, .size = {.w = 80, .h = WINDOW_ROW_HEIGHT}};
 	
-TextLayer *mainNumberLayers[MAX_MAIN_TEXT_LAYERS];
-GRect mainNumberBaseFrame = {.origin = {.x = 54, .y = 7}, .size = {.w = 30, .h = WINDOW_ROW_HEIGHT}};
+static TextLayer *mainNumberLayers[MAX_MAIN_TEXT_LAYERS];
+static GRect mainNumberBaseFrame = {.origin = {.x = 54, .y = 7}, .size = {.w = 30, .h = WINDOW_ROW_HEIGHT}};
 
-bool mainLayersInitialized = false;
+static bool mainLayersInitialized = false;
 
 void RemoveMainLayers(void)
 {
@@ -256,9 +256,9 @@ void LoadMainBmpImage(Window *window, int id)
 
 //******* CLOCK *********//
 
-TextLayer *clockLayer; // The clock
-GRect clockFrame = {.origin = {.x = 85, .y = 127}, .size = {.w = 144-85, .h = 168-127}};
-bool clockLayerInitialized = false;
+static TextLayer *clockLayer; // The clock
+static GRect clockFrame = {.origin = {.x = 85, .y = 127}, .size = {.w = 144-85, .h = 168-127}};
+static bool clockLayerInitialized = false;
 
 void UpdateClock(void)
 {
@@ -305,9 +305,9 @@ void InitializeClockLayer(Window *window)
 
 // *********** Level **********//
 
-TextLayer *levelLayer;
-GRect levelFrame = {.origin = {.x = 10, .y = 127}, .size = {.w = 144-85, .h = 168-127}};
-bool levelLayerInitialized = false;
+static TextLayer *levelLayer;
+static GRect levelFrame = {.origin = {.x = 10, .y = 127}, .size = {.w = 144-85, .h = 168-127}};
+static bool levelLayerInitialized = false;
 
 void UpdateLevelLayerText(int level)
 {
@@ -338,12 +338,12 @@ void InitializeLevelLayer(Window *window)
 
 // ********** Health *********//
 
-TextLayer *currentHealthLayer;
-GRect currentHealthFrame = {.origin = {.x = 42, .y = 126}, .size = {.w = 50, .h = 168-130}};
+static TextLayer *currentHealthLayer;
+static GRect currentHealthFrame = {.origin = {.x = 42, .y = 126}, .size = {.w = 50, .h = 168-130}};
 
-TextLayer *maxHealthLayer;
-GRect maxHealthFrame = {.origin = {.x = 42, .y = 143}, .size = {.w = 50, .h = 168-140}};
-bool healthLayersInitialized = false;
+static TextLayer *maxHealthLayer;
+static GRect maxHealthFrame = {.origin = {.x = 42, .y = 143}, .size = {.w = 50, .h = 168-140}};
+static bool healthLayersInitialized = false;
 void UpdateHealthText(int16_t current, uint16_t max)
 {
 	if(!healthLayersInitialized)
@@ -437,9 +437,9 @@ void ExitWindowClickConfigProvider()
 	window_single_click_subscribe(BUTTON_ID_SELECT,(ClickHandler) ExitWindow_SelectSingleClickHandler);
 }
 
-GRect exitFrame = {.origin = {.x = 0, .y = 50}, .size = {.w = 144, .h = 168-50}};
-GRect yesFrame = {.origin = {.x = 5, .y = 30}, .size = {.w = 50, .h = 20}};
-GRect noFrame = {.origin = {.x = 115, .y = 78}, .size = {.w = 24, .h = 20}};
+static GRect exitFrame = {.origin = {.x = 0, .y = 50}, .size = {.w = 144, .h = 168-50}};
+static GRect yesFrame = {.origin = {.x = 5, .y = 30}, .size = {.w = 50, .h = 20}};
+static GRect noFrame = {.origin = {.x = 115, .y = 78}, .size = {.w = 24, .h = 20}};
 
 Window * InitializeConfirmationWindow(TextLayer *exitText, TextLayer *yesText, TextLayer *noText)
 {
@@ -462,7 +462,7 @@ Window * InitializeConfirmationWindow(TextLayer *exitText, TextLayer *yesText, T
 	return window;
 }
 
-Window *confirmationWindow;
+static Window *confirmationWindow;
 static TextLayer *exitText;
 static TextLayer *yesText;
 static TextLayer *noText;
@@ -495,6 +495,7 @@ void UnloadTextLayers(void) {
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "Destroy Clock & Level Layers");
 	text_layer_destroy(clockLayer);
 	text_layer_destroy(levelLayer);
+	window_destroy(confirmationWindow);
 	
 /*	Make can't destroy last layers make the application crash on exit.
  * layer_remove_from_parent(text_layer_get_layer(exitText));
