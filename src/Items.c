@@ -23,7 +23,7 @@ const char *UpdateItemCountText(ItemType itemType)
 		return "";
 #endif
 	ItemData* item = GetItem(itemType);
-	IntToString(item->countText, 2, item->owned);
+	UIntToString(item->countText, item->owned);
 	return item->countText;
 }
 

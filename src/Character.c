@@ -40,28 +40,28 @@ const char *UpdateLevelText(void)
 const char *UpdateXPText(void)
 {
 	static char xpText[] = "0000"; // Needs to be static because it's used by the system later.
-	IntToString(xpText, 4, characterData.xp);
+	UIntToString(xpText, characterData.xp);
 	return xpText;
 }
 
 const char *UpdateNextXPText(void)
 {
 	static char nextXPText[] = "0000"; // Needs to be static because it's used by the system later.
-	IntToString(nextXPText, 4, characterData.xpForNextLevel);
+	UIntToString(nextXPText, characterData.xpForNextLevel);
 	return nextXPText;
 }
 
 const char *UpdateGoldText(void)
 {
 	static char goldText[] = "00000"; // Needs to be static because it's used by the system later.
-	IntToString(goldText, 5, characterData.gold);
+	UIntToString(goldText, characterData.gold);
 	return goldText;
 }
 
 const char *UpdateEscapeText(void)
 {
 	static char escapeText[] = "000"; // Needs to be static because it's used by the system later.
-	IntToString(escapeText, 3, characterData.escapes);
+	UIntToString(escapeText, characterData.escapes);
 	return escapeText;
 }
 
@@ -196,7 +196,7 @@ const char  *UpdateStatPointText(void)
 {
 	static char statText[] = "00"; // Needs to be static because it's used by the system later.
 
-	IntToString(statText, 2, statPointsToSpend);
+	UIntToString(statText, statPointsToSpend);
 	return statText;
 }
 
@@ -204,7 +204,7 @@ const char  *UpdateStrengthText(void)
 {
 	static char strengthText[] = "00"; // Needs to be static because it's used by the system later.
 
-	IntToString(strengthText, 2, characterData.stats.strength);
+	UIntToString(strengthText, characterData.stats.strength);
 	return strengthText;
 }
 
@@ -212,7 +212,7 @@ const char  *UpdateDefenseText(void)
 {
 	static char defenseText[] = "00"; // Needs to be static because it's used by the system later.
 
-	IntToString(defenseText, 2, characterData.stats.defense);
+	UIntToString(defenseText, characterData.stats.defense);
 	return defenseText;
 }
 
@@ -220,7 +220,7 @@ const char  *UpdateMagicText(void)
 {
 	static char magicText[] = "00"; // Needs to be static because it's used by the system later.
 
-	IntToString(magicText, 2, characterData.stats.magic);
+	UIntToString(magicText, characterData.stats.magic);
 	return magicText;
 }
 
@@ -228,7 +228,7 @@ const char  *UpdateMagicDefenseText(void)
 {
 	static char magicDefenseText[] = "00"; // Needs to be static because it's used by the system later.
 
-	IntToString(magicDefenseText, 2, characterData.stats.magicDefense);
+	UIntToString(magicDefenseText, characterData.stats.magicDefense);
 	return magicDefenseText;
 }
 

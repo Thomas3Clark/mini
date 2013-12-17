@@ -13,7 +13,7 @@
 const char *UpdateFloorText(void)
 {
 	static char floorText[] = "00"; // Needs to be static because it's used by the system later.
-	IntToString(floorText, 2, GetCurrentFloor());
+	UIntToString(floorText,GetCurrentFloor());
 	return floorText;
 }
 
@@ -250,21 +250,21 @@ void CheckEasyMode(MenuEntry * menuEntries) {
 const char *UpdateEntry0Text()
 {
 	static char entry0[] = "00"; // Needs to be static because it's used by the system later.
-	IntToString(entry0, 2, entries[0].number);
+	UIntToString(entry0, entries[0].number);
 	return entry0;
 }
 
 const char *UpdateEntry1Text()
 {
 	static char entry1[] = "00"; // Needs to be static because it's used by the system later.
-	IntToString(entry1, 2, entries[1].number);
+	UIntToString(entry1, entries[1].number);
 	return entry1;
 }
 
 const char *UpdateEntry2Text()
 {
 	static char entry2[] = "00"; // Needs to be static because it's used by the system later.
-	IntToString(entry2, 2, entries[2].number);
+	UIntToString(entry2, entries[2].number);
 	return entry2;
 }
 
@@ -272,7 +272,7 @@ const char *UpdateEntry2Text()
 const char *UpdateEntry3Text()
 {
 	static char entry3[] = "00"; // Needs to be static because it's used by the system later.
-	IntToString(entry3, 2, entries[3].number);
+	UIntToString(entry3, entries[3].number);
 	return entry3;
 }
 #endif
@@ -280,7 +280,7 @@ const char *UpdateEntry3Text()
 const char *UpdateLimitText()
 {
 	static char limitCard[] = "00"; // Needs to be static because it's used by the system later.
-	IntToString(limitCard, 2, cardTaken);
+	UIntToString(limitCard, cardTaken);
 	return limitCard;
 }
 

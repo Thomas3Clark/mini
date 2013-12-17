@@ -28,6 +28,10 @@ void IntToString(char *buffer, size_t bufferSize, int value)
 	}
 }
 
+void UIntToString(char *buffer, uint32_t value) {
+	snprintf(buffer, sizeof(buffer), "%lu", value);
+}
+
 // Pulled from the pebble developer forums
 // forums.getpebble.com/discussion/comment/28908/#comment_28908
 uint16_t Random(uint16_t max)

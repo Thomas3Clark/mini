@@ -160,7 +160,7 @@ const char *UpdateStatCostText(void)
 {
 	static char costText[] = "0000"; // Needs to be static because it's used by the system later.
 	int cost = 1 << statPointsPurchased;
-	IntToString(costText, 4, cost);
+	UIntToString(costText, cost);
 	return costText;
 }
 
