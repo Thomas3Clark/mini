@@ -72,7 +72,7 @@ void MonsterAttack(void)
 {
 	uint16_t baseDamage;
 	uint16_t damageToDeal;
-	bool useMagicAttack = (currentMonster->allowMagicAttack && currentMonster->allowPhysicalAttack) ? Random(2) - 1 : currentMonster->allowMagicAttack;
+	bool useMagicAttack = (currentMonster->allowMagicAttack && currentMonster->allowPhysicalAttack) ? Random(2) : currentMonster->allowMagicAttack;
 	baseDamage = ComputePlayerHealth(currentFloor)/GetMonsterPowerDivisor(currentMonster->powerLevel);
 	damageToDeal = ApplyDefense(baseDamage, useMagicAttack ? GetCharacter()->stats.magicDefense : GetCharacter()->stats.defense);
 
