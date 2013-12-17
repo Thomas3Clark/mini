@@ -12,15 +12,6 @@
 
 #if ALLOW_ITEM_SHOP
 
-uint16_t costs[5] = 
-{
-	10,
-	100,
-	20,
-	20,
-	20
-};
-
 void ShopItemMenuAppear(Window *window);
 
 void DrawMainItemShopWindow(void)
@@ -31,7 +22,7 @@ void DrawMainItemShopWindow(void)
 
 void BuyItem(ItemType type)
 {
-	uint16_t cost = costs[type];
+	uint8_t cost = itemData[type].cost;
 	CharacterData *data = GetCharacter();
 	if (data->gold >= cost)
 	{
@@ -49,8 +40,8 @@ void SellItem(ItemType type)
 		return;
 	}
 	CharacterData *data = GetCharacter();
-	uint16_t cost = costs[type];
-	data->gold += (uint16_t)(cost * SALE_PERCENT);
+	uint8_t cost = itemData[type].cost;
+	data->gold += (uint8_t)(cost * SALE_PERCENT);
 	DrawMainItemShopWindow();
 	
 }
