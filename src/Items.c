@@ -7,7 +7,7 @@
 #include "UILayers.h"
 #include "Utils.h"
 
-ItemData itemData[] = 
+static ItemData itemData[] = 
 {
 	{"Potion", "00",50,10,0},
 	{"Elixir", "00",5,100,0},

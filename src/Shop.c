@@ -22,7 +22,7 @@ void DrawMainItemShopWindow(void)
 
 void BuyItem(ItemType type)
 {
-	uint8_t cost = itemData[type].cost;
+	uint8_t cost = GetItem(type)->cost;
 	CharacterData *data = GetCharacter();
 	if (data->gold >= cost)
 	{
@@ -40,7 +40,7 @@ void SellItem(ItemType type)
 		return;
 	}
 	CharacterData *data = GetCharacter();
-	uint8_t cost = itemData[type].cost;
+	uint8_t cost = GetItem(type)->cost;
 	data->gold += (uint8_t)(cost * SALE_PERCENT);
 	DrawMainItemShopWindow();
 	

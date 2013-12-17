@@ -19,8 +19,6 @@ typedef struct ItemData
 	uint8_t owned;
 } ItemData;
 
-extern ItemData itemData[];
-
 void ShowItemGainWindow(void);
 void ShowMainItemMenu(void);
 
