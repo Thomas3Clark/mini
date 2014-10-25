@@ -17,22 +17,27 @@ void handle_minute_tick(struct tm* tick_time, TimeUnits units_changed)
 {
 	UpdateClock();
 	UpdateAdventure();
+	HealStamina();
 }
 
 void InitializeGameData(void)
 {
 	if(!LoadPersistedData())
-		ResetGame();
+		ResetGame(true);
 }
 
-void ResetGame(void)
+void ResetGame(bool isInit)
 {
+	if (isInit) {
 #if ALLOW_STAT_SHOP
-	ResetStatPointsPurchased();
+		ResetStatPointsPurchased();
 #endif
-	InitializeCharacter();
-	ResetFloor();
-	ClearInventory();
+		InitializeCharacter();
+		ResetFloor();
+		ClearInventory();
+	} else {
+		HealPlayerByPercent(100);
+	}
 	ResetCurrentTaken();
 	
 	SavePersistedData();
@@ -65,7 +70,7 @@ void handle_deinit()
 
 // The main event/run loop for our app
 int main(void) {
-  handle_init();
-  app_event_loop();
-  handle_deinit();
+	handle_init();
+	app_event_loop();
+	handle_deinit();
 }

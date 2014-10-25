@@ -18,7 +18,7 @@ static uint8_t statPointsToSpend = 0;
 
 void AddStatPointToSpend(void)
 {
-	++statPointsToSpend;
+	++characterData.stats.statPoints;
 }
 
 void UpdateCharacterHealth(void)
@@ -66,6 +66,13 @@ const char *UpdateEscapeText(void)
 	return escapeText;
 }
 
+const char *UpdateDeadText(void)
+{
+	static char deadText[] = "000"; // Needs to be static because it's used by the system later.
+	IntToString(deadText, 3, characterData.deadTimes);
+	return deadText;
+}
+
 void IncrementEscapes(void)
 {
 	++characterData.escapes;
@@ -88,6 +95,7 @@ void InitializeCharacter(void)
 	characterData.level = 1;
 	characterData.gold = 0;
 	characterData.escapes = 0;
+	characterData.deadTimes = 0;
 	characterData.xpForNextLevel = ComputeXPForNextLevel(1);
 	characterData.stats.maxHealth = ComputePlayerHealth(1);
 	characterData.stats.currentHealth = characterData.stats.maxHealth;
@@ -95,7 +103,8 @@ void InitializeCharacter(void)
 	characterData.stats.magic = 1;
 	characterData.stats.defense = 1;
 	characterData.stats.magicDefense = 1;
-	statPointsToSpend = 0;
+	characterData.stats.stamina = 10;
+	characterData.stats.statPoints = 0;
 
 	UpdateCharacterLevel();
 	UpdateCharacterHealth();
@@ -160,7 +169,7 @@ bool PlayerIsInjured(void)
 
 void EndMenuDisappear(Window *window)
 {
-	ResetGame();
+	ResetGame(false);
 }
 
 void EndMenuAppear(Window *window);
@@ -179,14 +188,16 @@ static MenuDefinition endMenuDef =
 void EndMenuAppear(Window *window)
 {
 	MenuAppear(window);
-	if(characterData.stats.currentHealth <= 0)
+	if(characterData.stats.currentHealth <= 0) {
 		ShowMainWindowRow(0, "You lose", "");
-	else
+		characterData.deadTimes += 1;
+	} else {
 		ShowMainWindowRow(0, "You win", "");
+	}
 	ShowMainWindowRow(1, "Floor", UpdateFloorText());
 	ShowMainWindowRow(2, "Level", UpdateLevelText());
 	ShowMainWindowRow(3, "Gold", UpdateGoldText());
-	ShowMainWindowRow(4, "Escapes", UpdateEscapeText());
+	ShowMainWindowRow(4, "Dead", UpdateDeadText());
 }
 
 void ShowEndWindow(void)
@@ -198,7 +209,7 @@ const char  *UpdateStatPointText(void)
 {
 	static char statText[] = "00"; // Needs to be static because it's used by the system later.
 
-	UIntToString(statText, statPointsToSpend);
+	UIntToString(statText, characterData.stats.statPoints);
 	return statText;
 }
 
@@ -234,6 +245,14 @@ const char  *UpdateMagicDefenseText(void)
 	return magicDefenseText;
 }
 
+const char  *UpdateStaminaText(void)
+{
+	static char staminaText[] = "00"; // Needs to be static because it's used by the system later.
+
+	IntToString(staminaText, 2, characterData.stats.stamina);
+	return staminaText;
+}
+
 void DrawStatWindow(void)
 {
 	ShowMainWindowRow(0, "Stat Points", UpdateStatPointText());	
@@ -241,14 +260,15 @@ void DrawStatWindow(void)
 	ShowMainWindowRow(2, "Defense", UpdateDefenseText());
 	ShowMainWindowRow(3, "Magic", UpdateMagicText());
 	ShowMainWindowRow(4, "MagicDef", UpdateMagicDefenseText());
+	ShowMainWindowRow(5, "Stamina", UpdateStaminaText());
 }
 
 void IncrementStat(uint8_t *stat)
 {
-	if(statPointsToSpend && (*stat) < characterData.level)
+	if(characterData.stats.statPoints)
 	{
 		++(*stat);
-		--statPointsToSpend;
+		--characterData.stats.statPoints;
 		DrawStatWindow();
 	}
 }
@@ -273,10 +293,22 @@ void IncrementMagicDefense(void)
 	IncrementStat(&characterData.stats.magicDefense);
 }
 
+void IncrementStamina(void)
+{
+	//FIXME not implementd
+}
+
+void HealStamina(void)
+{
+	if (characterData.stats.stamina < 10) {
+		characterData.stats.stamina += 1;
+	}
+}
+
 void LevelUp(void)
 {
 	INFO_LOG("Level up.");
-	statPointsToSpend += STAT_POINTS_PER_LEVEL;
+	characterData.stats.statPoints += STAT_POINTS_PER_LEVEL;
 	++characterData.level;
 	characterData.xpForNextLevel += ComputeXPForNextLevel(characterData.level);
 	characterData.stats.maxHealth = ComputePlayerHealth(characterData.level);
@@ -299,6 +331,7 @@ static MenuDefinition statMenuDef =
 		{"Increase", "Increase defense", IncrementDefense},
 		{"Increase", "Increase magic", IncrementMagic},
 		{"Increase", "Increase magic defense", IncrementMagicDefense},
+		{"-", "Added per 1 minutes", IncrementStamina},
 	},
 	.appear = StatMenuAppear,
 	.mainImageId = -1
@@ -335,10 +368,24 @@ void ProgressMenuAppear(Window *window)
 	ShowMainWindowRow(2, "XP", UpdateXPText());
 	ShowMainWindowRow(3, "Next XP", UpdateNextXPText());
 	ShowMainWindowRow(4, "Gold", UpdateGoldText());
-	ShowMainWindowRow(5, "Escapes", UpdateEscapeText());
+	//ShowMainWindowRow(5, "Escapes", UpdateEscapeText());
+	ShowMainWindowRow(5, "Dead", UpdateDeadText());
 }
 
 void ShowProgressMenu(void)
 {
 	PushNewMenu(&progressMenuDef);
+}
+
+bool SpendStamina(void) {
+	if (characterData.stats.stamina > 0) {
+		characterData.stats.stamina--;
+		return true;
+	} else {
+		return false;
+	}
+}
+
+int GetStamina(void) {
+	return characterData.stats.stamina;
 }

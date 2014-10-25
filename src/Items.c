@@ -48,7 +48,8 @@ const char *UpdateItemCountText(ItemType itemType)
 void ClearInventory(void)
 {
 	int i;
-	for(i = 0; i < ITEM_TYPE_COUNT; ++i)
+	GetItem(0)->owned = 3;
+	for(i = 1; i < ITEM_TYPE_COUNT; ++i)
 	{
 		GetItem(i)->owned = 0;
 	}
@@ -136,7 +137,7 @@ void ItemGainMenuInit(Window *window)
 			AddItem(i);
 			break;
 		}
-		++i;      
+		++i;
 	} while (i < ITEM_TYPE_COUNT);
 }
 
@@ -155,7 +156,7 @@ bool AttemptToUseHealingItem(ItemType type, int power)
 		--item->owned;
 		ShowAllItemCounts();
 		return true;
-	}  
+	}
 	return false;
 }
 

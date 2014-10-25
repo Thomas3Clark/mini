@@ -9,6 +9,8 @@ typedef struct
 	uint8_t magic;
 	uint8_t defense;
 	uint8_t magicDefense;
+	int stamina;
+	int statPoints;
 } Stats;
 
 typedef struct 
@@ -18,6 +20,7 @@ typedef struct
 	uint16_t level;
 	uint16_t gold;
 	uint16_t escapes;
+    int deadTimes;
 	Stats stats;
 } CharacterData;
 
@@ -44,3 +47,6 @@ void ShowProgressMenu(void);
 
 void LevelUp(void);
 void ShowEndWindow(void);
+bool SpendStamina(void);
+void HealStamina();
+int GetStamina();

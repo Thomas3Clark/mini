@@ -25,6 +25,7 @@ void ShowAdventureWindow(void);
 void ShowNewFloorWindow(void);
 
 bool ComputeRandomEvent(bool fastMode);
+void GoUsingStamina(void);
 void UpdateAdventure(void);
 
 void ResetCurrentTaken(void);

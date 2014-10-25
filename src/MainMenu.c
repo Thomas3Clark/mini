@@ -70,7 +70,7 @@ void ShowTestMenu(void)
 
 //************* Main Menu *****************//
 
-static bool vibration = true;
+static bool vibration = false;
 static bool fastMode = false;
 static bool easyMode = false;
 #if ALLOW_GOD_MODE
