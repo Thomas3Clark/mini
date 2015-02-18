@@ -19,9 +19,9 @@
 
 // Publish 0 turns on the test menu
 // God mode activated in test mode
-#define PUBLISH 0
+#define PUBLISH 1
 // Logging
-#define DEBUG_LOGGING 1 // DEBUG_LOGGING 1 turns on DEBUG_LOG. DEBUG_LOGGING 2 turns on DEBUG_VERBOSE_LOG also.
+#define DEBUG_LOGGING 0 // DEBUG_LOGGING 1 turns on DEBUG_LOG. DEBUG_LOGGING 2 turns on DEBUG_VERBOSE_LOG also.
 #define ERROR_LOGGING 1 // ERROR_LOG should be used for actual incorrect operation.
 #define WARNING_LOGGING 1 // WARNING_LOG should be used strange edge cases that are not expected
 #define INFO_LOGGING 1 // INFO_LOG should be used to log game flow.
@@ -44,7 +44,6 @@
 #if PUBLISH
 	#define ALLOW_TEST_MENU 0
 	#define	ALLOW_GOD_MODE	0
-	#define DEBUG_LOGGING 	0
 #else
 	#define ALLOW_TEST_MENU 1
 	#define	ALLOW_GOD_MODE	1
