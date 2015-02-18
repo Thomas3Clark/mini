@@ -124,7 +124,7 @@ void SwapCardEntry(int first, int second) {
 	Card temp = entries[first];
 	entries[first] = entries[second];
 	entries[second] = temp;
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Swap: %d -> %d",first,second);
+	DEBUG_LOG( "Swap: %d -> %d",first,second);
 }
 
 void ResetCurrentTaken() {
@@ -143,7 +143,7 @@ void ComputeAdventure() {
 	}
 
 	Card* card = &entries[rand];
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Card Taken: %s",card->name);	
+	DEBUG_LOG( "Card Taken: %s",card->name);	
 	
 	card->windowFunction();	
 	card->taken += 1;	
@@ -152,7 +152,7 @@ void ComputeAdventure() {
 		card->taken = 0;
 		if(entriesSize == 0) {
 			entriesSize = sizeof(entries)/sizeof(entries[0]);
-			APP_LOG(APP_LOG_LEVEL_DEBUG, "Reset EntriesSize: %d",entriesSize);
+			DEBUG_LOG( "Reset EntriesSize: %d",entriesSize);
 		}
 		else if(rand != entriesSize) {
 			SwapCardEntry(rand, entriesSize);

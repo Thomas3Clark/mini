@@ -47,18 +47,18 @@ void MenuDeinit(Window *window)
 
 void MenuAppear(Window *window)
 {
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Menu Appear");
+	DEBUG_LOG( "Menu Appear");
 	int i;
 	bool setSelected = false;
 	MenuWindow *menuWindow = window_get_user_data(window);
 	if(menuWindow)
 	{
-		APP_LOG(APP_LOG_LEVEL_DEBUG, "Menu Exists in window");
+		DEBUG_LOG( "Menu Exists in window");
 		SetCurrentMenu(menuWindow->menu);
 	}
 		
 	WindowAppear(window);
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Window appear");
+	DEBUG_LOG( "Window appear");
 	if(!currentMenuDef)
 	{
 		HideAllMenuLayers();
@@ -69,7 +69,7 @@ void MenuAppear(Window *window)
 	if(currentMenuDef->modify)
 		currentMenuDef->modify(currentMenuDef->menuEntries);
 	
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Display menu entries");
+	DEBUG_LOG( "Display menu entries");
 	for(i = 0; i < MAX_MENU_ENTRIES; ++i)
 	{
 		MenuEntry *entry = &currentMenuDef->menuEntries[i];

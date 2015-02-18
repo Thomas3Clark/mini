@@ -444,25 +444,25 @@ Window * InitializeMenuWindow(const char *name, WindowHandler init, WindowHandle
 
 
 void UnloadTextLayers(void) {
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Destroy Menu Layers");
+	DEBUG_LOG( "Destroy Menu Layers");
 	for(int i = 0; i < MAX_MENU_ENTRIES ; i++) {
 		if(!menuLayers[i])
 			continue;
 		text_layer_destroy(menuLayers[i]);
 	}
 	text_layer_destroy(menuDescLayer);
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Destroy Main Layers");
+	DEBUG_LOG( "Destroy Main Layers");
 	for(int i = 0; i < MAX_MAIN_TEXT_LAYERS; i++) {
 		if(mainTextLayers[i])
 			text_layer_destroy(mainTextLayers[i]);
 		if(mainNumberLayers[i])
 			text_layer_destroy(mainNumberLayers[i]);
 	}
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Destroy Health Layers");
+	DEBUG_LOG( "Destroy Health Layers");
 	text_layer_destroy(maxHealthLayer);
 	text_layer_destroy(currentHealthLayer);
 	
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Destroy Clock & Level Layers");
+	DEBUG_LOG( "Destroy Clock & Level Layers");
 	text_layer_destroy(clockLayer);
 	text_layer_destroy(levelLayer);
 	
