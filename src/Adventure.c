@@ -116,6 +116,9 @@ static Card entries[] =
 #endif
 static uint8_t entriesSize =  sizeof(entries)/sizeof(entries[0]);
 
+#if EVENT_CHANCE_SCALING
+static uint8_t ticksSinceLastEvent = 0;
+#endif
 
 void SwapCardEntry(int first, int second) {
 	Card temp = entries[first];
