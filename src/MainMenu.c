@@ -4,6 +4,7 @@
 #include "Character.h"
 #include "Battle.h"
 #include "Items.h"
+#include "Logging.h"
 #include "MainMenu.h"
 #include "Menu.h"
 #include "Shop.h"
@@ -98,9 +99,19 @@ bool GetVibration(void)
 	return vibration;
 }
 
+void SetVibration(bool enable)
+{
+	vibration = enable;
+}
+
 bool GetFastMode(void)
 {
 	return fastMode;
+}
+
+void SetFastMode(bool enable)
+{
+	fastMode = enable;
 }
 
 void ToggleFastMode(void)
@@ -191,5 +202,6 @@ void MainMenuWindowAppear(Window *window)
 
 void ShowMainMenu(void)
 {
+	INFO_LOG("Entering main menu. Game paused.");
 	PushNewMenu(&mainMenuDef);
 }

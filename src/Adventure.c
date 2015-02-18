@@ -4,6 +4,7 @@
 #include "Battle.h"
 #include "Character.h"
 #include "Items.h"
+#include "Logging.h"
 #include "MainMenu.h"
 #include "Menu.h"
 #include "Shop.h"
@@ -54,9 +55,6 @@ void LoadRandomDungeonImage(void)
 	int result;
 #endif
 	
-	if(!adventureWindow)
-		return;
-
 #if ALLOW_RANDOM_DUNGEON_GRAPHICS		
 	result = Random(12);
 	if(result < 6)
@@ -69,12 +67,14 @@ void LoadRandomDungeonImage(void)
 		adventureMenuDef.mainImageId = RESOURCE_ID_IMAGE_DUNGEONDEADEND;
 #endif
 
-	LoadMainBmpImage(adventureWindow, adventureMenuDef.mainImageId);
+	if(adventureWindow)
+		LoadMainBmpImage(adventureWindow, adventureMenuDef.mainImageId);
 }
 
 void AdventureWindowAppear(Window *window)
 {
-	APP_LOG(APP_LOG_LEVEL_DEBUG_VERBOSE, "Adventure appear floor %d",GetCurrentFloor());
+	INFO_LOG("Back to the adventure.");
+	DEBUG_LOG("Adventure appear floor %d",GetCurrentFloor());
 	MenuAppear(window);
 	ShowMainWindowRow(0, "Floor", UpdateFloorText());
 	adventureWindow = window;
@@ -93,6 +93,7 @@ void AdventureWindowDisappear(Window *window)
 
 void ShowAdventureWindow(void)
 {
+	INFO_LOG("Adventure Window");
 	PushNewMenu(&adventureMenuDef);
 }
 
@@ -187,6 +188,14 @@ void UpdateAdventure(void)
 {
 	if(!adventureWindowVisible)
 		return;
+	
+	if(IsBattleForced())
+	{
+		INFO_LOG("Triggering forced battle.");
+		ShowBattleWindow();
+		return;
+	}
+
 #if EVENT_CHANCE_SCALING
 	++ticksSinceLastEvent;
 #endif
@@ -195,7 +204,7 @@ void UpdateAdventure(void)
 		--updateDelay;
 		return;
 	}
- 
+
 	ComputeRandomEvent(GetFastMode());
 	LoadRandomDungeonImage();
 }

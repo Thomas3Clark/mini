@@ -1,7 +1,7 @@
 MiniDungeon EX
 ==============
 
-A dungeon crawler game for Pebble
+MiniDungeon is a small adventure game on your watch. The goal is to survive to the 20th floor of the dungeon and defeat the final monster there. In order to aid you with this task, you have a sword to deal physical damage to monsters. You will also find in the dungeon potions to heal yourself as well as offensive items to help take down the more powerful monsters.
 Made by Jonathan Panttaja
 
 Optimized and modified by Antoine Aflalo

@@ -2,6 +2,7 @@
 
 #include "Character.h"
 #include "Items.h"
+#include "Logging.h"
 #include "Menu.h"
 #include "Adventure.h"
 #include "UILayers.h"
@@ -15,6 +16,16 @@ static ItemData itemData[] =
 	{"Icicle", "00",15,20,0},
 	{"Spark", "00",15,20,0}
 };
+
+int *GetItemsOwned(void)
+{
+	return itemsOwned;
+}
+
+int GetSizeOfItemsOwned(void)
+{
+	return sizeof(itemsOwned);
+}
 
 const char *UpdateItemCountText(ItemType itemType)
 {
@@ -124,6 +135,7 @@ void ItemGainMenuInit(Window *window)
 
 void ShowItemGainWindow(void)
 {
+	INFO_LOG("Item gained.");
 	PushNewMenu(&itemGainMenuDef);
 }
 

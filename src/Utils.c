@@ -1,4 +1,5 @@
 #include "pebble.h"
+#include "Logging.h"
 #include "MiniDungeon.h"
 #include "Utils.h"
 
@@ -9,6 +10,8 @@ void IntToString(char *buffer, size_t bufferSize, int value)
 	int digit;
 	int temp = value;
 
+	DEBUG_VERBOSE_LOG("IntToString(%d)", value);
+	
 	do
 	{
 		digit = temp % 10;

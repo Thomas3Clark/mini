@@ -1,10 +1,16 @@
 #include "pebble.h"
 
+#include "Logging.h"
 #include "Monsters.h"
 #include "Utils.h"
 
+int mostRecentMonster = -1;
+int GetMostRecentMonster(void)
+{
+	return mostRecentMonster;
+}
 
-static MonsterDef Rat = 
+static MonsterDef Rat =
 {
 	.name = "Rat",
 	.imageId = RESOURCE_ID_IMAGE_RAT,
@@ -318,9 +324,14 @@ static GroupMonsters *groups[] =
 	&SixthLevels
 };
 
+int MonsterTypeCount(void)
+{
+	int count = sizeof(randomMonsterMap) / sizeof(MonsterDef*);
+	return count;
+}
+
 MonsterDef *GetRandomMonster(uint8_t floor)
 {
-	uint16_t result;
 	uint8_t limit;
 	if(floor >= 20)
 		return &Dragon;
@@ -334,7 +345,18 @@ MonsterDef *GetRandomMonster(uint8_t floor)
 		chosen = groups[limit];
 	}
 	
-	result = Random(chosen->nbMonster);
-	return chosen->monsters[result];
+	mostRecentMonster = Random(chosen->nbMonster);
+	return chosen->monsters[mostRecentMonster];
 }
 
+MonsterDef *GetFixedMonster(int index)
+{
+	if(index >= 0 && index < MonsterTypeCount())
+	{
+		mostRecentMonster = index;
+		return randomMonsterMap[index];
+	}
+	
+	ERROR_LOG("Monster type %d is out of range.", index);
+	return NULL;
+}

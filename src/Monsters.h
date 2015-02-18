@@ -29,3 +29,7 @@ uint16_t ScaleMonsterHealth(MonsterDef *monster, uint16_t baseHealth);
 uint8_t GetMonsterPowerDivisor(uint8_t powerLevel);
 
 MonsterDef *GetRandomMonster(uint8_t floor);
+
+int MonsterTypeCount(void);
+int GetMostRecentMonster(void);
+MonsterDef *GetFixedMonster(int index);

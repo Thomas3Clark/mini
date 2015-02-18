@@ -1,5 +1,6 @@
 #include "pebble.h"
 
+#include "Logging.h"
 #include "Menu.h"
 #include "UILayers.h"
 #include "Utils.h"
@@ -113,13 +114,16 @@ void UnloadBackgroundImage(void)
 {
 	if(!backgroundLoaded)
 		return;
-	bitmap_layer_destroy(backgroundImageLayer);
+	bitmap_layer_destroy(backgroundImage);
+	backgroundImage = NULL;
+	gbitmap_destroy(backgroundBitmap);
+	backgroundBitmap = NULL;
 	backgroundLoaded = false;
 }
 
 void RemoveBackgroundImage()
 {
-	layer_remove_from_parent(bitmap_layer_get_layer(backgroundImageLayer));
+	layer_remove_from_parent(bitmap_layer_get_layer(backgroundImage));
 }
 
 void LoadBackgroundImage(Window *window, int id)
@@ -128,14 +132,14 @@ void LoadBackgroundImage(Window *window, int id)
     GRect bounds = layer_get_frame(window_layer);
 	if(!backgroundLoaded)
 	{
-		backgroundImage = gbitmap_create_with_resource(id);
-		backgroundImageLayer = bitmap_layer_create(bounds);
-		bitmap_layer_set_bitmap(backgroundImageLayer, backgroundImage);
-		bitmap_layer_set_alignment(backgroundImageLayer, GAlignLeft);
+		backgroundBitmap = gbitmap_create_with_resource(id);
+		backgroundImage = bitmap_layer_create(bounds);
+		bitmap_layer_set_bitmap(backgroundImage, backgroundBitmap);
+		bitmap_layer_set_alignment(backgroundImage, GAlignLeft);
 		backgroundLoaded = true;
 	}
 	
-	layer_add_child(window_layer, bitmap_layer_get_layer(backgroundImageLayer));		
+	layer_add_child(window_layer, bitmap_layer_get_layer(backgroundImage));		
 }
 
 //******** Main part of the screen *********//
@@ -221,6 +225,7 @@ void UnloadMainBmpImage(void)
 	mainImageLayerLoaded = false;
 	mainImageLayerResourceLoaded = -1;
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "Unload Main Bmp");
+	mainImageBitmap = NULL;
 }
 
 
@@ -232,8 +237,15 @@ void LoadMainBmpImage(Window *window, int id)
 	
 	Layer *window_layer = window_get_root_layer(window);
 	
+#if DISABLE_MENU_BMPS
+	return;
+#endif
+	
 	if(!window)
+	{
+		DEBUG_LOG("Skipping image load due to window not yet available.");
 		return;
+	}
 		
 	if(mainImageLayerLoaded)
 	{
@@ -242,6 +254,7 @@ void LoadMainBmpImage(Window *window, int id)
 			layer_add_child(window_layer, bitmap_layer_get_layer(mainImageLayer));
 			return; // already loaded the correct one.
 		}
+		DEBUG_LOG("Unloading resourceId %d.", mainImageResourceLoaded);
 		UnloadMainBmpImage();
 	}
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "Load resource BMP");
@@ -407,11 +420,11 @@ void WindowDisappear(Window *window)
 
 Window * InitializeWindow(const char *name)
 {
-	APP_LOG(APP_LOG_LEVEL_DEBUG_VERBOSE, "Creating window %s",name);
+	DEBUG_LOG("Creating window %s",name);
 	Window *window = window_create();
 	window_set_fullscreen(window, true); // Do I want full screen?
 	window_set_background_color(window, GColorBlack);
-	APP_LOG(APP_LOG_LEVEL_DEBUG_VERBOSE, "Window %s created",name);
+	DEBUG_LOG("Window %s created",name);
 	return window;		
 }
 
@@ -425,53 +438,7 @@ Window * InitializeMenuWindow(const char *name, WindowHandler init, WindowHandle
 	return window;
 }
 
-//************************ Exit confirmation window ****************************//
 
-void ExitWindow_SelectSingleClickHandler(ClickRecognizerRef recognizer, Window *window)
-{
-	ShowAdventureWindow();
-}
-
-void ExitWindowClickConfigProvider()
-{
-	window_single_click_subscribe(BUTTON_ID_SELECT,(ClickHandler) ExitWindow_SelectSingleClickHandler);
-}
-
-static GRect exitFrame = {.origin = {.x = 0, .y = 50}, .size = {.w = 144, .h = 168-50}};
-static GRect yesFrame = {.origin = {.x = 5, .y = 30}, .size = {.w = 50, .h = 20}};
-static GRect noFrame = {.origin = {.x = 115, .y = 78}, .size = {.w = 24, .h = 20}};
-
-Window * InitializeConfirmationWindow(TextLayer *exitText, TextLayer *yesText, TextLayer *noText)
-{
-	Window *window = InitializeWindow("Exit");
-	window_stack_push(window, true);
-	Layer *window_layer = window_get_root_layer(window);
-	
-	exitText = InitializeTextLayer(exitFrame, fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD));
-	text_layer_set_text(exitText, "Exit?");
-	text_layer_set_text_alignment(exitText, GTextAlignmentCenter);
-	layer_add_child(window_layer, text_layer_get_layer(exitText));
-
-	yesText = InitializeTextLayer(yesFrame, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
-	text_layer_set_text(yesText, "Yes");
-	layer_add_child(window_layer, text_layer_get_layer(yesText));
-
-	noText = InitializeTextLayer(noFrame, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
-	text_layer_set_text(noText, "No");
-	layer_add_child(window_layer, text_layer_get_layer(noText));
-	return window;
-}
-
-static Window *confirmationWindow;
-static TextLayer *exitText;
-static TextLayer *yesText;
-static TextLayer *noText;
-
-void InitializeExitConfirmationWindow(void)
-{
-	confirmationWindow = InitializeConfirmationWindow(exitText, yesText, noText);
-	window_set_click_config_provider(confirmationWindow, (ClickConfigProvider) ExitWindowClickConfigProvider);
-}
 
 void UnloadTextLayers(void) {
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "Destroy Menu Layers");

@@ -15,13 +15,16 @@
 
 // Feature tuning
 #define PAD_WITH_SPACES 1
+#define DISABLE_MENU_BMPS 0
 
-// Publish 0 turns on the test menu and ignores the official setting 
-// The back button override is always on in test mode
+// Publish 0 turns on the test menu
 // God mode activated in test mode
 #define PUBLISH 0
-// Official 0 allows the back button override, while official 1 does not
-#define OFFICIAL 0
+// Logging
+#define DEBUG_LOGGING 0 // DEBUG_LOGGING 1 turns on DEBUG_LOG. DEBUG_LOGGING 2 turns on DEBUG_VERBOSE_LOG also.
+#define ERROR_LOGGING 1 // ERROR_LOG should be used for actual incorrect operation.
+#define WARNING_LOGGING 1 // WARNING_LOG should be used strange edge cases that are not expected
+#define INFO_LOGGING 1 // INFO_LOG should be used to log game flow.
 
 // Features to turn off to make space
 #define ALLOW_RANDOM_DUNGEON_GRAPHICS 1
@@ -39,18 +42,11 @@
 	#define NB_CARDS (BATTLE_CARDS + ITEM_CARDS + FLOOR_CARDS)
 #endif	
 
-// Set up the back button and test menu based on previous choices
+// Set up the test menu based on previous choices
 #if PUBLISH
-	#if OFFICIAL
-		#define OVERRIDE_BACK_BUTTON 0
-	#else
-		#define OVERRIDE_BACK_BUTTON 1
-	#endif
 	#define ALLOW_TEST_MENU 0
 	#define	ALLOW_GOD_MODE	0
 #else
-	// Overriding the back button is not officially supported, but works
-	#define OVERRIDE_BACK_BUTTON 1
 	#define ALLOW_TEST_MENU 1
 	#define	ALLOW_GOD_MODE	1
 #endif
@@ -59,5 +55,5 @@
 #define MAX_MENU_WINDOWS 4
 // This determines how many text rows there are in the interface
 #define MAX_MENU_ENTRIES 6
-
+	
 void ResetGame(void);

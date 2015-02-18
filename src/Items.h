@@ -34,3 +34,6 @@ void ShowAllItemCounts(void);
 void ClearInventory(void);
 
 ItemData *GetItem(ItemType itemType);
+
+int *GetItemsOwned(void);
+int GetSizeOfItemsOwned(void);

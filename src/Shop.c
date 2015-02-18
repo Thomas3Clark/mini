@@ -2,6 +2,7 @@
 
 #include "Character.h"
 #include "Items.h"
+#include "Logging.h"
 #include "Menu.h"
 #include "MiniDungeon.h"
 #include "Shop.h"
@@ -156,6 +157,16 @@ void ResetStatPointsPurchased(void)
 	statPointsPurchased = 0;
 }
 
+void SetStatPointsPurchased(int count)
+{
+	statPointsPurchased = count;
+}
+
+int GetStatPointsPurchased(void)
+{
+	return statPointsPurchased;
+}
+
 const char *UpdateStatCostText(void)
 {
 	static char costText[] = "0000"; // Needs to be static because it's used by the system later.
@@ -234,6 +245,7 @@ void ShopMenuWindowAppear(Window *window)
 
 void ShowShopWindow(void)
 {
+	INFO_LOG("Entering shop.");
 	PushNewMenu(&shopMenuDef);
 }
 #endif //ALLOW_SHOP

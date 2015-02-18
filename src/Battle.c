@@ -3,6 +3,7 @@
 #include "Battle.h"
 #include "Character.h"
 #include "Items.h"
+#include "Logging.h"
 #include "Menu.h"
 #include "MiniDungeon.h"
 #include "Monsters.h"
@@ -22,9 +23,14 @@ void RemoveConfirmationWindow(void);
 
 void CloseBattleWindow(void)
 {
+	INFO_LOG("Ending battle.");
 	battleCleanExit = true;
-	RemoveConfirmationWindow();
 	PopMenu();
+}
+
+bool ClosingWhileInBattle(void)
+{
+	return !battleCleanExit;
 }
 
 static uint8_t currentFloor = 1;
@@ -44,10 +50,20 @@ uint8_t GetCurrentFloor(void)
 	return currentFloor;
 }
 
+void SetCurrentFloor(int newFloor)
+{
+	currentFloor = newFloor;
+}
+
 static MonsterDef *currentMonster;
 static int16_t currentMonsterHealth;
 
-uint16_t ApplyDefense(uint16_t baseDamage, uint8_t defense)
+int16_t GetCurrentMonsterHealth(void)
+{
+	return currentMonsterHealth;
+}
+
+uint16_t ApplyDefense(int baseDamage, int defense)
 {
 	int16_t multiplier;
 	uint16_t totalDamage;
@@ -95,6 +111,7 @@ void BattleUpdate(void)
 {
 	if(currentMonsterHealth <= 0)
 	{
+		INFO_LOG("Player wins.");
 		CloseBattleWindow();
 		GrantGold(currentFloor * currentMonster->goldScale);
 		if(currentFloor == 20)
@@ -167,6 +184,7 @@ void AttemptToRun(void)
 			
 	if(runCheck == 0 && currentFloor < 20) // if floor is >= 20 you are fighting the dragon
 	{
+		INFO_LOG("Player runs.");
 		CloseBattleWindow();
 		IncrementEscapes();
 		return;
@@ -218,9 +236,7 @@ static MenuDefinition battleMainMenuDef =
 		{NULL, NULL, NULL},
 		{"Run", "Try to run away", AttemptToRun},
 	},
-#if OVERRIDE_BACK_BUTTON
 	.init = BattleWindowInit,
-#endif
 #if ALLOW_GOD_MODE
 	.modify = AddKillMenu,
 #endif
@@ -231,6 +247,7 @@ static MenuDefinition battleMainMenuDef =
 
 void ShowMainBattleMenu(void)
 {
+	INFO_LOG("Entering battle.");
 	PushNewMenu(&battleMainMenuDef);
 }
 
@@ -292,11 +309,42 @@ uint16_t ComputeMonsterHealth(uint8_t level)
 	return ScaleMonsterHealth(currentMonster, baseHealth);
 }
 
+static bool forcedBattle = false;
+static int forcedBattleMonsterType = -1;
+static int forcedBattleMonsterHealth = 0;
+void ResumeBattle(int currentMonster, int currentMonsterHealth)
+{
+	if(currentMonster >= 0 && currentMonster < MonsterTypeCount() && currentMonsterHealth > 0)
+	{
+		forcedBattle = true;
+		forcedBattleMonsterType = currentMonster;
+		forcedBattleMonsterHealth = currentMonsterHealth;
+	}
+}
+
+bool IsBattleForced(void)
+{
+	return forcedBattle;
+}
+
 void BattleInit(void)
 {
-	currentMonster = GetRandomMonster(currentFloor);
+	currentMonster = NULL;
+	if(forcedBattle)
+	{
+		DEBUG_LOG("Starting forced battle with (%d,%d)", forcedBattleMonsterType, forcedBattleMonsterHealth);
+		currentMonster = GetFixedMonster(forcedBattleMonsterType);
+		currentMonsterHealth = forcedBattleMonsterHealth;	
+		forcedBattle = false;
+	}
+	
+	if(!currentMonster)
+	{
+		currentMonster = GetRandomMonster(currentFloor);
+		currentMonsterHealth = ComputeMonsterHealth(currentFloor);
+	}
+	
 	battleMainMenuDef.mainImageId = currentMonster->imageId;
-	currentMonsterHealth = ComputeMonsterHealth(currentFloor);
 	battleCleanExit = false;
 }
 
@@ -306,59 +354,7 @@ void BattleWindowInit(Window *window)
 	BattleInit();
 }
 
-void InitializeBattleExitConfirmationWindow(void);
-
 void ShowBattleWindow(void)
 {
-#if OVERRIDE_BACK_BUTTON
 	ShowMainBattleMenu();
-#else
-	InitializeBattleExitConfirmationWindow();
-#endif
-}
-
-//************************ Battle exit confirmation window ****************************//
-#if (OVERRIDE_BACK_BUTTON == 0)
-void BattleExitWindow_SelectSingleClickHandler(ClickRecognizerRef recognizer, Window *window)
-{
-	ShowMainBattleMenu();
-}
-
-void BattleExitWindowClickConfigProvider(ClickConfig **clickConfig, Window *window)
-{
-	(void)window;
-
-	clickConfig[BUTTON_ID_SELECT]->click.handler = (ClickHandler) BattleExitWindow_SelectSingleClickHandler;
-}
-
-Window battleExitWindow;
-
-void BattleExitConfirmationDeinit(Window *window)
-{
-	if(!battleCleanExit)
-	{
-		ResetGame();
-	}
-}
-
-static TextLayer exitText;
-static TextLayer yesText;
-static TextLayer noText;
-
-void InitializeBattleExitConfirmationWindow(void)
-{
-	InitializeConfirmationWindow(&battleExitWindow, &exitText, &yesText, &noText);
-	battleExitWindow.window_handlers.unload = BattleExitConfirmationDeinit;
-	window_set_click_config_provider(&battleExitWindow, (ClickConfigProvider) BattleExitWindowClickConfigProvider);
-	
-	BattleInit();
-	ShowMainBattleMenu();
-}
-#endif
-
-void RemoveConfirmationWindow(void)
-{
-#if (OVERRIDE_BACK_BUTTON == 0)
-	window_stack_remove(&battleExitWindow, false);
-#endif
 }
