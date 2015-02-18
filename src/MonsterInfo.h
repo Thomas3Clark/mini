@@ -8,5 +8,3 @@ typedef struct
 } MonsterInfo;
 
 MonsterInfo* GetCurMonster();
-
-void SetCurMonster(MonsterInfo *info);

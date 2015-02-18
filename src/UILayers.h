@@ -22,8 +22,6 @@ void UpdateHealthText(int16_t currentHealth, uint16_t maxHealth);
 
 TextLayer * InitializeTextLayer(GRect frame, GFont font);
 
-Window * InitializeConfirmationWindow(TextLayer *exitText, TextLayer *yesText, TextLayer *noText);
-void InitializeExitConfirmationWindow(void);
 Window * InitializeWindow(const char *name);
 Window * InitializeMenuWindow(const char *name, WindowHandler init, WindowHandler deinit, WindowHandler appear, WindowHandler disappear);
 

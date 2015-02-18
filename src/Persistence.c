@@ -96,9 +96,7 @@ bool SavePersistedData(void)
 
 	persist_write_bool(PERSISTED_IN_COMBAT, ClosingWhileInBattle());
 	
-	MonsterInfo *cur = GetCurMonster();
-	DEBUG_LOG("Current Monster Info: %d-%d / %d", cur->monsterGroup, cur->monsterId, cur->health);	
-	persist_write_data(PERSISTED_MONSTER_TYPE, cur, sizeof(MonsterInfo));
+	persist_write_data(PERSISTED_MONSTER_TYPE, GetCurMonster(), sizeof(MonsterInfo));
 	
 	return true;
 }
@@ -134,9 +132,7 @@ bool LoadPersistedData(void)
 	
 	if(persist_read_bool(PERSISTED_IN_COMBAT))
 	{
-		MonsterInfo *currentMonster = GetCurMonster();
-		persist_read_data(PERSISTED_MONSTER_TYPE, currentMonster, sizeof(MonsterInfo));
-		SetCurMonster(currentMonster);
+		persist_read_data(PERSISTED_MONSTER_TYPE, GetCurMonster(), sizeof(MonsterInfo));
 		ResumeBattle();
 	}
 	if(characterData->level == 0)
