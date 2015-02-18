@@ -5,13 +5,13 @@
 #define XP_FOR_NEXT_LEVEL 5 * level
 #define EVENT_CHANCE_BASE 35
 #define SHUFFLE_DECK_TIMES 10
-#define SALE_PERCENT 0.65 //Need to change the price in sell window
+#define SALE_PERCENT 0.40 //Need to change the price in sell window
 
 //Card tuning
 #define SHOP_CARDS 2
-#define BATTLE_CARDS 8
-#define FLOOR_CARDS 2
-#define ITEM_CARDS 10
+#define BATTLE_CARDS 5
+#define FLOOR_CARDS 1
+#define ITEM_CARDS 4
 
 // Feature tuning
 #define PAD_WITH_SPACES 1
@@ -35,11 +35,9 @@
 #if ALLOW_SHOP
 	#define ALLOW_ITEM_SHOP 1
 	#define ALLOW_STAT_SHOP 1
-	#define NB_CARDS (SHOP_CARDS + BATTLE_CARDS + ITEM_CARDS + FLOOR_CARDS)
 #else
 	#define ALLOW_ITEM_SHOP 0
 	#define ALLOW_STAT_SHOP 0
-	#define NB_CARDS (BATTLE_CARDS + ITEM_CARDS + FLOOR_CARDS)
 #endif	
 
 // Set up the test menu based on previous choices

@@ -48,7 +48,6 @@ void handle_init() {
 	handle_minute_tick(NULL, MINUTE_UNIT);
 	DEBUG_LOG("First handle second");
 
-	ResetGame();
 	InitializeGameData();
 	DEBUG_LOG("InitializeGameData");
 	ShowAdventureWindow();
