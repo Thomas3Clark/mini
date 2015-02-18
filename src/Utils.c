@@ -42,3 +42,9 @@ uint16_t Random(uint16_t max)
 	return (uint16_t)(rand() % max);
 }
 
+const char *GenerateText(uint16_t number) {
+	static char text[] = "00"; // Needs to be static because it's used by the system later.
+	IntToString(text, 2, number);
+	return text;
+}
+

@@ -100,62 +100,63 @@ void ShowAdventureWindow(void)
 #if ALLOW_SHOP
 static Card entries[] = 
 {
-	{ShowItemGainWindow, ITEM_CARDS,"Item"},
-	{ShowBattleWindow, BATTLE_CARDS,"Battle"},
-	{ShowNewFloorWindow, FLOOR_CARDS,"Floor"},
-	{ShowShopWindow, SHOP_CARDS,"Shop"}
+	{ShowItemGainWindow, ITEM_CARDS,0,"Item"},
+	{ShowBattleWindow, BATTLE_CARDS,0,"Battle"},
+	{ShowNewFloorWindow, FLOOR_CARDS,0,"Floor"},
+	{ShowShopWindow, SHOP_CARDS,0,"Shop"}
 };
-static uint8_t entriesSize = 4;
+
 #else
 static Card entries[] = 
 {
-	{ShowItemGainWindow, ITEM_CARDS,"Item"},
-	{ShowBattleWindow, BATTLE_CARDS,"Battle"},
-	{ShowNewFloorWindow, FLOOR_CARDS,"Floor"},
+	{ShowItemGainWindow, ITEM_CARDS,0,"Item"},
+	{ShowBattleWindow, BATTLE_CARDS,0,"Battle"},
+	{ShowNewFloorWindow, FLOOR_CARDS,0,"Floor"},
 };
-static uint8_t entriesSize = 3;
 #endif
-static uint8_t cardTaken = 0;
-
-#if EVENT_CHANCE_SCALING
-static uint8_t ticksSinceLastEvent = 0;
-#endif
-
-static Card* cardDeck[NB_CARDS];
+static uint8_t entriesSize =  sizeof(entries)/sizeof(entries[0]);
 
 
-void ShuffleDeck() {
-	for(uint8_t i = 0; i < SHUFFLE_DECK_TIMES; i++) {
-		uint8_t first = Random(NB_CARDS);
-		uint8_t second = Random(NB_CARDS);
-		if(first == second) {
-			first++;
-			first %= NB_CARDS;
-		}
-		Card* temp = cardDeck[first];
-		cardDeck[first] = cardDeck[second];
-		cardDeck[second] = temp;
-	}
+void SwapCardEntry(int first, int second) {
+	Card temp = entries[first];
+	entries[first] = entries[second];
+	entries[second] = temp;
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Swap: %d -> %d",first,second);
 }
 
 void ResetCurrentTaken() {
-	cardTaken = 0;
-	uint8_t index = 0;
+	entriesSize =  sizeof(entries)/sizeof(entries[0]);
 	for(uint8_t i = 0; i < entriesSize; ++i) {
-		for(uint8_t j = 0; j < entries[i].number; j++) {
-			cardDeck[index++] = &entries[i];
-		}
+		(&entries[i])->taken = 0;
 	}
-	ShuffleDeck();
 }
 
-Card *GetCard() {
-	cardTaken++;
-	if(cardTaken == NB_CARDS) {
-		ResetCurrentTaken();
+void ComputeAdventure() {
+	
+	
+	uint16_t rand = 1;
+	if(entriesSize != 1) {
+		rand = Random(entriesSize);
 	}
-	return cardDeck[cardTaken];
+
+	Card* card = &entries[rand];
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Card Taken: %s",card->name);	
+	
+	card->windowFunction();	
+	card->taken += 1;	
+	if(card->taken == card->total) {
+		entriesSize--;
+		card->taken = 0;
+		if(entriesSize == 0) {
+			entriesSize = sizeof(entries)/sizeof(entries[0]);
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "Reset EntriesSize: %d",entriesSize);
+		}
+		else if(rand != entriesSize) {
+			SwapCardEntry(rand, entriesSize);
+		}
+	}	
 }
+
 bool ComputeRandomEvent(bool fastMode)
 {
 	uint16_t chanceOfEvent = EVENT_CHANCE_BASE;
@@ -175,8 +176,7 @@ bool ComputeRandomEvent(bool fastMode)
 	if(GetVibration())
 		vibes_short_pulse();
 		
-	Card *cd = GetCard();
-	cd->windowFunction();
+	ComputeAdventure();
 	
 #if EVENT_CHANCE_SCALING
 		ticksSinceLastEvent = 0;
@@ -255,60 +255,51 @@ void CheckEasyMode(MenuEntry * menuEntries) {
 }
 
 #if ALLOW_TEST_MENU
-
-const char *UpdateEntry0Text()
-{
-	static char entry0[] = "00"; // Needs to be static because it's used by the system later.
-	UIntToString(entry0, entries[0].number);
+const char * TextEntry0() {
+	static char entry0[] = "00";
+	strcpy(entry0, GenerateText(entries[0].taken));	
 	return entry0;
 }
-
-const char *UpdateEntry1Text()
-{
-	static char entry1[] = "00"; // Needs to be static because it's used by the system later.
-	UIntToString(entry1, entries[1].number);
+const char * TextEntry1() {
+	static char entry1[] = "00";
+	strcpy(entry1, GenerateText(entries[1].taken));
 	return entry1;
 }
-
-const char *UpdateEntry2Text()
-{
-	static char entry2[] = "00"; // Needs to be static because it's used by the system later.
-	UIntToString(entry2, entries[2].number);
+const char * TextEntry2() {
+	static char entry2[] = "00";
+	strcpy(entry2, GenerateText(entries[2].taken));
 	return entry2;
 }
 
 #if ALLOW_SHOP
-const char *UpdateEntry3Text()
-{
-	static char entry3[] = "00"; // Needs to be static because it's used by the system later.
-	UIntToString(entry3, entries[3].number);
+const char * TextEntry3() {
+	static char entry3[] = "00";
+	strcpy(entry3, GenerateText(entries[3].taken));
 	return entry3;
 }
 #endif
-
-const char *UpdateLimitText()
-{
-	static char limitCard[] = "00"; // Needs to be static because it's used by the system later.
-	UIntToString(limitCard, cardTaken);
-	return limitCard;
+	
+const char * TextEntriesSize() {
+	static char entrySizeText[] = "00";
+	strcpy(entrySizeText, GenerateText(entriesSize));
+	return entrySizeText;
 }
-
 
 void DebugMenuAppear(Window *window)
 {
 	MenuAppear(window);
 	uint8_t i=0;
 	ShowMainWindowRow(i++, "Debug", "");	
-	ShowMainWindowRow(i++, entries[0].name, UpdateEntry0Text());
-	ShowMainWindowRow(i++, entries[1].name, UpdateEntry1Text());
-	ShowMainWindowRow(i++, entries[2].name, UpdateEntry2Text());
+	ShowMainWindowRow(i++, entries[0].name, TextEntry0());
+	ShowMainWindowRow(i++, entries[1].name, TextEntry1());
+	ShowMainWindowRow(i++, entries[2].name, TextEntry2());
 #if ALLOW_SHOP
-	ShowMainWindowRow(i++, entries[3].name, UpdateEntry3Text());
+	ShowMainWindowRow(i++, entries[3].name, TextEntry3());
 #endif
-	ShowMainWindowRow(i++, "Taken", UpdateLimitText());
+	ShowMainWindowRow(i++, "EntriesSize", TextEntriesSize());
 }
 
-static MenuDefinition debugMenuDef = 
+MenuDefinition debugMenuDef = 
 {
 	.menuEntries = 
 	{
