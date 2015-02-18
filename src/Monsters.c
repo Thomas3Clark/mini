@@ -319,7 +319,11 @@ static GroupMonsters *groups[] =
 };
 bool CheckCurrentMonster() {
 	MonsterInfo *cur = GetCurMonster();
-	DEBUG_LOG("Current Monster Info: %d-%d / %d", cur->monsterGroup, cur->monsterId, cur->health);
+	
+	if(cur->dragon || cur->allMonsters) {
+		return true;
+	}
+	
 	uint8_t groupSize = sizeof(groups) / sizeof(groups[0]);
 	if(cur->monsterGroup >= groupSize) {
 		return false;
@@ -338,14 +342,18 @@ MonsterDef *GetRandomMonster(uint8_t floor)
 	uint8_t limit;
 	MonsterInfo *recentMonster = GetCurMonster();
 	if(floor >= 20) {
-		recentMonster->monsterGroup = 100;
+		recentMonster->monsterGroup = 0;
+		recentMonster->monsterId = 0;
+		recentMonster->allMonsters = false;
+		recentMonster->dragon = true;
 		return &Dragon;
 	}
 	
 	GroupMonsters *chosen;
 	if(floor >= 12) {
 		chosen = &AllMonsters;
-		recentMonster->monsterGroup = 101;
+		recentMonster->monsterGroup = 0;
+		recentMonster->allMonsters = true;
 	}
 	else {
 		limit = ((floor + 1) / 2) - 1;
@@ -361,11 +369,11 @@ MonsterDef *GetRandomMonster(uint8_t floor)
 MonsterDef *GetFixedMonster()
 {
 	MonsterInfo* index = GetCurMonster();
-	if(index->monsterGroup == 100) {
+	if(index->dragon) {
 		return &Dragon;
 	}
 	
-	if(index->monsterGroup == 101) {
+	if(index->allMonsters) {
 		if(index->monsterId >= AllMonsters.nbMonster) {
 			return NULL;
 		}
