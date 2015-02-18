@@ -8,6 +8,7 @@
 #include "Monsters.h"
 #include "Persistence.h"
 #include "Shop.h"
+#include "MonsterInfo.h"
 	
 #define CURRENT_DATA_VERSION 2
 enum
@@ -74,12 +75,6 @@ bool SavePersistedData(void)
 		return false;
 	}
 
-	if(GetSizeOfItemsOwned() > PERSIST_DATA_MAX_LENGTH )
-	{
-		ERROR_LOG("Item data is too big to save (%d).", GetSizeOfItemsOwned());
-		return false;
-	}
-
 	INFO_LOG("Saving persisted data.");
 	persist_write_bool(PERSISTED_IS_DATA_SAVED, true);
 	persist_write_int(PERSISTED_CURRENT_DATA_VERSION, CURRENT_DATA_VERSION);
@@ -90,7 +85,9 @@ bool SavePersistedData(void)
 	
 	persist_write_int(PERSISTED_CURRENT_FLOOR, GetCurrentFloor());
 	
-	persist_write_data(PERSISTED_ITEM_DATA, GetItemsOwned(), GetSizeOfItemsOwned());
+	uint8_t *itemsOwned = GetItemsOwned();
+	persist_write_data(PERSISTED_ITEM_DATA, itemsOwned, sizeof(itemsOwned));
+	free(itemsOwned);
 	
 	persist_write_int(PERSISTED_STAT_POINTS_PURCHASED, GetStatPointsPurchased());
 
@@ -98,8 +95,7 @@ bool SavePersistedData(void)
 	persist_write_bool(PERSISTED_FAST_MODE, GetFastMode());
 
 	persist_write_bool(PERSISTED_IN_COMBAT, ClosingWhileInBattle());
-	persist_write_data(PERSISTED_MONSTER_TYPE, GetMostRecentMonster(), sizeof(CurrentMonster));
-	persist_write_int(PERSISTED_MONSTER_HEALTH, GetCurrentMonsterHealth());
+	persist_write_data(PERSISTED_MONSTER_TYPE, GetCurMonster(), sizeof(MonsterInfo));
 	
 	return true;
 }
@@ -123,17 +119,21 @@ bool LoadPersistedData(void)
 	persist_read_data(PERSISTED_CHARACTER_DATA, characterData, sizeof(CharacterData));
 	floor = persist_read_int(PERSISTED_CURRENT_FLOOR);
 	SetCurrentFloor(floor);
-	persist_read_data(PERSISTED_ITEM_DATA, GetItemsOwned(), GetSizeOfItemsOwned());
+	
+	uint8_t *itemsOwned = GetItemsOwned();
+	persist_read_data(PERSISTED_ITEM_DATA, itemsOwned, sizeof(itemsOwned));
+	SetItemOwned(itemsOwned);
+	free(itemsOwned);
+	
 	SetStatPointsPurchased(persist_read_int(PERSISTED_STAT_POINTS_PURCHASED));
 	SetVibration(persist_read_bool(PERSISTED_VIBRATION));
 	SetFastMode(persist_read_bool(PERSISTED_FAST_MODE));
 	
 	if(persist_read_bool(PERSISTED_IN_COMBAT))
 	{
-		CurrentMonster currentMonster;
-		persist_read_data(PERSISTED_MONSTER_TYPE, currentMonster, sizeof(CurrentMonster));
-		int currentMonsterHealth = persist_read_int(PERSISTED_MONSTER_HEALTH);
-		ResumeBattle(currentMonster, currentMonsterHealth);
+		MonsterInfo *currentMonster = GetCurMonster();
+		persist_read_data(PERSISTED_MONSTER_TYPE, currentMonster, sizeof(MonsterInfo));
+		ResumeBattle();
 	}
 	if(characterData->level == 0)
 	{

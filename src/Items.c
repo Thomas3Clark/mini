@@ -17,14 +17,21 @@ static ItemData itemData[] =
 	{"Spark", "00",15,20,0}
 };
 
-int *GetItemsOwned(void)
-{
+uint8_t *GetItemsOwned(void) {
+	uint8_t size = sizeof(itemData) / sizeof(itemData[0]);
+	uint8_t * itemsOwned = malloc(sizeof(uint8_t) * size);
+	
+	for(uint8_t i = 0; i < size; i++) {
+		itemsOwned[i] = itemData[i].owned;
+	}
 	return itemsOwned;
 }
 
-int GetSizeOfItemsOwned(void)
-{
-	return sizeof(itemsOwned);
+void SetItemOwned(uint8_t* itemsOwned) {
+	uint8_t size = sizeof(itemsOwned) / sizeof(itemsOwned[0]);
+	for(uint8_t i = 0; i < size; i++) {
+		itemData[i].owned = itemsOwned[i];
+	}
 }
 
 const char *UpdateItemCountText(ItemType itemType)

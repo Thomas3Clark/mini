@@ -35,5 +35,5 @@ void ClearInventory(void);
 
 ItemData *GetItem(ItemType itemType);
 
-int *GetItemsOwned(void);
-int GetSizeOfItemsOwned(void);
+uint8_t *GetItemsOwned(void);
+void SetItemOwned(uint8_t* itemsOwned);

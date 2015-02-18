@@ -4,12 +4,6 @@
 #include "Monsters.h"
 #include "Utils.h"
 
-CurrentMonster recentMonster;
-CurrentMonster* GetMostRecentMonster(void)
-{
-	return &recentMonster;
-}
-
 static MonsterDef Rat =
 {
 	.name = "Rat",
@@ -323,49 +317,64 @@ static GroupMonsters *groups[] =
 	&FifthLevels,
 	&SixthLevels
 };
-bool CheckCurrentMonster(CurrentMonster cur) {
+bool CheckCurrentMonster() {
+	MonsterInfo *cur = GetCurMonster();
 	uint8_t groupSize = sizeof(groups) / sizeof(groups[0]);
-	if(cur.monsterGroup >= groupSize || cur.monsterGroup < 0) {
-		return FALSE;
+	if(cur->monsterGroup >= groupSize) {
+		return false;
 	}
 	
-	if(cur.monsterId >= groups[cur.monsterGroup]->nbMonster || cur.monsterId < 0) {
-		return FALSE;
+	if(cur->monsterId >= groups[cur->monsterGroup]->nbMonster) {
+		return false;
 	}
 	
-	return TRUE;	
+	return true;	
 }
 
 MonsterDef *GetRandomMonster(uint8_t floor)
 {
 	uint16_t result;
 	uint8_t limit;
-	if(floor >= 20)
+	MonsterInfo *recentMonster = GetCurMonster();
+	if(floor >= 20) {
+		recentMonster->monsterGroup = 100;
 		return &Dragon;
+	}
 	
 	GroupMonsters *chosen;
 	if(floor >= 12) {
 		chosen = &AllMonsters;
+		recentMonster->monsterGroup = 101;
 	}
 	else {
 		limit = ((floor + 1) / 2) - 1;
 		chosen = groups[limit];
+		recentMonster->monsterGroup = limit;
 	}
 	
-	result = Random(chosen->nbMonster);
-	recentMonster.monsterGroup = limit;
-	recentMonster.monsterId = result;
+	result = Random(chosen->nbMonster);	
+	recentMonster->monsterId = result;
 	return chosen->monsters[result];
 }
 
-MonsterDef *GetFixedMonster(CurrentMonster index)
+MonsterDef *GetFixedMonster()
 {
-	if(CheckCurrentMonster(index))
-	{
-		mostRecentMonster = index;
-		return groups[index.monsterGroup]->monsters[index.monsterId];
+	MonsterInfo* index = GetCurMonster();
+	if(index->monsterGroup == 100) {
+		return &Dragon;
 	}
 	
-	ERROR_LOG("Monster type %d is out of range.", index);
+	if(index->monsterGroup == 101) {
+		if(index->monsterId >= AllMonsters.nbMonster) {
+			return NULL;
+		}
+		return AllMonsters.monsters[index->monsterId];
+	}
+		
+	if(CheckCurrentMonster()) {
+		return groups[index->monsterGroup]->monsters[index->monsterId];
+	}
+	
+	ERROR_LOG("Monster type %d is out of range.", index->monsterId);
 	return NULL;
 }

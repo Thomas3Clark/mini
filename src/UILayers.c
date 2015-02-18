@@ -114,16 +114,16 @@ void UnloadBackgroundImage(void)
 {
 	if(!backgroundLoaded)
 		return;
-	bitmap_layer_destroy(backgroundImage);
+	bitmap_layer_destroy(backgroundImageLayer);
+	backgroundImageLayer = NULL;
+	gbitmap_destroy(backgroundImage);
 	backgroundImage = NULL;
-	gbitmap_destroy(backgroundBitmap);
-	backgroundBitmap = NULL;
 	backgroundLoaded = false;
 }
 
 void RemoveBackgroundImage()
 {
-	layer_remove_from_parent(bitmap_layer_get_layer(backgroundImage));
+	layer_remove_from_parent(bitmap_layer_get_layer(backgroundImageLayer));
 }
 
 void LoadBackgroundImage(Window *window, int id)
@@ -132,14 +132,14 @@ void LoadBackgroundImage(Window *window, int id)
     GRect bounds = layer_get_frame(window_layer);
 	if(!backgroundLoaded)
 	{
-		backgroundBitmap = gbitmap_create_with_resource(id);
-		backgroundImage = bitmap_layer_create(bounds);
-		bitmap_layer_set_bitmap(backgroundImage, backgroundBitmap);
-		bitmap_layer_set_alignment(backgroundImage, GAlignLeft);
+		backgroundImage = gbitmap_create_with_resource(id);
+		backgroundImageLayer = bitmap_layer_create(bounds);
+		bitmap_layer_set_bitmap(backgroundImageLayer, backgroundImage);
+		bitmap_layer_set_alignment(backgroundImageLayer, GAlignLeft);
 		backgroundLoaded = true;
 	}
 	
-	layer_add_child(window_layer, bitmap_layer_get_layer(backgroundImage));		
+	layer_add_child(window_layer, bitmap_layer_get_layer(backgroundImageLayer));		
 }
 
 //******** Main part of the screen *********//
@@ -225,7 +225,7 @@ void UnloadMainBmpImage(void)
 	mainImageLayerLoaded = false;
 	mainImageLayerResourceLoaded = -1;
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "Unload Main Bmp");
-	mainImageBitmap = NULL;
+	mainImage = NULL;
 }
 
 
@@ -462,7 +462,6 @@ void UnloadTextLayers(void) {
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "Destroy Clock & Level Layers");
 	text_layer_destroy(clockLayer);
 	text_layer_destroy(levelLayer);
-	window_destroy(confirmationWindow);
 	
 /*	Make can't destroy last layers make the application crash on exit.
  * layer_remove_from_parent(text_layer_get_layer(exitText));

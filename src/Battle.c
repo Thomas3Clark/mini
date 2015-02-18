@@ -56,12 +56,7 @@ void SetCurrentFloor(int newFloor)
 }
 
 static MonsterDef *currentMonster;
-static int16_t currentMonsterHealth;
 
-int16_t GetCurrentMonsterHealth(void)
-{
-	return currentMonsterHealth;
-}
 
 uint16_t ApplyDefense(int baseDamage, int defense)
 {
@@ -103,13 +98,13 @@ const char  *UpdateMonsterHealthText(void)
 {
 	static char monsterHealthText[] = "00000"; // Needs to be static because it's used by the system later.
 
-	IntToString(monsterHealthText, 5, currentMonster ? currentMonsterHealth : 0);
+	IntToString(monsterHealthText, 5, currentMonster ? GetCurMonster()->health : 0);
 	return monsterHealthText;
 }
 
 void BattleUpdate(void)
 {
-	if(currentMonsterHealth <= 0)
+	if(GetCurMonster()->health <= 0)
 	{
 		INFO_LOG("Player wins.");
 		CloseBattleWindow();
@@ -135,14 +130,14 @@ void DamageCurrentMonster(uint8_t strength, uint16_t level, uint8_t defense, uin
 
 	damageToDeal = damageToDeal * bonusMultiplier / 100;
 	
-	currentMonsterHealth -= damageToDeal;
+	GetCurMonster()->health -= damageToDeal;
 	ShowMainWindowRow(0, currentMonster->name, UpdateMonsterHealthText());
 	BattleUpdate();
 }
 
 #if ALLOW_GOD_MODE
 void KillMonster(void) {
-	currentMonsterHealth = 0;
+	GetCurMonster()->health = 0;
 	ShowMainWindowRow(0, currentMonster->name, UpdateMonsterHealthText());
 	BattleUpdate();
 }
@@ -310,15 +305,11 @@ uint16_t ComputeMonsterHealth(uint8_t level)
 }
 
 static bool forcedBattle = false;
-static CurrentMonster forcedBattleMonsterType;
-static int forcedBattleMonsterHealth = 0;
-void ResumeBattle(CurrentMonster currentMonster, int currentMonsterHealth)
+void ResumeBattle()
 {
-	if(CheckCurrentMonster(currentMonster) && currentMonsterHealth > 0)
+	if(CheckCurrentMonster() && GetCurMonster()->health > 0)
 	{
 		forcedBattle = true;
-		forcedBattleMonsterType = currentMonster;
-		forcedBattleMonsterHealth = currentMonsterHealth;
 	}
 }
 
@@ -333,15 +324,14 @@ void BattleInit(void)
 	if(forcedBattle)
 	{
 		DEBUG_LOG("Starting forced battle with (%d,%d)", forcedBattleMonsterType, forcedBattleMonsterHealth);
-		currentMonster = GetFixedMonster(forcedBattleMonsterType);
-		currentMonsterHealth = forcedBattleMonsterHealth;	
+		currentMonster = GetFixedMonster();
 		forcedBattle = false;
 	}
 	
 	if(!currentMonster)
 	{
 		currentMonster = GetRandomMonster(currentFloor);
-		currentMonsterHealth = ComputeMonsterHealth(currentFloor);
+		GetCurMonster()->health = ComputeMonsterHealth(currentFloor);
 	}
 	
 	battleMainMenuDef.mainImageId = currentMonster->imageId;

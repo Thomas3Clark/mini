@@ -37,7 +37,6 @@ void MenuInit(Window *window)
 void MenuDeinit(Window *window)
 {
 	MenuWindow *menuWindow = window_get_user_data(window);
-	MenuWindow *menuWindow = window_get_user_data(window);
 	if(menuWindow)
 	{
 		menuWindow->inUse = false;
