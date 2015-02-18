@@ -12,3 +12,9 @@ static MonsterInfo currentMonsterInfo;
 inline static MonsterInfo* GetCurMonster() {
 	return &currentMonsterInfo;
 }
+
+inline static void SetCurMonster(MonsterInfo *info) {
+	currentMonster.monsterGroup = info->monsterGroup;
+	currentMonster.monsterId = info->monsterId;
+	currentMonster.health = info->health;
+}

@@ -133,6 +133,7 @@ bool LoadPersistedData(void)
 	{
 		MonsterInfo *currentMonster = GetCurMonster();
 		persist_read_data(PERSISTED_MONSTER_TYPE, currentMonster, sizeof(MonsterInfo));
+		SetCurMonster(currentMonster);
 		ResumeBattle();
 	}
 	if(characterData->level == 0)
