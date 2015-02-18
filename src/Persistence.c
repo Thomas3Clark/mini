@@ -9,6 +9,7 @@
 #include "Persistence.h"
 #include "Shop.h"
 #include "MonsterInfo.h"
+#include "Adventure.h"
 	
 #define CURRENT_DATA_VERSION 2
 enum
@@ -23,6 +24,9 @@ enum
 	PERSISTED_VIBRATION,
 	PERSISTED_FAST_MODE,
 	PERSISTED_EASY_MODE,
+	
+	PERSISTED_CARD_META,
+	PERSISTED_CARD_ENTRIES_SIZE,
 	
 	PERSISTED_IN_COMBAT,
 	PERSISTED_MONSTER_TYPE,
@@ -100,6 +104,11 @@ bool SavePersistedData(void)
 	
 	persist_write_data(PERSISTED_MONSTER_TYPE, GetCurMonster(), sizeof(MonsterInfo));
 	
+	persist_write_int(PERSISTED_CARD_ENTRIES_SIZE, GetEntriesSize());
+	CardMetadata* meta = GetCardsMeta();
+	persist_write_data(PERSISTED_CARD_META, meta , sizeof(meta));
+	free(meta); 
+	
 	return true;
 }
 
@@ -132,6 +141,13 @@ bool LoadPersistedData(void)
 	SetVibration(persist_read_bool(PERSISTED_VIBRATION));
 	SetFastMode(persist_read_bool(PERSISTED_FAST_MODE));
 	SetEasyMode(persist_read_bool(PERSISTED_EASY_MODE));
+	
+	CardMetadata * meta = malloc(GetEntriesSize() * sizeof(CardMetadata));
+	persist_read_data(PERSISTED_CARD_META, meta, sizeof(meta) );
+	LoadCardsMeta(meta);
+	free(meta);
+	
+	SetEntriesSize(persist_read_int(PERSISTED_CARD_ENTRIES_SIZE));
 	
 	if(persist_read_bool(PERSISTED_IN_COMBAT))
 	{
