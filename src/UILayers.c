@@ -219,33 +219,34 @@ void UnloadMainBmpImage(void)
 {
 	if(!mainImageLayerLoaded)
 		return;
+	DEBUG_LOG("Unloading Main resourceId %d.", mainImageLayerResourceLoaded);
 	layer_remove_from_parent(bitmap_layer_get_layer(mainImageLayer));
 	gbitmap_destroy(mainImage);
 	bitmap_layer_destroy(mainImageLayer);
 	mainImageLayerLoaded = false;
 	mainImageLayerResourceLoaded = -1;
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Unload Main Bmp");
-	mainImage = NULL;
 }
 
 
 
 void LoadMainBmpImage(Window *window, int id)
 {
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Load Main BMP id=%d",id);
+	DEBUG_LOG("Loading Main resourceId %d.", id);
 	int resourceId = id;
 	
 	Layer *window_layer = window_get_root_layer(window);
 	
-#if DISABLE_MENU_BMPS
-	return;
-#endif
 	
+#if DISABLE_MENU_BMPS
+       return;
+#endif
+       
 	if(!window)
 	{
 		DEBUG_LOG("Skipping image load due to window not yet available.");
 		return;
 	}
+
 		
 	if(mainImageLayerLoaded)
 	{
@@ -254,10 +255,8 @@ void LoadMainBmpImage(Window *window, int id)
 			layer_add_child(window_layer, bitmap_layer_get_layer(mainImageLayer));
 			return; // already loaded the correct one.
 		}
-		DEBUG_LOG("Unloading resourceId %d.", mainImageLayerResourceLoaded);
 		UnloadMainBmpImage();
 	}
-	DEBUG_LOG("Loading resourceId %d.", resourceId);
 	mainImage = gbitmap_create_with_resource(resourceId);
 	mainImageLayer = bitmap_layer_create(mainFrame);
 	bitmap_layer_set_bitmap(mainImageLayer, mainImage);
@@ -266,6 +265,7 @@ void LoadMainBmpImage(Window *window, int id)
 	mainImageLayerLoaded = true;
 	mainImageLayerResourceLoaded = resourceId;
 }
+
 
 //******* CLOCK *********//
 
