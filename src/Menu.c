@@ -12,7 +12,7 @@ bool MenuEntryIsActive(MenuEntry *entry)
 	return entry->text && entry->menuFunction;
 }
 
-MenuDefinition *currentMenuDef = NULL;
+static MenuDefinition *currentMenuDef = NULL;
 
 //*************** Menu Windows ******************//
 
@@ -26,7 +26,7 @@ typedef struct
 	MenuDefinition *menu;
 } MenuWindow;
 
-MenuWindow menuWindows[MAX_MENU_WINDOWS];
+static MenuWindow menuWindows[MAX_MENU_WINDOWS];
 
 void MenuInit(Window *window)
 {

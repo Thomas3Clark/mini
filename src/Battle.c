@@ -44,8 +44,8 @@ uint8_t GetCurrentFloor(void)
 	return currentFloor;
 }
 
-MonsterDef *currentMonster;
-int16_t currentMonsterHealth;
+static MonsterDef *currentMonster;
+static int16_t currentMonsterHealth;
 
 uint16_t ApplyDefense(uint16_t baseDamage, uint8_t defense)
 {
@@ -72,7 +72,7 @@ void MonsterAttack(void)
 {
 	uint16_t baseDamage;
 	uint16_t damageToDeal;
-	bool useMagicAttack = (currentMonster->allowMagicAttack && currentMonster->allowPhysicalAttack) ? Random(2) - 1 : currentMonster->allowMagicAttack;
+	bool useMagicAttack = (currentMonster->allowMagicAttack && currentMonster->allowPhysicalAttack) ? Random(2) : currentMonster->allowMagicAttack;
 	baseDamage = ComputePlayerHealth(currentFloor)/GetMonsterPowerDivisor(currentMonster->powerLevel);
 	damageToDeal = ApplyDefense(baseDamage, useMagicAttack ? GetCharacter()->stats.magicDefense : GetCharacter()->stats.defense);
 
@@ -207,7 +207,7 @@ void ShowItemBattleMenu(void);
 void BattleWindowAppear(Window *window);
 void BattleWindowInit(Window *window);
 
-MenuDefinition battleMainMenuDef = 
+static MenuDefinition battleMainMenuDef = 
 {
 	.menuEntries = 
 	{
@@ -260,7 +260,7 @@ void ActivateCombatFullPotion(void)
 
 void ItemBattleMenuAppear(Window *window);
 
-MenuDefinition itemBattleMenuDef = 
+static MenuDefinition itemBattleMenuDef = 
 {
 	.menuEntries = 
 	{

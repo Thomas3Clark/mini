@@ -7,31 +7,14 @@
 #include "UILayers.h"
 #include "Utils.h"
 
-typedef struct
+static ItemData itemData[] = 
 {
-	const char *name;
-	char countText[2];
-} ItemData;
-
-ItemData itemData[] = 
-{
-	{"Potion", "00"},
-	{"Elixir", "00"},
-	{"Bomb", "00"},
-	{"Icicle", "00"},
-	{"Spark", "00"}
+	{"Potion", "00",50,10,0},
+	{"Elixir", "00",5,100,0},
+	{"Bomb", "00",15,20,0},
+	{"Icicle", "00",15,20,0},
+	{"Spark", "00",15,20,0}
 };
-
-int randomItemTable[] = 
-{
-	50,
-	5,
-	15,
-	15,
-	15
-};
-
-int itemsOwned[ITEM_TYPE_COUNT];
 
 const char *UpdateItemCountText(ItemType itemType)
 {
@@ -39,9 +22,9 @@ const char *UpdateItemCountText(ItemType itemType)
 	if(itemType >= ITEM_TYPE_COUNT)
 		return "";
 #endif
-		
-	IntToString(itemData[itemType].countText, 2, itemsOwned[itemType]);
-	return itemData[itemType].countText;
+	ItemData* item = GetItem(itemType);
+	UIntToString(item->countText, item->owned);
+	return item->countText;
 }
 
 void ClearInventory(void)
@@ -49,8 +32,12 @@ void ClearInventory(void)
 	int i;
 	for(i = 0; i < ITEM_TYPE_COUNT; ++i)
 	{
-		itemsOwned[i] = 0;
+		GetItem(i)->owned = 0;
 	}
+}
+
+ItemData *GetItem(ItemType itemType) {
+	return &itemData[itemType];
 }
 
 const char *GetItemName(ItemType itemType)
@@ -60,13 +47,13 @@ const char *GetItemName(ItemType itemType)
 		return "";
 #endif
 
-	return itemData[itemType].name;
+	return GetItem(itemType)->name;
 }
 
 void ItemGainMenuInit(Window *window);
 void ItemGainMenuAppear(Window *window);
 
-MenuDefinition itemGainMenuDef = 
+static MenuDefinition itemGainMenuDef = 
 {
 	.menuEntries = 
 	{
@@ -98,19 +85,22 @@ void ItemGainMenuAppear(Window *window)
 
 bool AddItem(ItemType type)
 {
-	itemsOwned[type]++;
-	if(itemsOwned[type] > 99)
+	ItemData* item = GetItem(type);
+
+	if(item->owned + 1 > 99)
 	{
-		itemsOwned[type] = 99;
 		return false;
 	}
+	item->owned++;
 	return true;
 }
 bool RemoveItem(ItemType type) {
-	if(itemsOwned[type] <= 0) {
+	ItemData* item = GetItem(type);
+	
+	if(item->owned <= 0) {
 		return false;
 	}
-	itemsOwned[type]--;
+	item->owned--;
 	return true;
 }
 void ItemGainMenuInit(Window *window)
@@ -121,7 +111,7 @@ void ItemGainMenuInit(Window *window)
 	MenuInit(window);
 	do
 	{
-		acc += randomItemTable[i];
+		acc += itemData[i].probability;
 		if(acc >= result)
 		{
 			typeGained = i;
@@ -139,10 +129,11 @@ void ShowItemGainWindow(void)
 
 bool AttemptToUseHealingItem(ItemType type, int power)
 {
-	if(itemsOwned[type] > 0 && PlayerIsInjured())
+	ItemData* item = GetItem(type);
+	if(item->owned > 0 && PlayerIsInjured())
 	{
 		HealPlayerByPercent(power);
-		--itemsOwned[type];
+		--item->owned;
 		ShowAllItemCounts();
 		return true;
 	}  
@@ -171,7 +162,7 @@ void ActivateFullPotion(void)
 
 void ItemMainMenuAppear(Window *window);
 
-MenuDefinition itemMainMenuDef = 
+static MenuDefinition itemMainMenuDef = 
 {
 	.menuEntries = 
 	{
@@ -196,9 +187,10 @@ void ShowMainItemMenu(void)
 
 bool AttemptToUseItem(ItemType type)
 {
-	if(itemsOwned[type] > 0)
+	ItemData* item = GetItem(type);
+	if(item->owned > 0)
 	{
-		--itemsOwned[type];
+		--item->owned;
 		return true;
 	}
 	

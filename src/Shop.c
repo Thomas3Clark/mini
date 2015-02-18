@@ -12,15 +12,6 @@
 
 #if ALLOW_ITEM_SHOP
 
-uint16_t costs[5] = 
-{
-	10,
-	100,
-	20,
-	20,
-	20
-};
-
 void ShopItemMenuAppear(Window *window);
 
 void DrawMainItemShopWindow(void)
@@ -31,7 +22,7 @@ void DrawMainItemShopWindow(void)
 
 void BuyItem(ItemType type)
 {
-	uint16_t cost = costs[type];
+	uint8_t cost = GetItem(type)->cost;
 	CharacterData *data = GetCharacter();
 	if (data->gold >= cost)
 	{
@@ -49,8 +40,8 @@ void SellItem(ItemType type)
 		return;
 	}
 	CharacterData *data = GetCharacter();
-	uint16_t cost = costs[type];
-	data->gold += (uint16_t)(cost * SALE_PERCENT);
+	uint8_t cost = GetItem(type)->cost;
+	data->gold += (uint8_t)(cost * SALE_PERCENT);
 	DrawMainItemShopWindow();
 	
 }
@@ -128,9 +119,9 @@ MenuDefinition shopSellItemMenuDef =
 		{"Quit", "Return to shop menu", PopMenu},
 		{"6", "Sell Potion", SellPotion},
 		{"65", "Sell Elixir", SellElixir},
-		{"12", "Sell Bomb", SellBomb},
-		{"12", "Sell Icicle", SellIcicle},
-		{"12", "Sell Spark", SellSpark},
+		{"13", "Sell Bomb", SellBomb},
+		{"13", "Sell Icicle", SellIcicle},
+		{"13", "Sell Spark", SellSpark},
 	},
 	.appear = ShopItemMenuAppear,
 	.mainImageId = -1
@@ -169,7 +160,7 @@ const char *UpdateStatCostText(void)
 {
 	static char costText[] = "0000"; // Needs to be static because it's used by the system later.
 	int cost = 1 << statPointsPurchased;
-	IntToString(costText, 4, cost);
+	UIntToString(costText, cost);
 	return costText;
 }
 
