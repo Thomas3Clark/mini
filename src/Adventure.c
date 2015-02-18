@@ -100,67 +100,18 @@ void ShowAdventureWindow(void)
 #if ALLOW_SHOP
 static Card entries[] = 
 {
-	{
-		.windowFunction=ShowItemGainWindow,
-		.name="Item",
-		.meta= {
-			.type = CARD_ITEM, 
-			.total=ITEM_CARDS,
-		}
-	},
-	{
-		.windowFunction=ShowBattleWindow,		
-		.name="Battle",
-		.meta= {
-			.type = CARD_BATTLE,
-			.total=BATTLE_CARDS
-		}
-	},
-	{
-		.windowFunction=ShowNewFloorWindow,		
-		.name="Floor",
-		.meta= {
-			.total=FLOOR_CARDS,
-			.type = CARD_FLOOR 
-		}
-	},
-	{
-		.windowFunction=ShowShopWindow,		
-		.name="Shop",
-		.meta= {
-			.total=SHOP_CARDS,
-			.type = CARD_SHOP 
-		}
-	}
+	{ShowItemGainWindow, ITEM_CARDS,0,"Item"},
+	{ShowBattleWindow, BATTLE_CARDS,0,"Battle"},
+	{ShowNewFloorWindow, FLOOR_CARDS,0,"Floor"},
+	{ShowShopWindow, SHOP_CARDS,0,"Shop"}
 };
 
 #else
 static Card entries[] = 
 {
-	{
-		.windowFunction=ShowItemGainWindow,
-		.name="Item",
-		.meta= {
-			.type = CARD_ITEM, 
-			.total=ITEM_CARDS,
-		}
-	},
-	{
-		.windowFunction=ShowBattleWindow,		
-		.name="Battle",
-		.meta= {
-			.type = CARD_BATTLE,
-			.total=BATTLE_CARDS
-		}
-	},
-	{
-		.windowFunction=ShowNewFloorWindow,		
-		.name="Floor",
-		.meta= {
-			.total=FLOOR_CARDS,
-			.type = CARD_FLOOR 
-		}
-	}
+	{ShowItemGainWindow, ITEM_CARDS,0,"Item"},
+	{ShowBattleWindow, BATTLE_CARDS,0,"Battle"},
+	{ShowNewFloorWindow, FLOOR_CARDS,0,"Floor"},
 };
 #endif
 static uint8_t entriesSize =  sizeof(entries)/sizeof(entries[0]);
@@ -168,53 +119,6 @@ static uint8_t entriesSize =  sizeof(entries)/sizeof(entries[0]);
 #if EVENT_CHANCE_SCALING
 static uint8_t ticksSinceLastEvent = 0;
 #endif
-
-uint8_t GetEntriesSize(void) {
-	return entriesSize;
-}
-void SetEntriesSize(uint8_t size) {
-	entriesSize = size;
-}
-
-CardMetadata* GetCardsMeta(void) {
-	uint8_t size = sizeof(entries)/sizeof(entries[0]);
-	CardMetadata* metas = malloc(sizeof(CardMetadata) * size);
-	for(uint8_t i = 0; i < size; i++) {
-		metas[i] = entries[0].meta;
-	}
-	return metas;
-}
-
-void LoadCardsMeta(CardMetadata* data) {
-	uint8_t size = sizeof(entries)/sizeof(entries[0]);
-	uint8_t savedSize = sizeof(data)/sizeof(data[0]);
-	if(size != savedSize) {
-		ERROR_LOG("Problem with the metadata of the cards");
-		return;
-	}
-	for(uint8_t i = 0; i < size; i++) {
-		entries[i].meta= data[i];
-		switch(data[i].type) {
-			case CARD_ITEM:
-					entries[i].windowFunction=ShowItemGainWindow;
-					entries[i].name="Item";				
-			break;
-			case CARD_BATTLE:							
-					entries[i].windowFunction=ShowBattleWindow,
-					entries[i].name="Battle";			
-			break;
-			case CARD_FLOOR:			
-					entries[i].windowFunction=ShowNewFloorWindow,
-					entries[i].name="Floor";				
-			break;
-			case CARD_SHOP:			
-					entries[i].windowFunction=ShowShopWindow,
-					entries[i].name="Shop";				
-			break;		
-		}
-	}
-	
-}
 
 void SwapCardEntry(int first, int second) {
 	Card temp = entries[first];
@@ -226,7 +130,7 @@ void SwapCardEntry(int first, int second) {
 void ResetCurrentTaken() {
 	entriesSize =  sizeof(entries)/sizeof(entries[0]);
 	for(uint8_t i = 0; i < entriesSize; ++i) {
-		entries[i].meta.taken = 0;
+		(&entries[i])->taken = 0;
 	}
 }
 
@@ -242,10 +146,10 @@ void ComputeAdventure() {
 	DEBUG_LOG( "Card Taken: %s",card->name);	
 	
 	card->windowFunction();	
-	card->meta.taken += 1;	
-	if(card->meta.taken == card->meta.total) {
+	card->taken += 1;	
+	if(card->taken == card->total) {
 		entriesSize--;
-		card->meta.taken = 0;
+		card->taken = 0;
 		if(entriesSize == 0) {
 			entriesSize = sizeof(entries)/sizeof(entries[0]);
 			DEBUG_LOG( "Reset EntriesSize: %d",entriesSize);
@@ -356,24 +260,24 @@ void CheckEasyMode(MenuEntry * menuEntries) {
 #if ALLOW_TEST_MENU
 const char * TextEntry0() {
 	static char entry0[] = "00";
-	strcpy(entry0, GenerateText(entries[0].meta.taken));	
+	strcpy(entry0, GenerateText(entries[0].taken));	
 	return entry0;
 }
 const char * TextEntry1() {
 	static char entry1[] = "00";
-	strcpy(entry1, GenerateText(entries[1].meta.taken));
+	strcpy(entry1, GenerateText(entries[1].taken));
 	return entry1;
 }
 const char * TextEntry2() {
 	static char entry2[] = "00";
-	strcpy(entry2, GenerateText(entries[2].meta.taken));
+	strcpy(entry2, GenerateText(entries[2].taken));
 	return entry2;
 }
 
 #if ALLOW_SHOP
 const char * TextEntry3() {
 	static char entry3[] = "00";
-	strcpy(entry3, GenerateText(entries[3].meta.taken));
+	strcpy(entry3, GenerateText(entries[3].taken));
 	return entry3;
 }
 #endif
