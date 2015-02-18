@@ -319,6 +319,7 @@ static GroupMonsters *groups[] =
 };
 bool CheckCurrentMonster() {
 	MonsterInfo *cur = GetCurMonster();
+	DEBUG_LOG("Current Monster Info: %d-%d / %d", cur->monsterGroup, cur->monsterId, cur->health);
 	uint8_t groupSize = sizeof(groups) / sizeof(groups[0]);
 	if(cur->monsterGroup >= groupSize) {
 		return false;

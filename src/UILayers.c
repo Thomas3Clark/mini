@@ -257,7 +257,7 @@ void LoadMainBmpImage(Window *window, int id)
 		DEBUG_LOG("Unloading resourceId %d.", mainImageLayerResourceLoaded);
 		UnloadMainBmpImage();
 	}
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "Load resource BMP");
+	DEBUG_LOG("Loading resourceId %d.", resourceId);
 	mainImage = gbitmap_create_with_resource(resourceId);
 	mainImageLayer = bitmap_layer_create(mainFrame);
 	bitmap_layer_set_bitmap(mainImageLayer, mainImage);
