@@ -95,7 +95,10 @@ bool SavePersistedData(void)
 	persist_write_bool(PERSISTED_FAST_MODE, GetFastMode());
 
 	persist_write_bool(PERSISTED_IN_COMBAT, ClosingWhileInBattle());
-	persist_write_data(PERSISTED_MONSTER_TYPE, GetCurMonster(), sizeof(MonsterInfo));
+	
+	MonsterInfo *cur = GetCurMonster();
+	DEBUG_LOG("Current Monster Info: %d-%d / %d", cur->monsterGroup, cur->monsterId, cur->health);	
+	persist_write_data(PERSISTED_MONSTER_TYPE, cur, sizeof(MonsterInfo));
 	
 	return true;
 }

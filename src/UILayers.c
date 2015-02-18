@@ -225,6 +225,7 @@ void UnloadMainBmpImage(void)
 	bitmap_layer_destroy(mainImageLayer);
 	mainImageLayerLoaded = false;
 	mainImageLayerResourceLoaded = -1;
+	mainImage = NULL;
 }
 
 
@@ -253,6 +254,7 @@ void LoadMainBmpImage(Window *window, int id)
 		if(mainImageLayerResourceLoaded == resourceId)
 		{
 			layer_add_child(window_layer, bitmap_layer_get_layer(mainImageLayer));
+			DEBUG_LOG("Already Loaded correct image");
 			return; // already loaded the correct one.
 		}
 		UnloadMainBmpImage();
@@ -264,6 +266,7 @@ void LoadMainBmpImage(Window *window, int id)
 	layer_add_child(window_layer, bitmap_layer_get_layer(mainImageLayer));
 	mainImageLayerLoaded = true;
 	mainImageLayerResourceLoaded = resourceId;
+	DEBUG_LOG("LOADED Main resourceId %d.", resourceId);
 }
 
 
