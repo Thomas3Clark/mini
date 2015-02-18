@@ -118,11 +118,11 @@ MenuDefinition shopSellItemMenuDef =
 	.menuEntries = 
 	{
 		{"Quit", "Return to shop menu", PopMenu},
-		{"6", "Sell Potion", SellPotion},
-		{"65", "Sell Elixir", SellElixir},
-		{"13", "Sell Bomb", SellBomb},
-		{"13", "Sell Icicle", SellIcicle},
-		{"13", "Sell Spark", SellSpark},
+		{"2", "Sell Potion", SellPotion},
+		{"20", "Sell Elixir", SellElixir},
+		{"4", "Sell Bomb", SellBomb},
+		{"4", "Sell Icicle", SellIcicle},
+		{"4", "Sell Spark", SellSpark},
 	},
 	.appear = ShopItemMenuAppear,
 	.mainImageId = -1
