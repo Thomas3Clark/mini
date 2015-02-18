@@ -254,7 +254,7 @@ void LoadMainBmpImage(Window *window, int id)
 			layer_add_child(window_layer, bitmap_layer_get_layer(mainImageLayer));
 			return; // already loaded the correct one.
 		}
-		DEBUG_LOG("Unloading resourceId %d.", mainImageResourceLoaded);
+		DEBUG_LOG("Unloading resourceId %d.", mainImageLayerResourceLoaded);
 		UnloadMainBmpImage();
 	}
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "Load resource BMP");

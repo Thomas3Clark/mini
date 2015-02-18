@@ -323,7 +323,7 @@ void BattleInit(void)
 	currentMonster = NULL;
 	if(forcedBattle)
 	{
-		DEBUG_LOG("Starting forced battle with (%d,%d)", forcedBattleMonsterType, forcedBattleMonsterHealth);
+		DEBUG_LOG("Starting forced battle with (%d-%d,%d)", GetCurMonster()->monsterGroup,GetCurMonster()->monsterId, GetCurMonster()->health);
 		currentMonster = GetFixedMonster();
 		forcedBattle = false;
 	}
