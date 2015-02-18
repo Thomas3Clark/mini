@@ -10,15 +10,6 @@ typedef enum
 	ITEM_TYPE_COUNT
 } ItemType;
 
-typedef struct ItemData
-{
-	const char *name;
-	char countText[2];
-	uint8_t probability;
-	uint8_t cost;
-	uint8_t owned;
-} ItemData;
-
 void ShowItemGainWindow(void);
 void ShowMainItemMenu(void);
 
@@ -32,5 +23,3 @@ bool RemoveItem(ItemType type);
 
 void ShowAllItemCounts(void);
 void ClearInventory(void);
-
-ItemData *GetItem(ItemType itemType);

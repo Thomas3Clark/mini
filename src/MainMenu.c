@@ -47,7 +47,7 @@ void ForceShop(void)
 	ShowShopWindow();
 }
 
-static MenuDefinition testMenuDef = 
+MenuDefinition testMenuDef = 
 {
 	.menuEntries = 
 	{
@@ -139,7 +139,7 @@ void GodModAdd(MenuEntry *menuEntries) {
 #endif
 void OptionsMenuAppear(Window *window);
 
-static MenuDefinition optionsMenuDef = 
+MenuDefinition optionsMenuDef = 
 {
 	.menuEntries = 
 	{
@@ -169,7 +169,7 @@ void ShowOptionsMenu(void)
 
 void MainMenuWindowAppear(Window *window);
 
-static MenuDefinition mainMenuDef = 
+MenuDefinition mainMenuDef = 
 {
 	.menuEntries = 
 	{

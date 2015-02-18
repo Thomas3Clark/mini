@@ -12,7 +12,7 @@
 #include "MainMenu.h"
 #endif
 
-static CharacterData characterData;
+CharacterData characterData;
 static uint8_t statPointsToSpend = 0;
 
 void AddStatPointToSpend(void)
@@ -40,28 +40,28 @@ const char *UpdateLevelText(void)
 const char *UpdateXPText(void)
 {
 	static char xpText[] = "0000"; // Needs to be static because it's used by the system later.
-	UIntToString(xpText, characterData.xp);
+	IntToString(xpText, 4, characterData.xp);
 	return xpText;
 }
 
 const char *UpdateNextXPText(void)
 {
 	static char nextXPText[] = "0000"; // Needs to be static because it's used by the system later.
-	UIntToString(nextXPText, characterData.xpForNextLevel);
+	IntToString(nextXPText, 4, characterData.xpForNextLevel);
 	return nextXPText;
 }
 
 const char *UpdateGoldText(void)
 {
 	static char goldText[] = "00000"; // Needs to be static because it's used by the system later.
-	UIntToString(goldText, characterData.gold);
+	IntToString(goldText, 5, characterData.gold);
 	return goldText;
 }
 
 const char *UpdateEscapeText(void)
 {
 	static char escapeText[] = "000"; // Needs to be static because it's used by the system later.
-	UIntToString(escapeText, characterData.escapes);
+	IntToString(escapeText, 3, characterData.escapes);
 	return escapeText;
 }
 
@@ -163,7 +163,7 @@ void EndMenuDisappear(Window *window)
 
 void EndMenuAppear(Window *window);
 
-static MenuDefinition endMenuDef = 
+MenuDefinition endMenuDef = 
 {
 	.menuEntries = 
 	{
@@ -196,7 +196,7 @@ const char  *UpdateStatPointText(void)
 {
 	static char statText[] = "00"; // Needs to be static because it's used by the system later.
 
-	UIntToString(statText, statPointsToSpend);
+	IntToString(statText, 2, statPointsToSpend);
 	return statText;
 }
 
@@ -204,7 +204,7 @@ const char  *UpdateStrengthText(void)
 {
 	static char strengthText[] = "00"; // Needs to be static because it's used by the system later.
 
-	UIntToString(strengthText, characterData.stats.strength);
+	IntToString(strengthText, 2, characterData.stats.strength);
 	return strengthText;
 }
 
@@ -212,7 +212,7 @@ const char  *UpdateDefenseText(void)
 {
 	static char defenseText[] = "00"; // Needs to be static because it's used by the system later.
 
-	UIntToString(defenseText, characterData.stats.defense);
+	IntToString(defenseText, 2, characterData.stats.defense);
 	return defenseText;
 }
 
@@ -220,7 +220,7 @@ const char  *UpdateMagicText(void)
 {
 	static char magicText[] = "00"; // Needs to be static because it's used by the system later.
 
-	UIntToString(magicText, characterData.stats.magic);
+	IntToString(magicText, 2, characterData.stats.magic);
 	return magicText;
 }
 
@@ -228,7 +228,7 @@ const char  *UpdateMagicDefenseText(void)
 {
 	static char magicDefenseText[] = "00"; // Needs to be static because it's used by the system later.
 
-	UIntToString(magicDefenseText, characterData.stats.magicDefense);
+	IntToString(magicDefenseText, 2, characterData.stats.magicDefense);
 	return magicDefenseText;
 }
 
@@ -287,7 +287,7 @@ void LevelUp(void)
 
 void StatMenuAppear(Window *window);
 
-static MenuDefinition statMenuDef = 
+MenuDefinition statMenuDef = 
 {
 	.menuEntries = 
 	{
@@ -314,7 +314,7 @@ void ShowStatMenu(void)
 
 void ProgressMenuAppear(Window *window);
 
-static MenuDefinition progressMenuDef = 
+MenuDefinition progressMenuDef = 
 {
 	.menuEntries = 
 	{

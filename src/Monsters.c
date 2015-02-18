@@ -4,7 +4,7 @@
 #include "Utils.h"
 
 
-static MonsterDef Rat = 
+MonsterDef Rat = 
 {
 	.name = "Rat",
 	.imageId = RESOURCE_ID_IMAGE_RAT,
@@ -19,7 +19,7 @@ static MonsterDef Rat =
 	.goldScale = 0
 };
 
-static MonsterDef MagPie = 
+MonsterDef MagPie = 
 {
 	.name = "Mag Pie",
 	.imageId = RESOURCE_ID_IMAGE_MAGPIE,
@@ -34,7 +34,7 @@ static MonsterDef MagPie =
 	.goldScale = 1
 };
 
-static MonsterDef Bunny = 
+MonsterDef Bunny = 
 {
 	.name = "Bunny",
 	.imageId = RESOURCE_ID_IMAGE_BUNNY,
@@ -48,7 +48,7 @@ static MonsterDef Bunny =
 	.allowPhysicalAttack = true,
 	.goldScale = 0	
 };
-static MonsterDef Goblin = 
+MonsterDef Goblin = 
 {
 	.name = "Goblin",
 	.imageId = RESOURCE_ID_IMAGE_GOBLIN,
@@ -63,7 +63,7 @@ static MonsterDef Goblin =
 	.goldScale = 2
 };
 
-static MonsterDef Witch = 
+MonsterDef Witch = 
 {
 	.name = "Witch",
 	.imageId = RESOURCE_ID_IMAGE_WITCH,
@@ -78,7 +78,7 @@ static MonsterDef Witch =
 	.goldScale = 2
 };
 
-static MonsterDef Wizard = 
+MonsterDef Wizard = 
 {
 	.name = "Wizard",
 	.imageId = RESOURCE_ID_IMAGE_WIZARD,
@@ -93,7 +93,7 @@ static MonsterDef Wizard =
 	.goldScale = 3
 };
 
-static MonsterDef HalfZombie = 
+MonsterDef HalfZombie = 
 {
 	.name = "Half Zombie",
 	.imageId = RESOURCE_ID_IMAGE_HALF_ZOMBIE,
@@ -108,7 +108,7 @@ static MonsterDef HalfZombie =
 	.goldScale = 1
 };
 
-static MonsterDef Zombie = 
+MonsterDef Zombie = 
 {
 	.name = "Zombie",
 	.imageId = RESOURCE_ID_IMAGE_ZOMBIE,
@@ -123,7 +123,7 @@ static MonsterDef Zombie =
 	.goldScale = 1
 };
 
-static MonsterDef Fox = 
+MonsterDef Fox = 
 {
 	.name = "Fox",
 	.imageId = RESOURCE_ID_IMAGE_FOX,
@@ -138,7 +138,7 @@ static MonsterDef Fox =
 	.goldScale = 0	
 };
 
-static MonsterDef Turtle = 
+MonsterDef Turtle = 
 {
 	.name = "Turtle",
 	.imageId = RESOURCE_ID_IMAGE_TURTLE,
@@ -153,7 +153,7 @@ static MonsterDef Turtle =
 	.goldScale = 0	
 };
 
-static MonsterDef Cyclope = 
+MonsterDef Cyclope = 
 {
 	.name = "Cyclope",
 	.imageId = RESOURCE_ID_IMAGE_CYCLOPE,
@@ -168,7 +168,7 @@ static MonsterDef Cyclope =
 	.goldScale = 2
 };
 
-static MonsterDef Chimera = 
+MonsterDef Chimera = 
 {
 	.name = "Chimera",
 	.imageId = RESOURCE_ID_IMAGE_CHIMERA,
@@ -184,7 +184,7 @@ static MonsterDef Chimera =
 	.goldScale = 2
 };
 
-static MonsterDef Lich = 
+MonsterDef Lich = 
 {
 	.name = "Lich",
 	.imageId = RESOURCE_ID_IMAGE_LICH,
@@ -199,7 +199,7 @@ static MonsterDef Lich =
 	.goldScale = 4
 };
 
-static MonsterDef Dragon = 
+MonsterDef Dragon = 
 {
 	.name = "Dragon",
 	.imageId = RESOURCE_ID_IMAGE_DRAGON,
@@ -215,53 +215,53 @@ static MonsterDef Dragon =
 	.goldScale = 10	
 };
 
-static GroupMonsters FirstLevels = 
+GroupMonsters FirstLevels = 
 {
 	.nbMonster = 3,
 	.monsters = {&Rat,&MagPie,&Bunny}
 };
 
-static GroupMonsters SecondLevels = 
+GroupMonsters SecondLevels = 
 {
 	.nbMonster = 2,
 	.monsters = {&Goblin,&Witch}
 };
 
-static GroupMonsters ThirdLevels = 
+GroupMonsters ThirdLevels = 
 {
 	.nbMonster = 2,
 	.monsters = {&Wizard,&HalfZombie}
 	
 };
 
-static GroupMonsters ForthLevels = 
+GroupMonsters ForthLevels = 
 {
 	.nbMonster = 2,
 	.monsters = {&Zombie,&Fox}
 	
 };
 
-static GroupMonsters FifthLevels = 
+GroupMonsters FifthLevels = 
 {
 	.nbMonster = 2,
 	.monsters = {&Turtle,&Cyclope}
 	
 };
-static GroupMonsters SixthLevels = 
+GroupMonsters SixthLevels = 
 {
 	.nbMonster = 2,
 	.monsters = {&Lich,&Chimera}
 	
 };
 
-static GroupMonsters AllMonsters = 
+GroupMonsters AllMonsters = 
 {
 	.nbMonster = 13,
 	.monsters = {&Rat,&Turtle,&MagPie,&Wizard,&Zombie,&Lich,&Goblin,&Witch,&HalfZombie,&Fox,&Cyclope,&Chimera,&Bunny}
 	
 };
 
-static uint8_t defenseLevelMap[] = 
+uint8_t defenseLevelMap[] = 
 {
 	0,
 	5,
@@ -293,7 +293,7 @@ uint16_t ScaleMonsterHealth(MonsterDef *monster, uint16_t baseHealth)
 	}
 }
 
-static uint8_t powerLevelMap[] = 
+uint8_t powerLevelMap[] = 
 {
 	10,
 	7,
@@ -308,7 +308,7 @@ uint8_t GetMonsterPowerDivisor(uint8_t powerLevel)
 	return 10;
 }
 
-static GroupMonsters *groups[] = 
+GroupMonsters *groups[] = 
 {
 	&FirstLevels,
 	&SecondLevels,

@@ -5,7 +5,8 @@ typedef void (*ShowWindowFunction)(void);
 typedef struct
 {
 	ShowWindowFunction windowFunction;
-	uint8_t number;
+	uint8_t total;
+	uint8_t taken;
 	const char *name;
 } Card;
 
