@@ -10,5 +10,5 @@ uint8_t GetCurrentFloor(void);
 void SetCurrentFloor(int);
 void ResetFloor(void);
 
-void ResumeBattle(int currentMonster, int currentMonsterHealth);
+void ResumeBattle(CurrentMonster currentMonster, int currentMonsterHealth);
 bool IsBattleForced(void);

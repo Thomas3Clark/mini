@@ -98,7 +98,7 @@ bool SavePersistedData(void)
 	persist_write_bool(PERSISTED_FAST_MODE, GetFastMode());
 
 	persist_write_bool(PERSISTED_IN_COMBAT, ClosingWhileInBattle());
-	persist_write_int(PERSISTED_MONSTER_TYPE, GetMostRecentMonster());
+	persist_write_data(PERSISTED_MONSTER_TYPE, GetMostRecentMonster(), sizeof(CurrentMonster));
 	persist_write_int(PERSISTED_MONSTER_HEALTH, GetCurrentMonsterHealth());
 	
 	return true;
@@ -130,7 +130,8 @@ bool LoadPersistedData(void)
 	
 	if(persist_read_bool(PERSISTED_IN_COMBAT))
 	{
-		int currentMonster = persist_read_int(PERSISTED_MONSTER_TYPE);
+		CurrentMonster currentMonster;
+		persist_read_data(PERSISTED_MONSTER_TYPE, currentMonster, sizeof(CurrentMonster));
 		int currentMonsterHealth = persist_read_int(PERSISTED_MONSTER_HEALTH);
 		ResumeBattle(currentMonster, currentMonsterHealth);
 	}

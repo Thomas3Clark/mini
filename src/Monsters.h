@@ -24,12 +24,18 @@ typedef struct
 	MonsterDef *monsters[];
 } GroupMonsters;
 
+typedef struct 
+{
+	uint8_t monsterGroup;
+	uint8_t monsterId;
+} CurrentMonster;
+
 uint8_t GetMonsterDefense(uint8_t defenseLevel);
 uint16_t ScaleMonsterHealth(MonsterDef *monster, uint16_t baseHealth);
 uint8_t GetMonsterPowerDivisor(uint8_t powerLevel);
 
 MonsterDef *GetRandomMonster(uint8_t floor);
 
-int MonsterTypeCount(void);
-int GetMostRecentMonster(void);
-MonsterDef *GetFixedMonster(int index);
+CurrentMonster *GetMostRecentMonster(void);
+MonsterDef *GetFixedMonster(CurrentMonster index);
+bool CheckCurrentMonster(CurrentMonster cur);

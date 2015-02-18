@@ -4,10 +4,10 @@
 #include "Monsters.h"
 #include "Utils.h"
 
-int mostRecentMonster = -1;
-int GetMostRecentMonster(void)
+CurrentMonster recentMonster;
+CurrentMonster* GetMostRecentMonster(void)
 {
-	return mostRecentMonster;
+	return &recentMonster;
 }
 
 static MonsterDef Rat =
@@ -323,15 +323,22 @@ static GroupMonsters *groups[] =
 	&FifthLevels,
 	&SixthLevels
 };
-
-int MonsterTypeCount(void)
-{
-	int count = sizeof(randomMonsterMap) / sizeof(MonsterDef*);
-	return count;
+bool CheckCurrentMonster(CurrentMonster cur) {
+	uint8_t groupSize = sizeof(groups) / sizeof(groups[0]);
+	if(cur.monsterGroup >= groupSize || cur.monsterGroup < 0) {
+		return FALSE;
+	}
+	
+	if(cur.monsterId >= groups[cur.monsterGroup]->nbMonster || cur.monsterId < 0) {
+		return FALSE;
+	}
+	
+	return TRUE;	
 }
 
 MonsterDef *GetRandomMonster(uint8_t floor)
 {
+	uint16_t result;
 	uint8_t limit;
 	if(floor >= 20)
 		return &Dragon;
@@ -345,16 +352,18 @@ MonsterDef *GetRandomMonster(uint8_t floor)
 		chosen = groups[limit];
 	}
 	
-	mostRecentMonster = Random(chosen->nbMonster);
-	return chosen->monsters[mostRecentMonster];
+	result = Random(chosen->nbMonster);
+	recentMonster.monsterGroup = limit;
+	recentMonster.monsterId = result;
+	return chosen->monsters[result];
 }
 
-MonsterDef *GetFixedMonster(int index)
+MonsterDef *GetFixedMonster(CurrentMonster index)
 {
-	if(index >= 0 && index < MonsterTypeCount())
+	if(CheckCurrentMonster(index))
 	{
 		mostRecentMonster = index;
-		return randomMonsterMap[index];
+		return groups[index.monsterGroup]->monsters[index.monsterId];
 	}
 	
 	ERROR_LOG("Monster type %d is out of range.", index);

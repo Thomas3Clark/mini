@@ -310,11 +310,11 @@ uint16_t ComputeMonsterHealth(uint8_t level)
 }
 
 static bool forcedBattle = false;
-static int forcedBattleMonsterType = -1;
+static CurrentMonster forcedBattleMonsterType;
 static int forcedBattleMonsterHealth = 0;
-void ResumeBattle(int currentMonster, int currentMonsterHealth)
+void ResumeBattle(CurrentMonster currentMonster, int currentMonsterHealth)
 {
-	if(currentMonster >= 0 && currentMonster < MonsterTypeCount() && currentMonsterHealth > 0)
+	if(CheckCurrentMonster(currentMonster) && currentMonsterHealth > 0)
 	{
 		forcedBattle = true;
 		forcedBattleMonsterType = currentMonster;
