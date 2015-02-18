@@ -7,6 +7,7 @@ bool GetFastMode(void);
 void SetFastMode(bool enable);
 void ShowTestMenu(void);
 bool GetEasyMode(void);
+void SetEasyMode(bool enable);
 
 #if ALLOW_GOD_MODE
 bool GetGodMode(void);

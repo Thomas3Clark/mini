@@ -125,6 +125,12 @@ bool GetEasyMode(void)
 	return easyMode;
 }
 
+void SetEasyMode(bool enable)
+{
+	easyMode = enable;
+}
+
+
 void ToggleEasyMode(void)
 {
 	easyMode = !easyMode;

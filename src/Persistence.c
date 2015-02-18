@@ -22,6 +22,7 @@ enum
 	PERSISTED_STAT_POINTS_PURCHASED,
 	PERSISTED_VIBRATION,
 	PERSISTED_FAST_MODE,
+	PERSISTED_EASY_MODE,
 	
 	PERSISTED_IN_COMBAT,
 	PERSISTED_MONSTER_TYPE,
@@ -93,6 +94,7 @@ bool SavePersistedData(void)
 
 	persist_write_bool(PERSISTED_VIBRATION, GetVibration());
 	persist_write_bool(PERSISTED_FAST_MODE, GetFastMode());
+	persist_write_bool(PERSISTED_EASY_MODE, GetEasyMode());
 
 	persist_write_bool(PERSISTED_IN_COMBAT, ClosingWhileInBattle());
 	
@@ -129,6 +131,7 @@ bool LoadPersistedData(void)
 	SetStatPointsPurchased(persist_read_int(PERSISTED_STAT_POINTS_PURCHASED));
 	SetVibration(persist_read_bool(PERSISTED_VIBRATION));
 	SetFastMode(persist_read_bool(PERSISTED_FAST_MODE));
+	SetEasyMode(persist_read_bool(PERSISTED_EASY_MODE));
 	
 	if(persist_read_bool(PERSISTED_IN_COMBAT))
 	{
