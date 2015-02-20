@@ -95,7 +95,7 @@ static MonsterDef Wizard =
 
 static MonsterDef HalfZombie = 
 {
-	.name = "Half Zombie",
+	.name = "Zombie Hand",
 	.imageId = RESOURCE_ID_IMAGE_HALF_ZOMBIE,
 	.extraFireDefenseMultiplier = 400,
 	.extraIceDefenseMultiplier = 100,
