@@ -137,7 +137,7 @@ void ResetCurrentTaken() {
 void ComputeAdventure() {
 	
 	
-	uint16_t rand = 1;
+	uint16_t rand = 0;
 	if(entriesSize != 1) {
 		rand = Random(entriesSize);
 	}
