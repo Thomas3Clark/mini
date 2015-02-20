@@ -164,14 +164,12 @@ bool ComputeRandomEvent(bool fastMode)
 {
 	uint16_t chanceOfEvent = EVENT_CHANCE_BASE;
 #if EVENT_CHANCE_SCALING
-	if (!ticksSinceLastEvent %2) {
-		fastMode = true;
-	} else if(ticksSinceLastEvent > 5) {
-		chanceOfEvent += (ticksSinceLastEvent - 2) * 3;
+	if(ticksSinceLastEvent > 3) {
+		chanceOfEvent += (ticksSinceLastEvent - 2) * 4;
 	}
 #endif
 	if(!fastMode) {
-		uint16_t result = Random(100);
+		uint16_t result = Random(100) + 1;
 		if(result > chanceOfEvent)
 			return false;
 	}
