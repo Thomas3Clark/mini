@@ -56,7 +56,7 @@ void LoadRandomDungeonImage(void)
 #endif
 	
 #if ALLOW_RANDOM_DUNGEON_GRAPHICS		
-	result = Random(12);
+	result = Random(12) + 1;
 	if(result < 6)
 		adventureMenuDef.mainImageId = RESOURCE_ID_IMAGE_DUNGEONSTRAIGHT;
 	else if(result < 9)
