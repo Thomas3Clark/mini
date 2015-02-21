@@ -35,14 +35,17 @@ void BuyItem(ItemType type)
 	}	
 }
 
+uint8_t GetSellPrice(ItemType type) {
+	uint8_t cost = GetItem(type)->cost;
+	return (uint8_t)(cost * SALE_PERCENT);
+}
 void SellItem(ItemType type)
 {
 	if(!RemoveItem(type)) {
 		return;
 	}
 	CharacterData *data = GetCharacter();
-	uint8_t cost = GetItem(type)->cost;
-	data->gold += (uint8_t)(cost * SALE_PERCENT);
+	data->gold += GetSellPrice(type);
 	DrawMainItemShopWindow();
 	
 }

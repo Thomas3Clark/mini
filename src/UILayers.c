@@ -229,18 +229,17 @@ void UnloadMainBmpImage(void)
 }
 
 
-
+#if DISABLE_MENU_BMPS
+void LoadMainBmpImage(Window *window, int id) {
+	DEBUG_LOG("[DISABLED] Loading Main resourceId %d.", id);
+}
+#else
 void LoadMainBmpImage(Window *window, int id)
 {
 	DEBUG_LOG("Loading Main resourceId %d.", id);
 	int resourceId = id;
 	
 	Layer *window_layer = window_get_root_layer(window);
-	
-	
-#if DISABLE_MENU_BMPS
-       return;
-#endif
        
 	if(!window)
 	{
@@ -268,6 +267,7 @@ void LoadMainBmpImage(Window *window, int id)
 	mainImageLayerResourceLoaded = resourceId;
 	DEBUG_LOG("LOADED Main resourceId %d.", resourceId);
 }
+#endif
 
 
 //******* CLOCK *********//

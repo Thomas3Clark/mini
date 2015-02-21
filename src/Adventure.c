@@ -24,10 +24,6 @@ static bool adventureWindowVisible = false;
 void AdventureWindowAppear(Window *window);
 void AdventureWindowDisappear(Window *window);
 
-#if ALLOW_TEST_MENU
-void ShowDebugMenu(void);
-#endif
-
 static MenuDefinition adventureMenuDef = 
 {
 	.menuEntries = 
@@ -35,7 +31,7 @@ static MenuDefinition adventureMenuDef =
 		{"Main", "Open the main menu", ShowMainMenu},
 #if ALLOW_TEST_MENU
 		{NULL, NULL, NULL},
-		{"Debug", "Variables values", ShowDebugMenu},
+		{NULL, NULL, NULL},
 		{NULL, NULL, NULL},
 		{NULL, NULL, NULL},
 		{"", "", ShowTestMenu}
@@ -254,65 +250,3 @@ void CheckEasyMode(MenuEntry * menuEntries) {
 	MenuEntry stay = {"Stay", "Stay in the same floor", PopMenu};
 	menuEntries[1] = stay;
 }
-
-#if ALLOW_TEST_MENU
-const char * TextEntry0() {
-	static char entry0[] = "00";
-	strcpy(entry0, GenerateText(entries[0].taken));	
-	return entry0;
-}
-const char * TextEntry1() {
-	static char entry1[] = "00";
-	strcpy(entry1, GenerateText(entries[1].taken));
-	return entry1;
-}
-const char * TextEntry2() {
-	static char entry2[] = "00";
-	strcpy(entry2, GenerateText(entries[2].taken));
-	return entry2;
-}
-
-#if ALLOW_SHOP
-const char * TextEntry3() {
-	static char entry3[] = "00";
-	strcpy(entry3, GenerateText(entries[3].taken));
-	return entry3;
-}
-#endif
-	
-const char * TextEntriesSize() {
-	static char entrySizeText[] = "00";
-	strcpy(entrySizeText, GenerateText(entriesSize));
-	return entrySizeText;
-}
-
-void DebugMenuAppear(Window *window)
-{
-	MenuAppear(window);
-	uint8_t i=0;
-	ShowMainWindowRow(i++, "Debug", "");	
-	ShowMainWindowRow(i++, entries[0].name, TextEntry0());
-	ShowMainWindowRow(i++, entries[1].name, TextEntry1());
-	ShowMainWindowRow(i++, entries[2].name, TextEntry2());
-#if ALLOW_SHOP
-	ShowMainWindowRow(i++, entries[3].name, TextEntry3());
-#endif
-	ShowMainWindowRow(i++, "EntriesSize", TextEntriesSize());
-}
-
-MenuDefinition debugMenuDef = 
-{
-	.menuEntries = 
-	{
-		{"Quit", "Return to main menu", PopMenu},
-	},
-	.appear = DebugMenuAppear,
-	.mainImageId = -1
-};
-
-
-void ShowDebugMenu(void)
-{
-	PushNewMenu(&debugMenuDef);
-}
-#endif

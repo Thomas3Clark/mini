@@ -4,24 +4,23 @@
 #define STAT_POINTS_PER_LEVEL 2
 #define XP_FOR_NEXT_LEVEL 5 * level
 #define EVENT_CHANCE_BASE 35
-#define SHUFFLE_DECK_TIMES 10
-#define SALE_PERCENT 0.40 //Need to change the price in sell window
+#define SALE_PERCENT 0.20 //Need to change the price in sell window
 
 //Card tuning
 #define SHOP_CARDS 1
-#define BATTLE_CARDS 5
+#define BATTLE_CARDS 7
 #define FLOOR_CARDS 2
-#define ITEM_CARDS 4
+#define ITEM_CARDS 6
 
 // Feature tuning
 #define PAD_WITH_SPACES 1
-#define DISABLE_MENU_BMPS 0
+#define DISABLE_MENU_BMPS 1
 
 // Publish 0 turns on the test menu
 // God mode activated in test mode
-#define PUBLISH 1
+#define PUBLISH 0
 // Logging
-#define DEBUG_LOGGING 0 // DEBUG_LOGGING 1 turns on DEBUG_LOG. DEBUG_LOGGING 2 turns on DEBUG_VERBOSE_LOG also.
+#define DEBUG_LOGGING 2 // DEBUG_LOGGING 1 turns on DEBUG_LOG. DEBUG_LOGGING 2 turns on DEBUG_VERBOSE_LOG also.
 #define ERROR_LOGGING 1 // ERROR_LOG should be used for actual incorrect operation.
 #define WARNING_LOGGING 1 // WARNING_LOG should be used strange edge cases that are not expected
 #define INFO_LOGGING 1 // INFO_LOG should be used to log game flow.
