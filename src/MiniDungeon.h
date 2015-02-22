@@ -12,6 +12,7 @@
 #define FLOOR_CARDS 2
 #define ITEM_CARDS 6
 
+
 // Feature tuning
 #define PAD_WITH_SPACES 1
 #define DISABLE_MENU_BMPS 1
@@ -34,9 +35,11 @@
 #if ALLOW_SHOP
 	#define ALLOW_ITEM_SHOP 1
 	#define ALLOW_STAT_SHOP 1
+	#define NB_TYPE_CARDS 4
 #else
 	#define ALLOW_ITEM_SHOP 0
 	#define ALLOW_STAT_SHOP 0
+	#define NB_TYPE_CARDS 3
 #endif	
 
 // Set up the test menu based on previous choices

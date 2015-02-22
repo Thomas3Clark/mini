@@ -110,7 +110,7 @@ static Card entries[] =
 	{ShowNewFloorWindow, FLOOR_CARDS,0,"Floor"},
 };
 #endif
-static uint8_t entriesSize =  sizeof(entries)/sizeof(entries[0]);
+static uint8_t entriesSize =  NB_TYPE_CARDS;
 
 #if EVENT_CHANCE_SCALING
 static uint8_t ticksSinceLastEvent = 0;
@@ -124,7 +124,7 @@ void SwapCardEntry(int first, int second) {
 }
 
 void ResetCurrentTaken() {
-	entriesSize =  sizeof(entries)/sizeof(entries[0]);
+	entriesSize =  NB_TYPE_CARDS;
 	for(uint8_t i = 0; i < entriesSize; ++i) {
 		(&entries[i])->taken = 0;
 	}
