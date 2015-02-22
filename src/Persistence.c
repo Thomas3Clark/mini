@@ -27,8 +27,8 @@ enum
 	
 	PERSISTED_IN_COMBAT,
 	PERSISTED_MONSTER_TYPE,
-	PERSISTED_NB_TYPE_CARD,
-	PERSISTED_CARD_DECK,	
+	PERSISTED_CARD_DECK,
+	PERSISTED_ENTRIES_SIZE,
 	
 	// This needs to always be last
 	PERSISTED_DATA_COUNT
@@ -102,11 +102,11 @@ bool SavePersistedData(void)
 	
 	persist_write_data(PERSISTED_MONSTER_TYPE, GetCurMonster(), sizeof(MonsterInfo));
 	
-	persist_write_int(PERSISTED_NB_TYPE_CARD, NB_TYPE_CARDS);
-	
-	CardSave * saves = GetCardSaves();
+	CardSave saves[NB_TYPE_CARDS];
+	GetCardSaves(saves);
 	persist_write_data(PERSISTED_CARD_DECK, saves, sizeof(saves));
-	free(saves);
+	
+	persist_write_int(PERSISTED_ENTRIES_SIZE, GetEntriesSize());
 	
 	return true;
 }
@@ -141,12 +141,10 @@ bool LoadPersistedData(void)
 	SetFastMode(persist_read_bool(PERSISTED_FAST_MODE));
 	SetEasyMode(persist_read_bool(PERSISTED_EASY_MODE));
 	
-	if(persist_read_int(PERSISTED_NB_TYPE_CARD) == NB_TYPE_CARDS) {
-		CardSave * saves = GetCardSaves();
-		persist_read_data(PERSISTED_CARD_DECK, saves, sizeof(saves));
-		SetCardSave(saves);
-		free(saves);
-	}
+	CardSave saves[NB_TYPE_CARDS];
+	persist_read_data(PERSISTED_CARD_DECK, saves, sizeof(saves));
+	SetCardSave(saves);
+	SetEntriesSize(persist_read_int(PERSISTED_ENTRIES_SIZE));	
 	
 	if(persist_read_bool(PERSISTED_IN_COMBAT))
 	{

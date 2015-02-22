@@ -1,4 +1,5 @@
 #pragma once
+#include "pebble.h"
 
 typedef void (*ShowWindowFunction)(void);
 
@@ -28,5 +29,8 @@ void UpdateAdventure(void);
 
 void ResetCurrentTaken(void);
 
-CardSave* GetCardSaves(void);
+void GetCardSaves(CardSave* saves);
 void SetCardSave(CardSave * saves);
+
+uint8_t GetEntriesSize(void);
+void SetEntriesSize(uint8_t entries);

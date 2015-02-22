@@ -115,18 +115,25 @@ static uint8_t entriesSize =  NB_TYPE_CARDS;
 #if EVENT_CHANCE_SCALING
 static uint8_t ticksSinceLastEvent = 0;
 #endif
+uint8_t GetEntriesSize(void) {
+	return entriesSize;
+}
+void SetEntriesSize(uint8_t entries) {
+	entriesSize = entries;
+}
 
-CardSave* GetCardSaves(void) {
-	CardSave *saves = malloc(sizeof(CardSave) * NB_TYPE_CARDS);
+void GetCardSaves(CardSave* saves) {
+	memset(saves, 0, NB_TYPE_CARDS * sizeof(CardSave));
 	for(uint8_t i = 0; i < NB_TYPE_CARDS; i++) {
 		saves[i].taken = entries[i].taken;
 		saves[i].empty = entries[i].empty;
+		DEBUG_VERBOSE_LOG("Card Taken: %d\nisEmpty: %d", saves[i].taken, saves[i].empty);
 	}
-	return saves;
 }
 
 void SetCardSave(CardSave * saves) {
 	for(uint8_t i = 0; i < NB_TYPE_CARDS; i++) {
+		DEBUG_VERBOSE_LOG("Card Taken: %d\nisEmpty: %d", saves[i].taken, saves[i].empty);
 		(&entries[i])->taken = saves[i].taken;
 		(&entries[i])->empty = saves[i].empty;
 	}
@@ -147,14 +154,15 @@ void ComputeAdventure() {
 	if(entriesSize != 1) {
 		rand = Random(entriesSize);
 	}	
-
+	DEBUG_VERBOSE_LOG("Random: %d", rand);
 	Card* card;
 	do {
 		 card = &entries[rand];
 		 rand = (rand + 1) % NB_TYPE_CARDS;
 	} while(card->empty);
 	
-	DEBUG_LOG("Card Taken: %d\nisEmpty: %d", card->taken, card->empty);	
+	DEBUG_VERBOSE_LOG("Random Modified: %d", rand);
+	DEBUG_LOG("Card Taken: %d/%d\nisEmpty: %d", card->taken, card->total, card->empty);	
 	
 	card->windowFunction();	
 	card->taken += 1;	
