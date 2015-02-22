@@ -151,7 +151,9 @@ void LoadBackgroundImage(Window *window, int id)
 
 static BitmapLayer *mainImageLayer;
 static GBitmap *mainImage;
+#if !(DISABLE_MENU_BMPS)
 static GRect mainFrame = {.origin = {.x = 5, .y = 25}, .size = {.w = 80, .h = 80}};
+#endif
 static bool mainImageLayerLoaded = false;
 static int mainImageLayerResourceLoaded = -1;
 

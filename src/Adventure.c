@@ -96,18 +96,18 @@ void ShowAdventureWindow(void)
 #if ALLOW_SHOP
 static Card entries[] = 
 {
-	{ShowItemGainWindow, ITEM_CARDS,0,"Item"},
-	{ShowBattleWindow, BATTLE_CARDS,0,"Battle"},
-	{ShowNewFloorWindow, FLOOR_CARDS,0,"Floor"},
-	{ShowShopWindow, SHOP_CARDS,0,"Shop"}
+	{ShowItemGainWindow, ITEM_CARDS,0, false},
+	{ShowBattleWindow, BATTLE_CARDS,0,false},
+	{ShowNewFloorWindow, FLOOR_CARDS,0,false},
+	{ShowShopWindow, SHOP_CARDS,0,false}
 };
 
 #else
 static Card entries[] = 
 {
-	{ShowItemGainWindow, ITEM_CARDS,0,"Item"},
-	{ShowBattleWindow, BATTLE_CARDS,0,"Battle"},
-	{ShowNewFloorWindow, FLOOR_CARDS,0,"Floor"},
+	{ShowItemGainWindow, ITEM_CARDS,0,false},
+	{ShowBattleWindow, BATTLE_CARDS,0,false},
+	{ShowNewFloorWindow, FLOOR_CARDS,0,false},
 };
 #endif
 static uint8_t entriesSize =  NB_TYPE_CARDS;
@@ -116,42 +116,36 @@ static uint8_t entriesSize =  NB_TYPE_CARDS;
 static uint8_t ticksSinceLastEvent = 0;
 #endif
 
-void SwapCardEntry(int first, int second) {
-	Card temp = entries[first];
-	entries[first] = entries[second];
-	entries[second] = temp;
-	DEBUG_LOG( "Swap: %d -> %d",first,second);
-}
-
 void ResetCurrentTaken() {
 	entriesSize =  NB_TYPE_CARDS;
 	for(uint8_t i = 0; i < entriesSize; ++i) {
 		(&entries[i])->taken = 0;
+		(&entries[i])->empty = false;
 	}
 }
 
 void ComputeAdventure() {
 	
-	
 	uint16_t rand = 0;
 	if(entriesSize != 1) {
 		rand = Random(entriesSize);
-	}
+	}	
 
-	Card* card = &entries[rand];
-	DEBUG_LOG( "Card Taken: %s",card->name);	
+	Card* card;
+	do {
+		 card = &entries[rand];
+		 rand = (rand + 1) % NB_TYPE_CARDS;
+	} while(card->empty);
+	
+	DEBUG_LOG("Card Taken: %d\nisEmpty: %d", card->taken, card->empty);	
 	
 	card->windowFunction();	
 	card->taken += 1;	
 	if(card->taken == card->total) {
 		entriesSize--;
-		card->taken = 0;
+		card->empty = true;
 		if(entriesSize == 0) {
-			entriesSize = sizeof(entries)/sizeof(entries[0]);
-			DEBUG_LOG( "Reset EntriesSize: %d",entriesSize);
-		}
-		else if(rand != entriesSize) {
-			SwapCardEntry(rand, entriesSize);
+			ResetCurrentTaken();
 		}
 	}	
 }
