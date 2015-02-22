@@ -10,6 +10,11 @@ typedef struct
 	bool empty;
 } Card;
 
+typedef struct {
+	uint8_t taken;
+	bool empty;
+} CardSave;
+
 const char *UpdateFloorText(void);
 
 void ToggleVibration(void);
@@ -22,3 +27,6 @@ bool ComputeRandomEvent(bool fastMode);
 void UpdateAdventure(void);
 
 void ResetCurrentTaken(void);
+
+CardSave* GetCardSaves(void);
+void SetCardSave(CardSave * saves);

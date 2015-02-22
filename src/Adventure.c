@@ -116,6 +116,23 @@ static uint8_t entriesSize =  NB_TYPE_CARDS;
 static uint8_t ticksSinceLastEvent = 0;
 #endif
 
+CardSave* GetCardSaves(void) {
+	CardSave *saves = malloc(sizeof(CardSave) * NB_TYPE_CARDS);
+	for(uint8_t i = 0; i < NB_TYPE_CARDS; i++) {
+		saves[i].taken = entries[i].taken;
+		saves[i].empty = entries[i].empty;
+	}
+	return saves;
+}
+
+void SetCardSave(CardSave * saves) {
+	for(uint8_t i = 0; i < NB_TYPE_CARDS; i++) {
+		(&entries[i])->taken = saves[i].taken;
+		(&entries[i])->empty = saves[i].empty;
+	}
+}
+
+
 void ResetCurrentTaken() {
 	entriesSize =  NB_TYPE_CARDS;
 	for(uint8_t i = 0; i < entriesSize; ++i) {
