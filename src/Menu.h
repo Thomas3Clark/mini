@@ -5,7 +5,7 @@ typedef void (*MenuFunction)(void);
 
 typedef struct MenuEntry
 {
-	char *text;
+	const char *text;
 	const char *description;
 	MenuFunction menuFunction;
 } MenuEntry;
