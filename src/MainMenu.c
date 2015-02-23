@@ -74,7 +74,7 @@ static bool vibration = true;
 static bool fastMode = false;
 static bool easyMode = false;
 #if ALLOW_GOD_MODE
-static bool godMode = false;
+static bool godMode = true;
 #endif
 
 void DrawOptionsMenu(void)

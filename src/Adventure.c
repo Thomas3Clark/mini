@@ -141,6 +141,7 @@ void SetCardSave(CardSave * saves) {
 
 
 void ResetCurrentTaken() {
+	INFO_LOG("Reset Deck of Adventure Cards");
 	entriesSize =  NB_TYPE_CARDS;
 	for(uint8_t i = 0; i < entriesSize; ++i) {
 		(&entries[i])->taken = 0;
@@ -161,11 +162,14 @@ void ComputeAdventure() {
 		 rand = (rand + 1) % NB_TYPE_CARDS;
 	} while(card->empty);
 	
-	DEBUG_VERBOSE_LOG("Random Modified: %d", rand);
-	DEBUG_LOG("Card Taken: %d/%d\nisEmpty: %d", card->taken, card->total, card->empty);	
+	DEBUG_VERBOSE_LOG("Random Modified: %d", rand);	
 	
 	card->windowFunction();	
 	card->taken += 1;	
+	
+	DEBUG_LOG("Card Taken: %d/%d", card->taken, card->total);	
+	DEBUG_VERBOSE_LOG("Card Type Left: %d", entriesSize);
+	
 	if(card->taken == card->total) {
 		entriesSize--;
 		card->empty = true;

@@ -3,7 +3,7 @@
     "capabilities": [
         ""
     ],
-    "companyName": "Jonathan Panttaja, A. Aflalo",
+    "companyName": "Antoine Aflalo, J. Panttaja",
     "longName": "MiniDungeon Extended",
     "projectType": "native",
     "resources": {
@@ -129,7 +129,7 @@
     "shortName": "MiniDungeon Ex",
     "uuid": "5bdfef7c-81df-4c5f-a1fe-f8434bf70149",
     "versionCode": 31,
-    "versionLabel": "4.6",
+    "versionLabel": "4.7",
     "watchapp": {
         "watchface": false
     }
