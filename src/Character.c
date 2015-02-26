@@ -9,12 +9,8 @@
 #include "UILayers.h"
 #include "Utils.h"
 
-#if ALLOW_GOD_MODE
-#include "MainMenu.h"
-#endif
 
 static CharacterData characterData;
-static uint8_t statPointsToSpend = 0;
 
 void AddStatPointToSpend(void)
 {
@@ -59,24 +55,13 @@ const char *UpdateGoldText(void)
 	return goldText;
 }
 
-const char *UpdateEscapeText(void)
-{
-	static char escapeText[] = "000"; // Needs to be static because it's used by the system later.
-	UIntToString(escapeText, characterData.escapes);
-	return escapeText;
-}
-
 const char *UpdateDeadText(void)
 {
 	static char deadText[] = "000"; // Needs to be static because it's used by the system later.
-	IntToString(deadText, 3, characterData.deadTimes);
+	UIntToString(deadText, characterData.deadTimes);
 	return deadText;
 }
 
-void IncrementEscapes(void)
-{
-	++characterData.escapes;
-}
 
 uint16_t ComputePlayerHealth(uint16_t level)
 {
@@ -94,8 +79,6 @@ void InitializeCharacter(void)
 	characterData.xp = 0;
 	characterData.level = 1;
 	characterData.gold = 0;
-	characterData.escapes = 0;
-	characterData.deadTimes = 0;
 	characterData.xpForNextLevel = ComputeXPForNextLevel(1);
 	characterData.stats.maxHealth = ComputePlayerHealth(1);
 	characterData.stats.currentHealth = characterData.stats.maxHealth;
@@ -169,7 +152,7 @@ bool PlayerIsInjured(void)
 
 void EndMenuDisappear(Window *window)
 {
-	ResetGame(false);
+	ResetGame(true);
 }
 
 void EndMenuAppear(Window *window);
@@ -194,10 +177,10 @@ void EndMenuAppear(Window *window)
 	} else {
 		ShowMainWindowRow(0, "You win", "");
 	}
-	ShowMainWindowRow(1, "Floor", UpdateFloorText());
-	ShowMainWindowRow(2, "Level", UpdateLevelText());
-	ShowMainWindowRow(3, "Gold", UpdateGoldText());
-	ShowMainWindowRow(4, "Dead", UpdateDeadText());
+	ShowMainWindowRow(0, "Floor", UpdateFloorText());
+	ShowMainWindowRow(0, "Level", UpdateLevelText());
+	ShowMainWindowRow(0, "Gold", UpdateGoldText());
+	ShowMainWindowRow(0, "Dead", UpdateDeadText());
 }
 
 void ShowEndWindow(void)
@@ -386,6 +369,6 @@ bool SpendStamina(void) {
 	}
 }
 
-int GetStamina(void) {
+uint8_t GetStamina(void) {
 	return characterData.stats.stamina;
 }

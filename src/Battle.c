@@ -177,7 +177,6 @@ void AttemptToRun(void)
 	{
 		INFO_LOG("Player runs.");
 		CloseBattleWindow();
-		IncrementEscapes();
 		return;
 	}
 

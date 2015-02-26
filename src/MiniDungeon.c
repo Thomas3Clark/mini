@@ -10,6 +10,7 @@
 #include "Shop.h"
 #include "UILayers.h"
 #include "Utils.h"
+#include "MainMenu.h"
 
 	 
 // Called once per minute
@@ -23,21 +24,22 @@ void handle_minute_tick(struct tm* tick_time, TimeUnits units_changed)
 void InitializeGameData(void)
 {
 	if(!LoadPersistedData())
-		ResetGame(true);
+		ResetGame(false);
 }
 
 void ResetGame(bool isInit)
 {
-	if (isInit) {
+	if(isInit && GetEasyMode()) {
+		HealPlayerByPercent(100);
+	} else {
 #if ALLOW_STAT_SHOP
 		ResetStatPointsPurchased();
 #endif
 		InitializeCharacter();
 		ResetFloor();
 		ClearInventory();
-	} else {
-		HealPlayerByPercent(100);
 	}
+	
 	ResetCurrentTaken();
 	
 	SavePersistedData();

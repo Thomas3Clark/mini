@@ -11,7 +11,7 @@
 #include "MonsterInfo.h"
 #include "Adventure.h"
 	
-#define CURRENT_DATA_VERSION 3
+#define CURRENT_DATA_VERSION 4
 enum
 {
 	PERSISTED_IS_DATA_SAVED = 0,
