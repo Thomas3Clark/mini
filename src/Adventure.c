@@ -211,6 +211,12 @@ bool ComputeRandomEvent(bool fastMode)
 
 void GoUsingStamina(void) { 
 	if (SpendStamina()) {
+		const char * stam = UpdateStaminaText();
+		const uint8_t size = 12 * sizeof(char);
+		char *avail = malloc(size);
+		snprintf(avail, size, "%s%s", "Stamina: ", stam);
+		SetMenuDescription(avail);
+		free(avail);
 		UpdateAdventure();
 	} else {
 		SetMenuDescription("Stamina depleted.");
