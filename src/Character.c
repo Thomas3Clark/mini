@@ -175,6 +175,9 @@ void EndMenuAppear(Window *window)
 	if(characterData.stats.currentHealth <= 0) {
 		ShowMainWindowRow(0, "You lose", "");
 		characterData.deadTimes += 1;
+		if(characterData.deadTimes > 9999) {
+			characterData.deadTimes = 0;
+		}
 	} else {
 		ShowMainWindowRow(0, "You win", "");
 	}
@@ -370,8 +373,4 @@ bool SpendStamina(void) {
 	} else {
 		return false;
 	}
-}
-
-uint8_t GetStamina(void) {
-	return characterData.stats.stamina;
 }

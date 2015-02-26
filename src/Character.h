@@ -46,10 +46,8 @@ void ShowProgressMenu(void);
 
 void LevelUp(void);
 void ShowEndWindow(void);
+
 bool SpendStamina(void);
 void HealStamina(uint8_t points);
-uint8_t GetStamina();
 
 const char* UpdateStaminaText(void);
-
-void ShowEndWindow(void);
