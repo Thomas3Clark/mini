@@ -38,11 +38,11 @@ void ResetGame(bool isInit)
 		InitializeCharacter();
 		ResetFloor();
 		ClearInventory();
+		SavePersistedData();
 	}
 	
 	ResetCurrentTaken();
 	
-	SavePersistedData();
 }
 void handle_init() {
 	

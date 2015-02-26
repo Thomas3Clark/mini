@@ -303,4 +303,5 @@ void CheckEasyMode(MenuEntry * menuEntries) {
 void ForceResetGame(void) {
 	GetCharacter()->stats.currentHealth = -1;
 	ShowEndWindow();
+	ResetGame(false);
 }
