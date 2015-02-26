@@ -10,6 +10,7 @@
 #include "Shop.h"
 #include "UILayers.h"
 #include "Utils.h"
+#include "MiniDungeon.h"
 
 const char *UpdateFloorText(void)
 {
@@ -26,18 +27,18 @@ static bool adventureWindowVisible = false;
 
 void AdventureWindowAppear(Window *window);
 void AdventureWindowDisappear(Window *window);
+void ForceResetGame(void);
 
 static MenuDefinition adventureMenuDef = 
 {
 	.menuEntries = 
 	{
-		{"Go", "Use stamina and go", GoUsingStamina},
-		{"Menu", "Open the main menu", ShowMainMenu}
+		{"Go", "Use 1 stamina and go", GoUsingStamina},
+		{"Menu", "Open the main menu", ShowMainMenu},
+		{NULL, NULL, NULL},
+		{NULL, NULL, NULL},
+		{"Suicide", "Reset the game", ForceResetGame},
 #if ALLOW_TEST_MENU
-		{NULL, NULL, NULL},
-		{NULL, NULL, NULL},
-		{NULL, NULL, NULL},
-		{NULL, NULL, NULL},
 		{"", "", ShowTestMenu}
 #endif
 	},
@@ -297,4 +298,9 @@ void CheckEasyMode(MenuEntry * menuEntries) {
 		return;
 	MenuEntry stay = {"Stay", "Stay in the same floor", PopMenu};
 	menuEntries[1] = stay;
+}
+
+void ForceResetGame(void) {
+	GetCharacter()->stats.currentHealth = -1;
+	ShowEndWindow();
 }
