@@ -8,6 +8,7 @@
 #include "Menu.h"
 #include "UILayers.h"
 #include "Utils.h"
+#include "MainMenu.h"
 
 
 static CharacterData characterData;
@@ -248,12 +249,15 @@ void DrawStatWindow(void)
 
 void IncrementStat(uint8_t *stat)
 {
-	if(characterData.stats.statPoints)
-	{
+	if(!characterData.stats.statPoints) {
+		return;
+	}
+	
+	if(GetEasyMode() || (*stat) < characterData.level) {
 		++(*stat);
 		--characterData.stats.statPoints;
 		DrawStatWindow();
-	}
+	} 
 }
 
 void IncrementStrength(void)
