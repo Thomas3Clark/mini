@@ -190,8 +190,12 @@ bool ComputeRandomEvent(bool fastMode)
 #endif
 	if(!fastMode) {
 		uint16_t result = Random(100) + 1;
-		if(result > chanceOfEvent)
+		if(result > chanceOfEvent) {
+			if(Random(3)) {
+				HealStamina(1);
+			}
 			return false;
+		}
 	}
 	
 	if(GetVibration())

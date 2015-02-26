@@ -18,7 +18,7 @@ void handle_minute_tick(struct tm* tick_time, TimeUnits units_changed)
 {
 	UpdateClock();
 	UpdateAdventure();
-	HealStamina();
+	HealStamina(GetCharacter()->level);
 }
 
 void InitializeGameData(void)

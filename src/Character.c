@@ -86,7 +86,7 @@ void InitializeCharacter(void)
 	characterData.stats.magic = 1;
 	characterData.stats.defense = 1;
 	characterData.stats.magicDefense = 1;
-	characterData.stats.stamina = 10;
+	characterData.stats.stamina = STAMINA_BASE;
 	characterData.stats.statPoints = 0;
 
 	UpdateCharacterLevel();
@@ -278,13 +278,13 @@ void IncrementMagicDefense(void)
 
 void IncrementStamina(void)
 {
-	//FIXME not implementd
+       //FIXME not implementd
 }
 
-void HealStamina(void)
+void HealStamina(uint8_t points)
 {
-	if (characterData.stats.stamina < 10) {
-		characterData.stats.stamina += 1;
+	if (characterData.stats.stamina < STAMINA_LIMIT) {
+		characterData.stats.stamina += points;
 	}
 }
 
@@ -314,7 +314,7 @@ static MenuDefinition statMenuDef =
 		{"Increase", "Increase defense", IncrementDefense},
 		{"Increase", "Increase magic", IncrementMagic},
 		{"Increase", "Increase magic defense", IncrementMagicDefense},
-		{"-", "Added per 1 minutes", IncrementStamina},
+		{"Auto", "Add lvl per minute", IncrementStamina},
 	},
 	.appear = StatMenuAppear,
 	.mainImageId = -1
@@ -351,7 +351,6 @@ void ProgressMenuAppear(Window *window)
 	ShowMainWindowRow(2, "XP", UpdateXPText());
 	ShowMainWindowRow(3, "Next XP", UpdateNextXPText());
 	ShowMainWindowRow(4, "Gold", UpdateGoldText());
-	//ShowMainWindowRow(5, "Escapes", UpdateEscapeText());
 	ShowMainWindowRow(5, "Dead", UpdateDeadText());
 }
 
