@@ -177,10 +177,10 @@ void EndMenuAppear(Window *window)
 	} else {
 		ShowMainWindowRow(0, "You win", "");
 	}
-	ShowMainWindowRow(0, "Floor", UpdateFloorText());
-	ShowMainWindowRow(0, "Level", UpdateLevelText());
-	ShowMainWindowRow(0, "Gold", UpdateGoldText());
-	ShowMainWindowRow(0, "Dead", UpdateDeadText());
+	ShowMainWindowRow(1, "Floor", UpdateFloorText());
+	ShowMainWindowRow(2, "Level", UpdateLevelText());
+	ShowMainWindowRow(3, "Gold", UpdateGoldText());
+	ShowMainWindowRow(4, "Dead", UpdateDeadText());
 }
 
 void ShowEndWindow(void)

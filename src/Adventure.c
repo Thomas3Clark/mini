@@ -213,7 +213,7 @@ void GoUsingStamina(void) {
 	if (SpendStamina()) {
 		UpdateAdventure();
 	} else {
-		SetMenuDescription("Stamina is zero.");
+		SetMenuDescription("Stamina depleted.");
 	}
 }
 
