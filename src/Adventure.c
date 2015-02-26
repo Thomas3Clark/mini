@@ -215,28 +215,29 @@ bool ComputeRandomEvent(bool fastMode)
 
 void GoUsingStamina(void) { 
 	if (SpendStamina()) {
-		const char * stam = UpdateStaminaText();
-		const uint8_t size = 12 * sizeof(char);
-		char *avail = malloc(size);
-		snprintf(avail, size, "%s%s", "Stamina: ", stam);
-		SetMenuDescription(avail);
-		free(avail);
-		UpdateAdventure();
+		if(!UpdateAdventure()) {
+			const char * stam = UpdateStaminaText();
+			const uint8_t size = 12 * sizeof(char);
+			char *avail = malloc(size);
+			snprintf(avail, size, "%s%s", "Stamina: ", stam);
+			SetMenuDescription(avail);
+			free(avail);
+		}
 	} else {
 		SetMenuDescription("Stamina depleted.");
 	}
 }
 
-void UpdateAdventure(void)
+bool UpdateAdventure(void)
 {
 	if(!adventureWindowVisible)
-		return;
+		return false;
 	
 	if(IsBattleForced())
 	{
 		INFO_LOG("Triggering forced battle.");
 		ShowBattleWindow();
-		return;
+		return true;
 	}
 
 #if EVENT_CHANCE_SCALING
@@ -245,11 +246,12 @@ void UpdateAdventure(void)
 	if(updateDelay && !GetFastMode())
 	{
 		--updateDelay;
-		return;
+		return false;
 	}
 
-	ComputeRandomEvent(GetFastMode());
+	bool result = ComputeRandomEvent(GetFastMode());
 	LoadRandomDungeonImage();
+	return result;
 }
 
 void NewFloorMenuInit(Window *window);
