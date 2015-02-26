@@ -19,6 +19,9 @@ const char *UpdateFloorText(void)
 }
 
 static int8_t updateDelay = 0;
+#if ALLOW_RANDOM_DUNGEON_GRAPHICS	
+static uint8_t lastImage = 0;
+#endif
 static bool adventureWindowVisible = false;
 
 void AdventureWindowAppear(Window *window);
@@ -49,11 +52,10 @@ static Window *adventureWindow = NULL;
 void LoadRandomDungeonImage(void)
 {
 #if ALLOW_RANDOM_DUNGEON_GRAPHICS		
-	int result;
-#endif
-	
-#if ALLOW_RANDOM_DUNGEON_GRAPHICS		
-	result = Random(12) + 1;
+	uint8_t result = Random(12) + 1;
+	if(result == lastImage) {
+		result = (result + 3)  % 12;
+	}
 	if(result < 6)
 		adventureMenuDef.mainImageId = RESOURCE_ID_IMAGE_DUNGEONSTRAIGHT;
 	else if(result < 9)
@@ -62,6 +64,8 @@ void LoadRandomDungeonImage(void)
 		adventureMenuDef.mainImageId = RESOURCE_ID_IMAGE_DUNGEONRIGHT;
 	else
 		adventureMenuDef.mainImageId = RESOURCE_ID_IMAGE_DUNGEONDEADEND;
+		
+	lastImage = result;
 #endif
 
 	if(adventureWindow)
