@@ -153,19 +153,19 @@ void ShowShopSellItemMenu(void)
 
 void ShopStatMenuAppear(Window *window);
 
-static int statPointsPurchased = 0;
+static uint8_t statPointsPurchased = 0;
 
 void ResetStatPointsPurchased(void)
 {
 	statPointsPurchased = 0;
 }
 
-void SetStatPointsPurchased(int count)
+void SetStatPointsPurchased(uint8_t count)
 {
 	statPointsPurchased = count;
 }
 
-int GetStatPointsPurchased(void)
+uint8_t GetStatPointsPurchased(void)
 {
 	return statPointsPurchased;
 }
@@ -173,7 +173,7 @@ int GetStatPointsPurchased(void)
 const char *UpdateStatCostText(void)
 {
 	static char costText[] = "0000"; // Needs to be static because it's used by the system later.
-	int cost = 1 << statPointsPurchased;
+	uint16_t cost = 1 << statPointsPurchased;
 	UIntToString(costText, cost);
 	return costText;
 }
@@ -186,7 +186,7 @@ void DrawMainStatShopWindow(void)
 
 void BuyStatPoint(void)
 {
-	int cost = 1 << statPointsPurchased;
+	uint16_t cost = 1 << statPointsPurchased;
 	CharacterData *data = GetCharacter();
 	if (data->gold >= cost)
 	{

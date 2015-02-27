@@ -3,5 +3,5 @@
 void ShowShopWindow(void);
 void ResetStatPointsPurchased(void);
 
-void SetStatPointsPurchased(int count);
-int GetStatPointsPurchased(void);
+void SetStatPointsPurchased(uint8_t count);
+uint8_t GetStatPointsPurchased(void);
