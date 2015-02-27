@@ -177,7 +177,7 @@ static MenuDefinition endMenuDef =
 	.modify = AddContinue,
 	.disappear = EndMenuDisappear,
 	.appear = EndMenuAppear,
-	.mainImageId = -1
+	.mainImageId = RESOURCE_ID_IMAGE_GAME_OVER
 };
 
 void EndMenuAppear(Window *window)

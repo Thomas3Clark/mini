@@ -23,4 +23,4 @@ If you wish to pause your adventure, simply use the select button to enter the m
 
 ###EasyMode
 
-The easy mode is an addon of the extended version of the game. When activated, the player can chose to climb or not to the next floor, the limit for increasing stats is disable (usualy you can't increase your stat more than your level) and when you die you can choose to continue playing from where you where. Keep just in mind your death are counted and will be removed from your final score.
+The easy mode is an addon of the extended version of the game. When activated, the player can chose to climb or not to the next floor, the limit for increasing stats is disabled (usualy you can't increase your stat more than your level) and when you die you can choose to continue playing from where you where. Keep just in mind your death are counted and will be removed from your final score.
