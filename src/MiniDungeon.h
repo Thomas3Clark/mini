@@ -58,4 +58,4 @@
 // This determines how many text rows there are in the interface
 #define MAX_MENU_ENTRIES 6
 	
-void ResetGame(bool isInit);
+void ResetGame(void);

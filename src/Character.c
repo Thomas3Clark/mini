@@ -9,6 +9,9 @@
 #include "UILayers.h"
 #include "Utils.h"
 #include "MainMenu.h"
+#if ALLOW_STAT_SHOP
+#include "Shop.h"
+#endif
 
 
 static CharacterData characterData;
@@ -83,6 +86,7 @@ void InitializeCharacter(void)
 	characterData.xpForNextLevel = ComputeXPForNextLevel(1);
 	characterData.stats.maxHealth = ComputePlayerHealth(1);
 	characterData.stats.currentHealth = characterData.stats.maxHealth;
+	characterData.deadTimes = 0;
 	characterData.stats.strength = 1;
 	characterData.stats.magic = 1;
 	characterData.stats.defense = 1;
@@ -153,10 +157,13 @@ bool PlayerIsInjured(void)
 
 void EndMenuDisappear(Window *window)
 {
-	ResetGame(true);
+	ResetGame();
 }
 
 void EndMenuAppear(Window *window);
+void AddContinue(MenuEntry *entries);
+void HealAndContinue(void);
+uint16_t ProcessScore(bool win);
 
 static MenuDefinition endMenuDef = 
 {
@@ -164,6 +171,7 @@ static MenuDefinition endMenuDef =
 	{
 		{"Ok", "Restart game", PopMenu}
 	},
+	.modify = AddContinue,
 	.disappear = EndMenuDisappear,
 	.appear = EndMenuAppear,
 	.mainImageId = -1
@@ -172,19 +180,40 @@ static MenuDefinition endMenuDef =
 void EndMenuAppear(Window *window)
 {
 	MenuAppear(window);
+	uint16_t score = 0;
 	if(characterData.stats.currentHealth <= 0) {
 		ShowMainWindowRow(0, "You lose", "");
-		characterData.deadTimes += 1;
-		if(characterData.deadTimes > 9999) {
-			characterData.deadTimes = 0;
-		}
+		score = ProcessScore(false);		
 	} else {
 		ShowMainWindowRow(0, "You win", "");
+		score = ProcessScore(true);
 	}
 	ShowMainWindowRow(1, "Floor", UpdateFloorText());
 	ShowMainWindowRow(2, "Level", UpdateLevelText());
 	ShowMainWindowRow(3, "Gold", UpdateGoldText());
 	ShowMainWindowRow(4, "Dead", UpdateDeadText());
+	uint16_t sizeScore = 5 * sizeof(char);
+	char * scoreText = malloc(sizeScore);
+	UIntToString(scoreText, score);
+	ShowMainWindowRow(5, "Score", scoreText);
+	free(scoreText);
+	
+}
+
+void AddContinue(MenuEntry * entries) {
+	if(!GetEasyMode()) {
+		return;
+	}
+	MenuEntry continueAdv = {"Continue", "Continue from here", HealAndContinue};
+	entries[1] =  continueAdv;
+}
+
+void HealAndContinue(void) {
+	HealPlayerByPercent(80);
+	characterData.deadTimes += 1;
+	if(characterData.deadTimes > 9999) {
+		characterData.deadTimes = 0;
+	}
 }
 
 void ShowEndWindow(void)
@@ -373,4 +402,30 @@ bool SpendStamina(void) {
 	} else {
 		return false;
 	}
+}
+
+uint16_t ProcessScore(bool win) {
+	uint16_t score = 0;
+	if(win) {
+		score = 500;
+	}
+	
+	score += characterData.level * 10 + characterData.gold * 2;
+	score -= characterData.deadTimes * 10;
+	score += (characterData.stats.currentHealth/characterData.stats.maxHealth) * 20;
+	score += GetCurrentFloor() * 10;
+	score += characterData.stats.strength * 5 + characterData.stats.magic * 5 +
+			 characterData.stats.defense * 5 + characterData.stats.magicDefense * 5;
+#if ALLOW_STAT_SHOP
+	score += 1 << GetStatPointsPurchased(); 
+#endif
+	
+	for(uint8_t i = 0; i < ITEM_TYPE_COUNT; i++) {
+		score += GetItem(i)->owned * GetItem(i)->cost;
+	}
+	
+	if(!GetEasyMode()) {
+		score = score << 1;
+	}
+	return score;
 }

@@ -35,9 +35,6 @@ static MenuDefinition adventureMenuDef =
 	{
 		{"Go", "Use 1 stamina and go", GoUsingStamina},
 		{"Menu", "Open the main menu", ShowMainMenu},
-		{NULL, NULL, NULL},
-		{NULL, NULL, NULL},
-		{"Suicide", "Reset the game", ForceResetGame},
 #if ALLOW_TEST_MENU
 		{"", "", ShowTestMenu}
 #endif
@@ -298,10 +295,4 @@ void CheckEasyMode(MenuEntry * menuEntries) {
 		return;
 	MenuEntry stay = {"Stay", "Stay in the same floor", PopMenu};
 	menuEntries[1] = stay;
-}
-
-void ForceResetGame(void) {
-	GetCharacter()->stats.currentHealth = -1;
-	ShowEndWindow();
-	ResetGame(false);
 }
