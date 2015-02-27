@@ -13,6 +13,7 @@
 #include "Shop.h"
 #endif
 
+static bool continueHere = false;
 
 static CharacterData characterData;
 
@@ -157,7 +158,9 @@ bool PlayerIsInjured(void)
 
 void EndMenuDisappear(Window *window)
 {
-	ResetGame();
+	if(!continueHere) {
+		ResetGame();
+	}
 }
 
 void EndMenuAppear(Window *window);
@@ -201,6 +204,7 @@ void EndMenuAppear(Window *window)
 }
 
 void AddContinue(MenuEntry * entries) {
+	continueHere = false;
 	if(!GetEasyMode()) {
 		return;
 	}
@@ -214,6 +218,8 @@ void HealAndContinue(void) {
 	if(characterData.deadTimes > 9999) {
 		characterData.deadTimes = 0;
 	}
+	continueHere = true;
+	PopMenu();
 }
 
 void ShowEndWindow(void)
