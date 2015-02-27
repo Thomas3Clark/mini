@@ -177,7 +177,7 @@ static MenuDefinition endMenuDef =
 	.modify = AddContinue,
 	.disappear = EndMenuDisappear,
 	.appear = EndMenuAppear,
-	.mainImageId = RESOURCE_ID_IMAGE_GAME_OVER
+	.mainImageId = -1
 };
 
 void EndMenuAppear(Window *window)
@@ -411,7 +411,7 @@ bool SpendStamina(void) {
 }
 
 uint16_t ProcessScore(bool win) {
-	uint16_t score = 0;
+	int16_t score = 0;
 	if(win) {
 		score = 500;
 	}
@@ -430,8 +430,13 @@ uint16_t ProcessScore(bool win) {
 		score += GetItem(i)->owned * GetItem(i)->cost;
 	}
 	
+	if(score < 0) {
+		return 0;
+	}
+	
 	if(!GetEasyMode()) {
 		score = score << 1;
 	}
+
 	return score;
 }
