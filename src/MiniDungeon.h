@@ -6,13 +6,13 @@
 #define EVENT_CHANCE_BASE 35
 #define SALE_PERCENT 0.20 //Need to change the price in sell window
 #define STAMINA_BASE 10
-#define STAMINA_LIMIT STAMINA_BASE + ((characterData.level >> 1) * (characterData.level - 1))
+#define STAMINA_LIMIT STAMINA_BASE + (characterData.level >> 1)
 
 //Card tuning
 #define SHOP_CARDS 1
-#define BATTLE_CARDS 7
+#define BATTLE_CARDS 9
 #define FLOOR_CARDS 2
-#define ITEM_CARDS 6
+#define ITEM_CARDS 10
 
 
 // Feature tuning
