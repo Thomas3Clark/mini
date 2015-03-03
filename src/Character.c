@@ -417,7 +417,7 @@ uint16_t ProcessScore(bool win) {
 	}
 	
 	score += characterData.level * 10 + characterData.gold * 2;
-	score -= characterData.deadTimes * 10;
+	score -= characterData.deadTimes * 20;
 	score += (characterData.stats.currentHealth/characterData.stats.maxHealth) * 20;
 	score += GetCurrentFloor() * 10;
 	score += characterData.stats.strength * 5 + characterData.stats.magic * 5 +
@@ -434,7 +434,7 @@ uint16_t ProcessScore(bool win) {
 		return 0;
 	}
 	
-	if(!GetEasyMode()) {
+	if(characterData.deadTimes <= 1) {
 		score = score << 1;
 	}
 
