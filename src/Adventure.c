@@ -193,7 +193,7 @@ bool ComputeRandomEvent(bool fastMode)
 	if(!fastMode) {
 		uint16_t result = Random(100) + 1;
 		if(result > chanceOfEvent) {
-			if(Random(3)) {
+			if(Random(4) == 1) {
 				HealStamina(1);
 			}
 			return false;
