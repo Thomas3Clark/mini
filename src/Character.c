@@ -325,8 +325,10 @@ void IncrementStamina(void)
 
 void HealStamina(uint8_t points)
 {
-	if (characterData.stats.stamina < STAMINA_LIMIT) {
+	if (characterData.stats.stamina + points <= STAMINA_LIMIT) {
 		characterData.stats.stamina += points;
+	} else {
+		characterData.stats.stamina = STAMINA_LIMIT;
 	}
 }
 
