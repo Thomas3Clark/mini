@@ -126,11 +126,14 @@
             }
         ]
     },
-    "sdkVersion": "2",
+    "sdkVersion": "3",
     "shortName": "MiniDungeon Ex",
+    "targetPlatforms": [
+        "aplite",
+        "basalt"
+    ],
     "uuid": "5bdfef7c-81df-4c5f-a1fe-f8434bf70149",
-    "versionCode": 45,
-    "versionLabel": "5.1",
+    "versionLabel": "5.4",
     "watchapp": {
         "watchface": false
     }

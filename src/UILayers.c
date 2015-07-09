@@ -427,7 +427,9 @@ Window * InitializeWindow(const char *name)
 {
 	DEBUG_LOG("Creating window %s",name);
 	Window *window = window_create();
+#ifndef PBL_SDK_3
 	window_set_fullscreen(window, true); // Do I want full screen?
+#endif
 	window_set_background_color(window, GColorBlack);
 	DEBUG_LOG("Window %s created",name);
 	return window;		
