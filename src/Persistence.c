@@ -88,7 +88,8 @@ bool SavePersistedData(void)
 	
 	persist_write_int(PERSISTED_CURRENT_FLOOR, GetCurrentFloor());
 	
-	uint8_t *itemsOwned = GetItemsOwned();
+	uint8_t * itemsOwned = malloc(sizeof(uint8_t) * ITEM_TYPE_COUNT);
+	GetItemsOwned(itemsOwned);
 	persist_write_data(PERSISTED_ITEM_DATA, itemsOwned, sizeof(itemsOwned));
 	free(itemsOwned);
 	
@@ -131,7 +132,7 @@ bool LoadPersistedData(void)
 	floor = persist_read_int(PERSISTED_CURRENT_FLOOR);
 	SetCurrentFloor(floor);
 	
-	uint8_t *itemsOwned = GetItemsOwned();
+	uint8_t * itemsOwned = malloc(sizeof(uint8_t) * ITEM_TYPE_COUNT);
 	persist_read_data(PERSISTED_ITEM_DATA, itemsOwned, sizeof(itemsOwned));
 	SetItemOwned(itemsOwned);
 	free(itemsOwned);

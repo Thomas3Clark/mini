@@ -17,20 +17,17 @@ static ItemData itemData[] =
 	{"Spark", "00",15,20,0}
 };
 
-uint8_t *GetItemsOwned(void) {
-	uint8_t size = sizeof(itemData) / sizeof(itemData[0]);
-	uint8_t * itemsOwned = malloc(sizeof(uint8_t) * size);
-	
-	for(uint8_t i = 0; i < size; i++) {
+void GetItemsOwned(uint8_t * itemsOwned) {
+	for(uint8_t i = 0; i < ITEM_TYPE_COUNT; i++) {
+		DEBUG_LOG("Get Item %s: %u", itemData[i].name, itemData[i].owned);
 		itemsOwned[i] = itemData[i].owned;
 	}
-	return itemsOwned;
 }
 
 void SetItemOwned(uint8_t* itemsOwned) {
-	uint8_t size = sizeof(itemsOwned) / sizeof(itemsOwned[0]);
-	for(uint8_t i = 0; i < size; i++) {
+	for(uint8_t i = 0; i < ITEM_TYPE_COUNT; i++) {
 		itemData[i].owned = itemsOwned[i];
+		DEBUG_LOG("Set Item %s: %u", itemData[i].name, itemData[i].owned);
 	}
 }
 
@@ -93,13 +90,14 @@ void ShowAllItemCounts(void)
 	}
 }
 
-ItemType typeGained;
+ItemData* itemGained;
 
 void ItemGainMenuAppear(Window *window)
 {
 	MenuAppear(window);
 	ShowMainWindowRow(0, "Item Gained", "");
-	ShowMainWindowRow(1, GetItemName(typeGained), UpdateItemCountText(typeGained));
+	UIntToString(itemGained->countText, itemGained->owned);
+	ShowMainWindowRow(1, itemGained->name, itemGained->countText);
 }
 
 bool AddItem(ItemType type)
@@ -124,6 +122,7 @@ bool RemoveItem(ItemType type) {
 }
 void ItemGainMenuInit(Window *window)
 {
+	itemGained = NULL;
 	int result = Random(100) + 1;
 	int i = 0;
 	int acc = 0;
@@ -133,8 +132,10 @@ void ItemGainMenuInit(Window *window)
 		acc += itemData[i].probability;
 		if(acc >= result)
 		{
-			typeGained = i;
+			itemGained = &itemData[i];
+			DEBUG_LOG("Got Item %s: %u", itemGained->name, itemGained->owned);
 			AddItem(i);
+			DEBUG_LOG("After AddItem %s: %u", itemGained->name, itemGained->owned);
 			break;
 		}
 		++i;
