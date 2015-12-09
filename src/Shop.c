@@ -27,7 +27,7 @@ void BuyItem(ItemType type)
 	CharacterData *data = GetCharacter();
 	if (data->gold >= cost)
 	{
-		if(AddItem(type))
+		if(AddItem(GetItem(type)))
 		{
 			data->gold -= cost;
 			DrawMainItemShopWindow();
@@ -41,7 +41,7 @@ uint8_t GetSellPrice(ItemType type) {
 }
 void SellItem(ItemType type)
 {
-	if(!RemoveItem(type)) {
+	if(!RemoveItem(GetItem(type))) {
 		return;
 	}
 	CharacterData *data = GetCharacter();

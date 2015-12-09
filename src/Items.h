@@ -27,8 +27,8 @@ bool AttemptToUseFullPotion(void);
 bool AttemptToConsumeFireScroll(void);
 bool AttemptToConsumeIceScroll(void);
 bool AttemptToConsumeLightningScroll(void);
-bool AddItem(ItemType type);
-bool RemoveItem(ItemType type);
+bool AddItem(ItemData* item);
+bool RemoveItem(ItemData* item);
 
 void ShowAllItemCounts(void);
 void ClearInventory(void);

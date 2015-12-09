@@ -17,6 +17,11 @@ static ItemData itemData[] =
 	{"Spark", "00",15,20,0}
 };
 
+void UpdateItemCountText(ItemData* item)
+{
+	UIntToString(item->countText, item->owned);
+}
+
 void GetItemsOwned(uint8_t * itemsOwned) {
 	for(uint8_t i = 0; i < ITEM_TYPE_COUNT; i++) {
 		DEBUG_LOG("Get Item %s: %u", itemData[i].name, itemData[i].owned);
@@ -27,19 +32,9 @@ void GetItemsOwned(uint8_t * itemsOwned) {
 void SetItemOwned(uint8_t* itemsOwned) {
 	for(uint8_t i = 0; i < ITEM_TYPE_COUNT; i++) {
 		itemData[i].owned = itemsOwned[i];
+		UpdateItemCountText(&itemData[i]);
 		DEBUG_LOG("Set Item %s: %u", itemData[i].name, itemData[i].owned);
 	}
-}
-
-const char *UpdateItemCountText(ItemType itemType)
-{
-#if BOUNDS_CHECKING
-	if(itemType >= ITEM_TYPE_COUNT)
-		return "";
-#endif
-	ItemData* item = GetItem(itemType);
-	UIntToString(item->countText, item->owned);
-	return item->countText;
 }
 
 void ClearInventory(void)
@@ -53,17 +48,12 @@ void ClearInventory(void)
 }
 
 ItemData *GetItem(ItemType itemType) {
-	return &itemData[itemType];
-}
-
-const char *GetItemName(ItemType itemType)
-{
-#if BOUNDS_CHECKING
+	#if BOUNDS_CHECKING
 	if(itemType >= ITEM_TYPE_COUNT)
-		return "";
-#endif
-
-	return GetItem(itemType)->name;
+		ERROR_LOG("Item Out of Bound: %d", itemType);
+		return NULL;
+	#endif
+	return &itemData[itemType];
 }
 
 void ItemGainMenuInit(Window *window);
@@ -80,13 +70,15 @@ static MenuDefinition itemGainMenuDef =
 	.mainImageId = -1
 };
 
+
 void ShowAllItemCounts(void)
 {
 	int i;
 	ShowMainWindowRow(0, "Items", "");
 	for(i = 0; i < ITEM_TYPE_COUNT; ++i)
 	{
-		ShowMainWindowRow(i + 1, GetItemName(i), UpdateItemCountText(i));
+		UpdateItemCountText(&itemData[i]);
+		ShowMainWindowRow(i + 1, itemData[i].name, itemData[i].countText);
 	}
 }
 
@@ -96,14 +88,12 @@ void ItemGainMenuAppear(Window *window)
 {
 	MenuAppear(window);
 	ShowMainWindowRow(0, "Item Gained", "");
-	UIntToString(itemGained->countText, itemGained->owned);
+	UpdateItemCountText(itemGained);
 	ShowMainWindowRow(1, itemGained->name, itemGained->countText);
 }
 
-bool AddItem(ItemType type)
+bool AddItem(ItemData* item)
 {
-	ItemData* item = GetItem(type);
-
 	if(item->owned + 1 > 99)
 	{
 		return false;
@@ -111,9 +101,8 @@ bool AddItem(ItemType type)
 	item->owned++;
 	return true;
 }
-bool RemoveItem(ItemType type) {
-	ItemData* item = GetItem(type);
-	
+bool RemoveItem(ItemData* item) {
+
 	if(item->owned <= 0) {
 		return false;
 	}
@@ -134,7 +123,7 @@ void ItemGainMenuInit(Window *window)
 		{
 			itemGained = &itemData[i];
 			DEBUG_LOG("Got Item %s: %u", itemGained->name, itemGained->owned);
-			AddItem(i);
+			AddItem(itemGained);
 			DEBUG_LOG("After AddItem %s: %u", itemGained->name, itemGained->owned);
 			break;
 		}
